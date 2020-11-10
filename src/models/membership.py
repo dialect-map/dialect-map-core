@@ -2,14 +2,14 @@
 
 import uuid
 from .base import Base
-from .base import BaseEvolvingModel
+from .base import BaseStaticModel
 from sqlalchemy import Column
 from sqlalchemy import ForeignKey as FK
 from sqlalchemy import ForeignKeyConstraint as FKConstraint
 from sqlalchemy import String
 
 
-class CategoryMembership(Base, BaseEvolvingModel):
+class CategoryMembership(Base, BaseStaticModel):
     """
     ArXiv paper - category membership record.
     Intermediate table to relate papers to categories
