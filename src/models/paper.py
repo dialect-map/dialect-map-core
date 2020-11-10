@@ -6,13 +6,13 @@ from .base import BaseStaticModel
 from .base import BaseEvolvingModel
 from sqlalchemy import Column
 from sqlalchemy import Date
-from sqlalchemy import ForeignKey as FK
+from sqlalchemy import ForeignKeyConstraint as FKConstraint
 from sqlalchemy import Integer
 from sqlalchemy import String
 from sqlalchemy.orm import relationship
 
 
-class Paper(Base, BaseStaticModel):
+class Paper(Base, BaseEvolvingModel):
     """
     ArXiv paper information record.
     Contains all the static properties of an ArXiv paper
@@ -21,6 +21,7 @@ class Paper(Base, BaseStaticModel):
     __tablename__ = "papers"
 
     arxiv_id = Column(String(32), nullable=False, primary_key=True)
+    arxiv_rev = Column(String(32), nullable=False, primary_key=True)
     title = Column(String(256), nullable=False)
     doi_id = Column(String(64), nullable=True)
     url_pdf = Column(String(256), nullable=True)
@@ -28,6 +29,7 @@ class Paper(Base, BaseStaticModel):
     url_html = Column(String(256), nullable=True)
     url_latex = Column(String(256), nullable=True)
     url_posts = Column(String(256), nullable=True)
+    revision_date = Column(Date, nullable=True)
     submission_date = Column(Date, nullable=False)
 
     # All main table relationships to child tables. References:
@@ -59,8 +61,20 @@ class PaperAuthor(Base, BaseStaticModel):
     __tablename__ = "paper_authors"
 
     author_id = Column(String(32), default=uuid.uuid4, primary_key=True)
-    arxiv_id = Column(String(32), FK("papers.arxiv_id", ondelete="CASCADE"))
+    arxiv_id = Column(String(32), nullable=False)
+    arxiv_rev = Column(String(32), nullable=False)
     author_name = Column(String(64), nullable=False)
+
+    # Define a Foreign key over multiple columns (Composite Foreign Key)
+    # Official docs: https://docs.sqlalchemy.org/en/13/core/constraints.html
+    # Stackoverflow: https://stackoverflow.com/a/7506168
+    __table_args__ = (
+        FKConstraint(
+            columns=("arxiv_id", "arxiv_rev"),
+            refcolumns=("papers.arxiv_id", "papers.arxiv_rev"),
+            ondelete="CASCADE",
+        ),
+    )
 
 
 class PaperReferenceCounters(Base, BaseEvolvingModel):
@@ -72,6 +86,18 @@ class PaperReferenceCounters(Base, BaseEvolvingModel):
     __tablename__ = "paper_reference_counters"
 
     ref_id = Column(String(32), default=uuid.uuid4, primary_key=True)
-    arxiv_id = Column(String(32), FK("papers.arxiv_id", ondelete="CASCADE"))
+    arxiv_id = Column(String(32), nullable=False)
+    arxiv_rev = Column(String(32), nullable=False)
     arxiv_ref_count = Column(Integer, nullable=False)
     total_ref_count = Column(Integer, nullable=False)
+
+    # Define a Foreign key over multiple columns (Composite Foreign Key)
+    # Official docs: https://docs.sqlalchemy.org/en/13/core/constraints.html
+    # Stackoverflow: https://stackoverflow.com/a/7506168
+    __table_args__ = (
+        FKConstraint(
+            columns=("arxiv_id", "arxiv_rev"),
+            refcolumns=("papers.arxiv_id", "papers.arxiv_rev"),
+            ondelete="CASCADE",
+        ),
+    )

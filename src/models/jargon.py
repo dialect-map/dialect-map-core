@@ -7,6 +7,7 @@ from .base import BaseEvolvingModel
 from sqlalchemy import Column
 from sqlalchemy import Float
 from sqlalchemy import ForeignKey as FK
+from sqlalchemy import ForeignKeyConstraint as FKConstraint
 from sqlalchemy import Integer
 from sqlalchemy import String
 from sqlalchemy.orm import relationship
@@ -64,6 +65,18 @@ class JargonPaperMetrics(Base, BaseEvolvingModel):
 
     metric_id = Column(String(32), default=uuid.uuid4, primary_key=True)
     jargon_id = Column(String(32), FK("jargons.jargon_id", ondelete="CASCADE"))
-    arxiv_id = Column(String(32), FK("papers.arxiv_id", ondelete="CASCADE"))
+    arxiv_id = Column(String(32), nullable=False)
+    arxiv_rev = Column(String(32), nullable=False)
     abs_freq = Column(Integer, nullable=False)
     rel_freq = Column(Float, nullable=False)
+
+    # Define a Foreign key over multiple columns (Composite Foreign Key)
+    # Official docs: https://docs.sqlalchemy.org/en/13/core/constraints.html
+    # Stackoverflow: https://stackoverflow.com/a/7506168
+    __table_args__ = (
+        FKConstraint(
+            columns=("arxiv_id", "arxiv_rev"),
+            refcolumns=("papers.arxiv_id", "papers.arxiv_rev"),
+            ondelete="CASCADE",
+        ),
+    )

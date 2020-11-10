@@ -4,7 +4,7 @@ import uuid
 from .base import Base
 from .base import BaseStaticModel
 from sqlalchemy import Column
-from sqlalchemy import ForeignKey as FK
+from sqlalchemy import ForeignKeyConstraint as FKConstraint
 from sqlalchemy import String
 
 
@@ -17,5 +17,23 @@ class PaperReference(Base, BaseStaticModel):
     __tablename__ = "paper_references"
 
     id = Column(String(32), default=uuid.uuid4, primary_key=True)
-    referenced_paper = Column(String(32), FK("papers.arxiv_id", ondelete="CASCADE"))
-    referencing_paper = Column(String(32), FK("papers.arxiv_id", ondelete="CASCADE"))
+    source_arxiv_id = Column(String(32), nullable=False)
+    source_arxiv_rev = Column(String(32), nullable=False)
+    target_arxiv_id = Column(String(32), nullable=False)
+    target_arxiv_rev = Column(String(32), nullable=False)
+
+    # Define a Foreign key over multiple columns (Composite Foreign Key)
+    # Official docs: https://docs.sqlalchemy.org/en/13/core/constraints.html
+    # Stackoverflow: https://stackoverflow.com/a/7506168
+    __table_args__ = (
+        FKConstraint(
+            columns=("source_arxiv_id", "source_arxiv_rev"),
+            refcolumns=("papers.arxiv_id", "papers.arxiv_rev"),
+            ondelete="CASCADE",
+        ),
+        FKConstraint(
+            columns=("target_arxiv_id", "target_arxiv_rev"),
+            refcolumns=("papers.arxiv_id", "papers.arxiv_rev"),
+            ondelete="CASCADE",
+        ),
+    )
