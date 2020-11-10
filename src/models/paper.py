@@ -24,7 +24,10 @@ class Paper(Base, BaseStaticModel):
     title = Column(String(256), nullable=False)
     doi_id = Column(String(64), nullable=True)
     url_pdf = Column(String(256), nullable=True)
+    url_dvi = Column(String(256), nullable=True)
+    url_html = Column(String(256), nullable=True)
     url_latex = Column(String(256), nullable=True)
+    url_posts = Column(String(256), nullable=True)
     submission_date = Column(Date, nullable=False)
 
     # All main table relationships to child tables. References:
