@@ -13,3 +13,5 @@ from .membership_ctl import MembershipController
 from .paper_ctl import PaperController
 from .paper_ctl import PaperAuthorController
 from .paper_ctl import PaperReferenceCountersController
+
+from .reference_ctl import ReferenceController
