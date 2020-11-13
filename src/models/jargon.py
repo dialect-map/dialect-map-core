@@ -39,6 +39,12 @@ class Jargon(Base, BaseStaticModel):
         passive_deletes=True,
     )
 
+    @property
+    def id(self):
+        """ Gets the unique ID of the model """
+
+        return self.jargon_id
+
 
 class JargonCategoryMetrics(Base, BaseEvolvingModel):
     """
@@ -53,6 +59,12 @@ class JargonCategoryMetrics(Base, BaseEvolvingModel):
     category_id = Column(String(32), FK("categories.category_id", ondelete="CASCADE"))
     abs_freq = Column(Integer, nullable=False)
     rel_freq = Column(Float, nullable=False)
+
+    @property
+    def id(self):
+        """ Gets the unique ID of the model """
+
+        return self.metric_id
 
 
 class JargonPaperMetrics(Base, BaseEvolvingModel):
@@ -80,3 +92,9 @@ class JargonPaperMetrics(Base, BaseEvolvingModel):
             ondelete="CASCADE",
         ),
     )
+
+    @property
+    def id(self):
+        """ Gets the unique ID of the model """
+
+        return self.metric_id

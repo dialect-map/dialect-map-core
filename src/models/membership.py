@@ -17,7 +17,7 @@ class CategoryMembership(Base, BaseStaticModel):
 
     __tablename__ = "paper_categories"
 
-    id = Column(String(32), default=uuid.uuid4, primary_key=True)
+    membership_id = Column(String(32), default=uuid.uuid4, primary_key=True)
     arxiv_id = Column(String(32), nullable=False)
     arxiv_rev = Column(String(32), nullable=False)
     category_id = Column(String(32), FK("categories.category_id", ondelete="CASCADE"))
@@ -32,3 +32,9 @@ class CategoryMembership(Base, BaseStaticModel):
             ondelete="CASCADE",
         ),
     )
+
+    @property
+    def id(self):
+        """ Gets the unique ID of the model """
+
+        return self.membership_id
