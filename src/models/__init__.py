@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from .base import Base
 from .base import BaseStaticModel
 from .base import BaseEvolvingModel
 

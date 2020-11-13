@@ -51,6 +51,12 @@ class Paper(Base, BaseEvolvingModel):
         passive_deletes=True,
     )
 
+    @property
+    def default_revision(self) -> str:
+        """ Default revision to get from a paper """
+
+        return "v1"
+
 
 class PaperAuthor(Base, BaseStaticModel):
     """

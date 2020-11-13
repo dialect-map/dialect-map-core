@@ -5,6 +5,7 @@ from abc import ABCMeta
 from abc import abstractmethod
 from models.base import Base
 from sqlalchemy import create_engine
+from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
 
@@ -13,6 +14,10 @@ logger = logging.getLogger()
 
 class BaseDatabase(metaclass=ABCMeta):
     """ Interface for the database classes """
+
+    engine = None
+    session = None
+    session_error = None
 
     @abstractmethod
     def close(self):
@@ -51,9 +56,10 @@ class SQLAlchemyDatabase(BaseDatabase):
 
         logger.info(f"Connecting to database URL: {connection_url}")
 
+        self.web_app = web_app
         self.engine = create_engine(connection_url)
         self.session = self.__init_session(web_app)
-        self.web_app = web_app
+        self.session_error = SQLAlchemyError
 
     def __init_session(self, web_app: bool):
         """
@@ -71,6 +77,8 @@ class SQLAlchemyDatabase(BaseDatabase):
 
     def close(self):
         """ Closes the database session """
+
+        logger.info("Disconnecting from the database")
 
         if self.web_app:
             self.session.close()
