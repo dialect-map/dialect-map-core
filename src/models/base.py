@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from abc import abstractmethod
 from datetime import datetime
 from sqlalchemy import Column
 from sqlalchemy import ColumnDefault
@@ -9,6 +10,29 @@ from sqlalchemy.ext.declarative import declarative_base
 
 # Base class for all database tables
 Base = declarative_base()
+
+
+class BaseStaticModel:
+    """
+    Base class defining key timestamps for keeping track of static models
+
+    Defines tables:
+        created_at: when the referenced entity was originally created
+        audited_at: when the referenced entity reached the database
+
+    Defines indexes:
+        idx_created_at: to query entities by when they were created
+    """
+
+    created_at = Column(DateTime, nullable=False, index=True)
+    audited_at = Column(DateTime, nullable=True, default=ColumnDefault(datetime.now()))
+
+    @property
+    @abstractmethod
+    def id(self) -> str:
+        """ Gets the unique ID of the model """
+
+        raise NotImplementedError()
 
 
 class BaseEvolvingModel:
@@ -29,18 +53,23 @@ class BaseEvolvingModel:
     updated_at = Column(DateTime, nullable=False, index=True)
     audited_at = Column(DateTime, nullable=True, default=ColumnDefault(datetime.now()))
 
+    @property
+    @abstractmethod
+    def id(self) -> str:
+        """ Gets the unique ID of the model """
 
-class BaseStaticModel:
-    """
-    Base class defining key timestamps for keeping track of static models
+        raise NotImplementedError()
 
-    Defines tables:
-        created_at: when the referenced entity was originally created
-        audited_at: when the referenced entity reached the database
+    @property
+    @abstractmethod
+    def rev(self) -> int:
+        """ Gets the unique revision of the model """
 
-    Defines indexes:
-        idx_created_at: to query entities by when they were created
-    """
+        raise NotImplementedError()
 
-    created_at = Column(DateTime, nullable=False, index=True)
-    audited_at = Column(DateTime, nullable=True, default=ColumnDefault(datetime.now()))
+    @property
+    @abstractmethod
+    def default_rev(self) -> int:
+        """ Gets the default revision value of the model """
+
+        raise NotImplementedError()

@@ -26,3 +26,9 @@ class Category(Base, BaseStaticModel):
         backref="jargon_metrics",
         passive_deletes=True,
     )
+
+    @property
+    def id(self):
+        """ Gets the unique ID of the model """
+
+        return self.category_id

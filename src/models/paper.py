@@ -21,7 +21,7 @@ class Paper(Base, BaseEvolvingModel):
     __tablename__ = "papers"
 
     arxiv_id = Column(String(32), nullable=False, primary_key=True)
-    arxiv_rev = Column(String(32), nullable=False, primary_key=True)
+    arxiv_rev = Column(Integer, nullable=False, primary_key=True)
     title = Column(String(256), nullable=False)
     doi_id = Column(String(64), nullable=True)
     url_pdf = Column(String(256), nullable=True)
@@ -52,10 +52,22 @@ class Paper(Base, BaseEvolvingModel):
     )
 
     @property
-    def default_revision(self) -> str:
-        """ Default revision to get from a paper """
+    def id(self) -> str:
+        """ Gets the unique ID of the model """
 
-        return "v1"
+        return self.arxiv_id
+
+    @property
+    def rev(self) -> int:
+        """ Gets the unique revision of the model """
+
+        return self.arxiv_rev
+
+    @property
+    def default_rev(self) -> int:
+        """ Gets the default revision value of the model """
+
+        return 1
 
 
 class PaperAuthor(Base, BaseStaticModel):
@@ -82,6 +94,12 @@ class PaperAuthor(Base, BaseStaticModel):
         ),
     )
 
+    @property
+    def id(self):
+        """ Gets the unique ID of the model """
+
+        return self.author_id
+
 
 class PaperReferenceCounters(Base, BaseEvolvingModel):
     """
@@ -91,7 +109,8 @@ class PaperReferenceCounters(Base, BaseEvolvingModel):
 
     __tablename__ = "paper_reference_counters"
 
-    ref_id = Column(String(32), default=uuid.uuid4, primary_key=True)
+    count_id = Column(String(32), default=uuid.uuid4, primary_key=True)
+    count_rev = Column(Integer, nullable=False, primary_key=True)
     arxiv_id = Column(String(32), nullable=False)
     arxiv_rev = Column(String(32), nullable=False)
     arxiv_ref_count = Column(Integer, nullable=False)
@@ -107,3 +126,21 @@ class PaperReferenceCounters(Base, BaseEvolvingModel):
             ondelete="CASCADE",
         ),
     )
+
+    @property
+    def id(self):
+        """ Gets the unique ID of the model """
+
+        return self.count_id
+
+    @property
+    def rev(self) -> int:
+        """ Gets the unique revision of the model """
+
+        return self.count_rev
+
+    @property
+    def default_rev(self) -> int:
+        """ Gets the default revision value of the model """
+
+        return 1

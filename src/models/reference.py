@@ -16,7 +16,7 @@ class PaperReference(Base, BaseStaticModel):
 
     __tablename__ = "paper_references"
 
-    id = Column(String(32), default=uuid.uuid4, primary_key=True)
+    reference_id = Column(String(32), default=uuid.uuid4, primary_key=True)
     source_arxiv_id = Column(String(32), nullable=False)
     source_arxiv_rev = Column(String(32), nullable=False)
     target_arxiv_id = Column(String(32), nullable=False)
@@ -37,3 +37,9 @@ class PaperReference(Base, BaseStaticModel):
             ondelete="CASCADE",
         ),
     )
+
+    @property
+    def id(self):
+        """ Gets the unique ID of the model """
+
+        return self.reference_id
