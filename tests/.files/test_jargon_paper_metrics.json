@@ -1,0 +1,11 @@
+[
+  {
+    "metric_id": "jargon-paper-metric-01234",
+    "jargon_id": "jargon-01234",
+    "arxiv_id": "paper-01234",
+    "arxiv_rev": 1,
+    "abs_freq": 10,
+    "rel_freq": 0.05,
+    "created_at": "2020-11-20 10:00:00"
+  }
+]

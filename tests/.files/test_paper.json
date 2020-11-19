@@ -1,0 +1,18 @@
+[
+  {
+    "arxiv_id": "paper-01234",
+    "arxiv_rev": 1,
+    "title": "Test paper A",
+    "submission_date": "2020-11-20",
+    "created_at": "2020-11-20 12:00:00",
+    "updated_at": "2020-11-20 12:00:00"
+  },
+  {
+    "arxiv_id": "paper-56789",
+    "arxiv_rev": 1,
+    "title": "Test paper B",
+    "submission_date": "2020-11-20",
+    "created_at": "2020-11-20 14:00:00",
+    "updated_at": "2020-11-20 14:00:00"
+  }
+]

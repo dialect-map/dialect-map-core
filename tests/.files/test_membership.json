@@ -1,0 +1,16 @@
+[
+  {
+    "membership_id": "membership-01234",
+    "arxiv_id": "paper-01234",
+    "arxiv_rev": 1,
+    "category_id": "category-01234",
+    "created_at": "2020-11-20 10:00:00"
+  },
+  {
+    "membership_id": "membership-56789",
+    "arxiv_id": "paper-01234",
+    "arxiv_rev": 1,
+    "category_id": "category-56789",
+    "created_at": "2020-11-20 12:00:00"
+  }
+]

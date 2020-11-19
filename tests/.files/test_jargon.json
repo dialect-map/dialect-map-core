@@ -1,0 +1,14 @@
+[
+  {
+    "jargon_id": "jargon-01234",
+    "jargon_str": "One string",
+    "num_words": 2,
+    "created_at": "2020-11-20 10:00:00"
+  },
+  {
+    "jargon_id": "jargon-56789",
+    "jargon_str": "Other string",
+    "num_words": 2,
+    "created_at": "2020-11-20 12:00:00"
+  }
+]
