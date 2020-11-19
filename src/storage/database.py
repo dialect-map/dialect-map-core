@@ -8,6 +8,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
+from typing import Type
+from .loader import BaseLoader
 
 logger = logging.getLogger()
 
@@ -22,6 +24,16 @@ class BaseDatabase(metaclass=ABCMeta):
     @abstractmethod
     def close(self):
         """ Closes the database connection """
+
+        raise NotImplementedError()
+
+    @abstractmethod
+    def load(self, file_path: str, data_model):
+        """
+        Loads a specific file of data objects into the database
+        :param file_path: path to the specific file to load
+        :param data_model: data model to instantiate with each record
+        """
 
         raise NotImplementedError()
 
@@ -47,16 +59,18 @@ class BaseDatabase(metaclass=ABCMeta):
 class SQLAlchemyDatabase(BaseDatabase):
     """ Database class using SQLAlchemy utilities"""
 
-    def __init__(self, connection_url: str, web_app: bool = False):
+    def __init__(self, connection_url: str, loader: BaseLoader, web_app: bool = False):
         """
         Initiates the database connection
         :param connection_url: complete url to connect to the database
+        :param loader: file loader to populate the database if needed
         :param web_app: whether or not should be a new session per request
         """
 
-        logger.info(f"Connecting to database URL: {connection_url}")
-
+        self.loader = loader
         self.web_app = web_app
+
+        logger.info(f"Connecting to database URL: {connection_url}")
         self.engine = create_engine(connection_url)
         self.session = self.__init_session(web_app)
         self.session_error = SQLAlchemyError
@@ -82,6 +96,19 @@ class SQLAlchemyDatabase(BaseDatabase):
 
         if self.web_app:
             self.session.close()
+
+    def load(self, file_path: str, data_model: Type):
+        """
+        Loads a specific file of data objects into the database
+        :param file_path: path to the specific file to load
+        :param data_model: SQLAlchemy model to instantiate
+        """
+
+        records = self.loader.load(file_path)
+
+        for record in records:
+            obj = data_model(**record)
+            self.session.add(obj)  # type: ignore
 
     def setup(self, check: bool = True):
         """
