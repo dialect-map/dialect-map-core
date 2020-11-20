@@ -6,6 +6,7 @@ from .base import BaseStaticModel
 from sqlalchemy import Column
 from sqlalchemy import ForeignKey as FK
 from sqlalchemy import ForeignKeyConstraint as FKConstraint
+from sqlalchemy import Integer
 from sqlalchemy import String
 
 
@@ -19,7 +20,7 @@ class CategoryMembership(Base, BaseStaticModel):
 
     membership_id = Column(String(32), default=uuid.uuid4, primary_key=True)
     arxiv_id = Column(String(32), nullable=False)
-    arxiv_rev = Column(String(32), nullable=False)
+    arxiv_rev = Column(Integer, nullable=False)
     category_id = Column(String(32), FK("categories.category_id", ondelete="CASCADE"))
 
     # Define a Foreign key over multiple columns (Composite Foreign Key)

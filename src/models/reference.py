@@ -5,6 +5,7 @@ from .base import Base
 from .base import BaseStaticModel
 from sqlalchemy import Column
 from sqlalchemy import ForeignKeyConstraint as FKConstraint
+from sqlalchemy import Integer
 from sqlalchemy import String
 
 
@@ -18,9 +19,9 @@ class PaperReference(Base, BaseStaticModel):
 
     reference_id = Column(String(32), default=uuid.uuid4, primary_key=True)
     source_arxiv_id = Column(String(32), nullable=False)
-    source_arxiv_rev = Column(String(32), nullable=False)
+    source_arxiv_rev = Column(Integer, nullable=False)
     target_arxiv_id = Column(String(32), nullable=False)
-    target_arxiv_rev = Column(String(32), nullable=False)
+    target_arxiv_rev = Column(Integer, nullable=False)
 
     # Define a Foreign key over multiple columns (Composite Foreign Key)
     # Official docs: https://docs.sqlalchemy.org/en/13/core/constraints.html
