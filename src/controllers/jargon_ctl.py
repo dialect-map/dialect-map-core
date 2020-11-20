@@ -49,7 +49,7 @@ class JargonPaperMetricsController(StaticController[JPaperMetrics]):
 
     data_model = JPaperMetrics
 
-    def get_by_jargon(self, jargon_id: str, arxiv_id: str = None, arxiv_rev: str = None) -> list:
+    def get_by_jargon(self, jargon_id: str, arxiv_id: str = None, arxiv_rev: int = None) -> list:
         """
         Gets a database record by its ID
         :param jargon_id: ID of the metrics associated jargon
