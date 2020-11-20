@@ -58,12 +58,12 @@ class JargonPaperMetricsController(StaticController[JPaperMetrics]):
         :return: data object representing the database record
         """
 
-        if arxiv_id and not arxiv_rev:
-            arxiv_rev = Paper.default_rev
-
         query = self.db.session.query(self.data_model)
         query = query.filter(self.data_model.jargon_id == jargon_id)
-        query = query.filter(self.data_model.arxiv_id == arxiv_id)
-        query = query.filter(self.data_model.arxiv_rev == arxiv_rev)
+
+        if arxiv_id:
+            query = query.filter(self.data_model.arxiv_id == arxiv_id)
+        if arxiv_rev:
+            query = query.filter(self.data_model.arxiv_rev == arxiv_rev)
 
         return query.all()
