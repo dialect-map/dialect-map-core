@@ -63,12 +63,6 @@ class Paper(Base, BaseEvolvingModel):
 
         return self.arxiv_rev
 
-    @property
-    def default_rev(self) -> int:
-        """ Gets the default revision value of the model """
-
-        return 1
-
 
 class PaperAuthor(Base, BaseStaticModel):
     """
@@ -138,9 +132,3 @@ class PaperReferenceCounters(Base, BaseEvolvingModel):
         """ Gets the unique revision of the model """
 
         return self.count_rev
-
-    @property
-    def default_rev(self) -> int:
-        """ Gets the default revision value of the model """
-
-        return 1

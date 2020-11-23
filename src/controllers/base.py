@@ -8,6 +8,7 @@ from models import BaseEvolvingModel
 from storage import BaseDatabase
 from typing import Generic
 from typing import Tuple
+from typing import Type
 from typing import TypeVar
 
 
@@ -56,7 +57,7 @@ class StaticController(BaseController, Generic[StaticModelVar]):
         Ref: https://docs.python.org/3/library/typing.html#typing.get_args
     """
 
-    data_model: StaticModelVar
+    data_model: Type[StaticModelVar]
 
     def __init__(self, db: BaseDatabase):
         """
@@ -123,7 +124,7 @@ class EvolvingController(BaseController, Generic[EvolvingModelVar]):
         Ref: https://docs.python.org/3/library/typing.html#typing.get_args
     """
 
-    data_model: EvolvingModelVar
+    data_model: Type[EvolvingModelVar]
 
     def __init__(self, db: BaseDatabase):
         """
@@ -133,26 +134,21 @@ class EvolvingController(BaseController, Generic[EvolvingModelVar]):
 
         self.db = db
 
-    def get(self, id: str, rev: int = None) -> EvolvingModelVar:
+    def get(self, id: str, rev: int) -> EvolvingModelVar:
         """
         Gets a database record by its ID
         :param id: ID of the database entry
-        :param rev: revision of the database entry (optional)
+        :param rev: revision of the database entry
         :return: data object representing the database record
         """
 
-        if not rev:
-            rev = self.data_model.default_rev
-
         query = self.db.session.query(self.data_model)
-        query = query.filter(self.data_model.id == id)
-        query = query.filter(self.data_model.rev == rev)
-        paper = query.one_or_none()
+        record = query.get((id, rev))
 
-        if paper is None:
-            raise ValueError(f"Unknown paper: {id} - Revision: {rev}")
+        if record is None:
+            raise ValueError(f"Unknown record: {id} - Revision: {rev}")
 
-        return paper
+        return record
 
     def create(self, model: EvolvingModelVar) -> str:
         """
@@ -177,10 +173,16 @@ class EvolvingController(BaseController, Generic[EvolvingModelVar]):
         :return: ID of the deleted object
         """
 
-        query = self.db.session.query(self.data_model)
-        query = query.filter(self.data_model.id == id)
+        rev = 0
 
-        self.db.session.delete(query.all())
+        while True:
+            try:
+                rev += 1
+                record = self.get(id, rev)
+                self.db.session.delete(record)
+            except ValueError:
+                break
+
         self.db.session.commit()
         return id
 

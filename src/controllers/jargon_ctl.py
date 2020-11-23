@@ -49,7 +49,7 @@ class JargonPaperMetricsController(StaticController[JPaperMetrics]):
 
     data_model = JPaperMetrics
 
-    def get_by_jargon(self, jargon_id: str, arxiv_id: str = None, arxiv_rev: str = None) -> list:
+    def get_by_jargon(self, jargon_id: str, arxiv_id: str = None, arxiv_rev: int = None) -> list:
         """
         Gets a database record by its ID
         :param jargon_id: ID of the metrics associated jargon
@@ -58,12 +58,12 @@ class JargonPaperMetricsController(StaticController[JPaperMetrics]):
         :return: data object representing the database record
         """
 
-        if arxiv_id and not arxiv_rev:
-            arxiv_rev = Paper.default_rev
-
         query = self.db.session.query(self.data_model)
         query = query.filter(self.data_model.jargon_id == jargon_id)
-        query = query.filter(self.data_model.arxiv_id == arxiv_id)
-        query = query.filter(self.data_model.arxiv_rev == arxiv_rev)
+
+        if arxiv_id:
+            query = query.filter(self.data_model.arxiv_id == arxiv_id)
+        if arxiv_rev:
+            query = query.filter(self.data_model.arxiv_rev == arxiv_rev)
 
         return query.all()

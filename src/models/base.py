@@ -66,10 +66,3 @@ class BaseEvolvingModel:
         """ Gets the unique revision of the model """
 
         raise NotImplementedError()
-
-    @property
-    @abstractmethod
-    def default_rev(self) -> int:
-        """ Gets the default revision value of the model """
-
-        raise NotImplementedError()

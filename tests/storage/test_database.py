@@ -3,13 +3,14 @@
 import pytest
 from storage.database import BaseDatabase
 from storage.database import SQLAlchemyDatabase
+from storage.loader import JsonLoader
 
 
 @pytest.fixture(scope="module")
 def db() -> SQLAlchemyDatabase:
     """ Creates a dummy database to test database operations """
 
-    return SQLAlchemyDatabase("sqlite:///:memory:")
+    return SQLAlchemyDatabase("sqlite:///:memory:", JsonLoader([]))
 
 
 def test_sql_table_creation(db: BaseDatabase):

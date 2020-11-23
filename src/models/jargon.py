@@ -46,7 +46,7 @@ class Jargon(Base, BaseStaticModel):
         return self.jargon_id
 
 
-class JargonCategoryMetrics(Base, BaseEvolvingModel):
+class JargonCategoryMetrics(Base, BaseStaticModel):
     """
     ArXiv category jargon NLP metrics
     Contains every NLP metric information computable for a jargon term.
@@ -67,7 +67,7 @@ class JargonCategoryMetrics(Base, BaseEvolvingModel):
         return self.metric_id
 
 
-class JargonPaperMetrics(Base, BaseEvolvingModel):
+class JargonPaperMetrics(Base, BaseStaticModel):
     """
     ArXiv paper jargon NLP metrics
     Contains every NLP metric information computable for a jargon term.
