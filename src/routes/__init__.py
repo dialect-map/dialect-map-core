@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from .category_routes import bp
-from .jargon_routes import bp
-from .membership_routes import bp
-from .paper_routes import bp
-from .reference_routes import bp
+from .routes_category import bp as blueprint_category
+from .routes_jargon import bp as blueprint_jargon
+from .routes_membership import bp as blueprint_membership
+from .routes_paper import bp as blueprint_paper
+from .routes_reference import bp as blueprint_reference
