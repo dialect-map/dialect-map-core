@@ -1,31 +1,13 @@
 # -*- coding: utf-8 -*-
 
-import atexit
 from flask import Flask
-from .config import ApplicationConfig
-from .config import EnvironmentConfigLoader
-from .logs import setup_logger
-from .service import AppService
-from .storage import SQLAlchemyDatabase
+from config import ApplicationConfig
+from config import EnvironmentConfigLoader
+from globals import setup_service
+from logs import setup_logger
 
 
 app = Flask(__name__)
-service: AppService
-
-
-def setup_service(c: ApplicationConfig):
-    """
-    Setup the global application service
-    :param c: global application configuration
-    """
-
-    global service
-
-    engine = SQLAlchemyDatabase(c.database_url)
-    service = AppService(engine)
-
-    # Register the service cleanup function upon exiting
-    atexit.register(service.stop)
 
 
 def setup_routes():

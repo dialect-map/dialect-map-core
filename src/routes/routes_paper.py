@@ -7,7 +7,7 @@ from flask import request
 from models import Paper
 from models import PaperAuthor
 from models import PaperReferenceCounters
-from ..main import service
+from globals import service
 
 
 bp = Blueprint("papers", __name__)

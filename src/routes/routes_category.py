@@ -5,7 +5,7 @@ from flask import jsonify
 from flask import make_response
 from flask import request
 from models import Category
-from ..main import service
+from globals import service
 
 
 bp = Blueprint("categories", __name__)

@@ -2,12 +2,12 @@
 
 import logging
 from storage import BaseDatabase
-from .controllers import *
+from controllers import *
 
 logger = logging.getLogger()
 
 
-class AppService:
+class ApplicationService:
     """ Service exposing all the model controllers """
 
     def __init__(self, db: BaseDatabase):

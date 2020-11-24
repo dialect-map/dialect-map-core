@@ -5,7 +5,7 @@ from flask import jsonify
 from flask import make_response
 from flask import request
 from models import PaperReference
-from ..main import service
+from globals import service
 
 
 bp = Blueprint("references", __name__)

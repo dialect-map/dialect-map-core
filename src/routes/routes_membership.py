@@ -5,7 +5,7 @@ from flask import jsonify
 from flask import make_response
 from flask import request
 from models import CategoryMembership
-from ..main import service
+from globals import service
 
 
 bp = Blueprint("memberships", __name__)

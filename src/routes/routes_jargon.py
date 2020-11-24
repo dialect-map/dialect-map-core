@@ -7,7 +7,7 @@ from flask import request
 from models import Jargon
 from models import JargonCategoryMetrics
 from models import JargonPaperMetrics
-from ..main import service
+from globals import service
 
 
 bp = Blueprint("jargons", __name__)
