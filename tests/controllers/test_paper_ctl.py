@@ -118,7 +118,7 @@ def test_paper_author_get(db: BaseDatabase):
 
     assert type(all_authors) == list
     assert type(one_author) is PaperAuthor
-    assert one_author.id == "paper-author-01234-a"
+    assert one_author.id == "paper-author-01234-A"
 
 
 def test_paper_ref_counter_get(db: BaseDatabase):
@@ -133,4 +133,4 @@ def test_paper_ref_counter_get(db: BaseDatabase):
 
     assert type(all_counters) == list
     assert type(one_counter) is PaperReferenceCounters
-    assert one_counter.id == "paper-ref-counter-01234"
+    assert one_counter.id == "paper-ref-counter-01234-A"
