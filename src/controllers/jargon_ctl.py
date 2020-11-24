@@ -15,6 +15,18 @@ class JargonController(StaticController[Jargon]):
 
     data_model = Jargon
 
+    def get_by_string(self, jargon_str: str) -> Jargon:
+        """
+        Gets a database record by its string value
+        :param jargon_str: jargon string representation
+        :return: data object representing the database record
+        """
+
+        query = self.db.session.query(self.data_model)
+        query = query.filter(self.data_model.jargon_str == jargon_str)
+
+        return query.one_or_none()
+
 
 class JargonCategoryMetricsController(StaticController[JCategoryMetrics]):
     """
@@ -29,7 +41,7 @@ class JargonCategoryMetricsController(StaticController[JCategoryMetrics]):
         Gets a database record by its ID
         :param jargon_id: ID of the metrics associated jargon
         :param category_id: ID of the metrics associated category (optional)
-        :return: data object representing the database record
+        :return: data objects representing the database records
         """
 
         query = self.db.session.query(self.data_model)
@@ -55,7 +67,7 @@ class JargonPaperMetricsController(StaticController[JPaperMetrics]):
         :param jargon_id: ID of the metrics associated jargon
         :param arxiv_id: ID of the metrics associated paper (optional)
         :param arxiv_rev: revision of the metrics associated paper (optional)
-        :return: data object representing the database record
+        :return: data objects representing the database records
         """
 
         query = self.db.session.query(self.data_model)

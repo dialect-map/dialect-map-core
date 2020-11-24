@@ -26,6 +26,16 @@ def setup_routes():
     app.register_blueprint(blueprint_reference)
 
 
+def setup_errors():
+    """ Setup all the Flask exception handlers """
+
+    from exceptions import not_found_request
+    from exceptions import internal_error
+
+    app.register_error_handler(ValueError, not_found_request)
+    app.register_error_handler(Exception, internal_error)
+
+
 # Gunicorn running the server
 if __name__ == "main":
 
@@ -36,6 +46,7 @@ if __name__ == "main":
     setup_logger(config.log_level)
     setup_service(c=config)
     setup_routes()
+    setup_errors()
 
 
 # Flask running the server
@@ -48,6 +59,4 @@ if __name__ == "__main__":
     setup_logger(config.log_level)
     setup_service(c=config)
     setup_routes()
-
-    # Run the application
-    app.run(host="0.0.0.0", port=8080, debug=False)
+    setup_errors()
