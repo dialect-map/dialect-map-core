@@ -10,6 +10,7 @@ from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
 from typing import Type
 from .loader import BaseLoader
+from .loader import JsonLoader
 
 logger = logging.getLogger()
 
@@ -59,20 +60,28 @@ class BaseDatabase(metaclass=ABCMeta):
 class SQLAlchemyDatabase(BaseDatabase):
     """ Database class using SQLAlchemy utilities"""
 
-    def __init__(self, connection_url: str, loader: BaseLoader, web_app: bool = False):
+    def __init__(
+        self,
+        connection_url: str,
+        factory_session: bool = True,
+        files_loader: BaseLoader = None,
+    ):
         """
         Initiates the database connection
         :param connection_url: complete url to connect to the database
-        :param loader: file loader to populate the database if needed
-        :param web_app: whether or not should be a new session per request
+        :param factory_session: whether to create a new session per request (optional)
+        :param files_loader: file loader to populate the database if needed (optional)
         """
 
-        self.loader = loader
-        self.web_app = web_app
+        if files_loader is None:
+            files_loader = JsonLoader([])
+
+        self.loader = files_loader
+        self.web_app = factory_session
 
         logger.info(f"Connecting to database URL: {connection_url}")
         self.engine = create_engine(connection_url)
-        self.session = self.__init_session(web_app)
+        self.session = self.__init_session(self.web_app)
         self.session_error = SQLAlchemyError
 
     def __init_session(self, web_app: bool):

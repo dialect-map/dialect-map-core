@@ -6,7 +6,6 @@ from .config import ApplicationConfig
 from .config import EnvironmentConfigLoader
 from .logs import setup_logger
 from .service import AppService
-from .storage import JsonLoader
 from .storage import SQLAlchemyDatabase
 
 
@@ -22,9 +21,8 @@ def setup_service(c: ApplicationConfig) -> None:
 
     global service
 
-    db_loader = JsonLoader([])
-    db_engine = SQLAlchemyDatabase(c.database_url, db_loader)
-    service = AppService(db_engine)
+    engine = SQLAlchemyDatabase(c.database_url)
+    service = AppService(engine)
 
     # Register the service cleanup function upon exiting
     atexit.register(service.stop)
