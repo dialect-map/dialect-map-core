@@ -28,6 +28,23 @@ def get_jargon(jargon_id: str):
     return make_response(jsonify(record), 200)
 
 
+@bp.route("/jargons/string/<jargon_str>", methods=["GET"])
+def get_jargon_by_string(jargon_str: str):
+    """
+    Gets a jargon from the underlying database
+    :param jargon_str: jargon string representation
+    :return: HTTP 200 / HTTP 404 responses
+    """
+
+    string = jargon_str.lower()
+    record = service.jargons.get_by_string(string)
+
+    if not record:
+        return make_response(jsonify(record), 200)
+    else:
+        return make_response(jsonify(record), 404)
+
+
 @bp.route("/jargons", methods=["POST"])
 def create_jargon():
     """
