@@ -18,8 +18,8 @@ make install-dev
 
 
 ### Formatting
-All Python files within this project are formatted using [Black][black-web], 
-and the custom properties defined in the `pyproject.tml` file. Before each Pull Request:
+All Python files are formatted using [Black][black-web],  and the custom properties defined
+in the `pyproject.toml` file.
 ```sh
 make check
 ```
