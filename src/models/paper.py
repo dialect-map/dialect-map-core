@@ -95,7 +95,7 @@ class PaperAuthor(Base, BaseStaticModel):
         return self.author_id
 
 
-class PaperReferenceCounters(Base, BaseEvolvingModel):
+class PaperReferenceCounters(Base, BaseStaticModel):
     """
     ArXiv paper reference counters record.
     Contains the number of paper references on a certain date
@@ -104,7 +104,6 @@ class PaperReferenceCounters(Base, BaseEvolvingModel):
     __tablename__ = "paper_reference_counters"
 
     count_id = Column(String(32), default=uuid.uuid4, primary_key=True)
-    count_rev = Column(Integer, nullable=False, primary_key=True)
     arxiv_id = Column(String(32), nullable=False)
     arxiv_rev = Column(String(32), nullable=False)
     arxiv_ref_count = Column(Integer, nullable=False)
@@ -126,9 +125,3 @@ class PaperReferenceCounters(Base, BaseEvolvingModel):
         """ Gets the unique ID of the model """
 
         return self.count_id
-
-    @property
-    def rev(self) -> int:
-        """ Gets the unique revision of the model """
-
-        return self.count_rev

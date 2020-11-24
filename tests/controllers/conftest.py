@@ -12,14 +12,13 @@ from ..utils import FILES_MAPPINGS
 def db() -> SQLAlchemyDatabase:
     """ Creates a memory-based database to test database operations """
 
-    loader = JsonLoader(
-        [
-            DateParser(),
-            DatetimeParser(),
-        ]
-    )
+    parsers = [
+        DateParser(),
+        DatetimeParser(),
+    ]
 
-    database = SQLAlchemyDatabase("sqlite:///:memory:", loader)
+    loader = JsonLoader(parsers)
+    database = SQLAlchemyDatabase("sqlite:///:memory:", files_loader=loader)
     database.setup()
 
     for file_map in FILES_MAPPINGS:

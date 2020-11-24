@@ -10,6 +10,7 @@ from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
 from typing import Type
 from .loader import BaseLoader
+from .loader import JsonLoader
 
 logger = logging.getLogger()
 
@@ -17,9 +18,26 @@ logger = logging.getLogger()
 class BaseDatabase(metaclass=ABCMeta):
     """ Interface for the database classes """
 
-    engine = None
-    session = None
-    session_error = None
+    @property
+    @abstractmethod
+    def engine(self):
+        """ Database engine object """
+
+        raise NotImplementedError()
+
+    @property
+    @abstractmethod
+    def session(self):
+        """ Database session object """
+
+        raise NotImplementedError()
+
+    @property
+    @abstractmethod
+    def session_error(self):
+        """ Database highest error upon exception """
+
+        raise NotImplementedError()
 
     @abstractmethod
     def close(self):
@@ -59,21 +77,32 @@ class BaseDatabase(metaclass=ABCMeta):
 class SQLAlchemyDatabase(BaseDatabase):
     """ Database class using SQLAlchemy utilities"""
 
-    def __init__(self, connection_url: str, loader: BaseLoader, web_app: bool = False):
+    engine = None
+    session = None
+    session_error = SQLAlchemyError
+
+    def __init__(
+        self,
+        connection_url: str,
+        factory_session: bool = True,
+        files_loader: BaseLoader = None,
+    ):
         """
         Initiates the database connection
         :param connection_url: complete url to connect to the database
-        :param loader: file loader to populate the database if needed
-        :param web_app: whether or not should be a new session per request
+        :param factory_session: whether to create a new session per request (optional)
+        :param files_loader: file loader to populate the database if needed (optional)
         """
 
-        self.loader = loader
-        self.web_app = web_app
+        if files_loader is None:
+            files_loader = JsonLoader([])
+
+        self.loader = files_loader
+        self.web_app = factory_session
 
         logger.info(f"Connecting to database URL: {connection_url}")
         self.engine = create_engine(connection_url)
-        self.session = self.__init_session(web_app)
-        self.session_error = SQLAlchemyError
+        self.session = self.__init_session(self.web_app)
 
     def __init_session(self, web_app: bool):
         """

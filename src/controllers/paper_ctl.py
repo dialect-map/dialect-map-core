@@ -39,9 +39,9 @@ class PaperAuthorController(StaticController[PaperAuthor]):
         return query.all()
 
 
-class PaperReferenceCountersController(EvolvingController[PaperReferenceCounters]):
+class PaperReferenceCountersController(StaticController[PaperReferenceCounters]):
     """
-    Controller for the PaperReferenceCounter objects (evolving)
+    Controller for the PaperReferenceCounter objects (static)
     Extend as desired
     """
 
