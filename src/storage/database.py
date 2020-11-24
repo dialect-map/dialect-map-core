@@ -97,10 +97,10 @@ class SQLAlchemyDatabase(BaseDatabase):
         if files_loader is None:
             files_loader = JsonLoader([])
 
+        logger.info(f"Connecting to database URL: {connection_url}")
+
         self.loader = files_loader
         self.web_app = factory_session
-
-        logger.info(f"Connecting to database URL: {connection_url}")
         self.engine = create_engine(connection_url)
         self.session = self.__init_session(self.web_app)
 
