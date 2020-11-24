@@ -78,7 +78,7 @@ class JargonPaperMetrics(Base, BaseStaticModel):
     metric_id = Column(String(32), default=uuid.uuid4, primary_key=True)
     jargon_id = Column(String(32), FK("jargons.jargon_id", ondelete="CASCADE"))
     arxiv_id = Column(String(32), nullable=False)
-    arxiv_rev = Column(String(32), nullable=False)
+    arxiv_rev = Column(Integer, nullable=False)
     abs_freq = Column(Integer, nullable=False)
     rel_freq = Column(Float, nullable=False)
 

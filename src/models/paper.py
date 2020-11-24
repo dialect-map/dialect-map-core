@@ -74,7 +74,7 @@ class PaperAuthor(Base, BaseStaticModel):
 
     author_id = Column(String(32), default=uuid.uuid4, primary_key=True)
     arxiv_id = Column(String(32), nullable=False)
-    arxiv_rev = Column(String(32), nullable=False)
+    arxiv_rev = Column(Integer, nullable=False)
     author_name = Column(String(64), nullable=False)
 
     # Define a Foreign key over multiple columns (Composite Foreign Key)
@@ -105,7 +105,7 @@ class PaperReferenceCounters(Base, BaseStaticModel):
 
     count_id = Column(String(32), default=uuid.uuid4, primary_key=True)
     arxiv_id = Column(String(32), nullable=False)
-    arxiv_rev = Column(String(32), nullable=False)
+    arxiv_rev = Column(Integer, nullable=False)
     arxiv_ref_count = Column(Integer, nullable=False)
     total_ref_count = Column(Integer, nullable=False)
 
