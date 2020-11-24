@@ -18,9 +18,26 @@ logger = logging.getLogger()
 class BaseDatabase(metaclass=ABCMeta):
     """ Interface for the database classes """
 
-    engine = None
-    session = None
-    session_error = None
+    @property
+    @abstractmethod
+    def engine(self):
+        """ Database engine object """
+
+        raise NotImplementedError()
+
+    @property
+    @abstractmethod
+    def session(self):
+        """ Database session object """
+
+        raise NotImplementedError()
+
+    @property
+    @abstractmethod
+    def session_error(self):
+        """ Database highest error upon exception """
+
+        raise NotImplementedError()
 
     @abstractmethod
     def close(self):
@@ -60,6 +77,10 @@ class BaseDatabase(metaclass=ABCMeta):
 class SQLAlchemyDatabase(BaseDatabase):
     """ Database class using SQLAlchemy utilities"""
 
+    engine = None
+    session = None
+    session_error = SQLAlchemyError
+
     def __init__(
         self,
         connection_url: str,
@@ -82,7 +103,6 @@ class SQLAlchemyDatabase(BaseDatabase):
         logger.info(f"Connecting to database URL: {connection_url}")
         self.engine = create_engine(connection_url)
         self.session = self.__init_session(self.web_app)
-        self.session_error = SQLAlchemyError
 
     def __init_session(self, web_app: bool):
         """

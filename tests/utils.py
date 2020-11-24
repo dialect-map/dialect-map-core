@@ -1,6 +1,14 @@
 # -*- coding: utf-8 -*-
 
-from src.models import *
+from models import Category
+from models import Jargon
+from models import JargonCategoryMetrics
+from models import JargonPaperMetrics
+from models import CategoryMembership
+from models import Paper
+from models import PaperAuthor
+from models import PaperReference
+from models import PaperReferenceCounters
 from pathlib import Path
 
 
