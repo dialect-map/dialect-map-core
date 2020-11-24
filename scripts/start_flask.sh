@@ -13,4 +13,4 @@ export FLASK_APP=${flask_app}
 export FLASK_ENV=${flask_env}
 
 # Launches Flask
-flask run --host "0.0.0.0"
+flask run --host "0.0.0.0" --port 8080

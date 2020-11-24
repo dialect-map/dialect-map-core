@@ -60,6 +60,3 @@ if __name__ == "__main__":
     setup_service(c=config)
     setup_routes()
     setup_errors()
-
-    # Run the application
-    app.run(host="0.0.0.0", port=8080, debug=False)
