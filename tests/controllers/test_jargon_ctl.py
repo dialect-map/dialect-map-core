@@ -24,6 +24,19 @@ def test_jargon_get(db: BaseDatabase):
     assert jargon.id == "jargon-01234"
 
 
+def test_jargon_get_by_string(db: BaseDatabase):
+    """
+    Tests the retrieval of a jargon using a controller
+    :param db: initiated and loaded database
+    """
+
+    controller = JargonController(db=db)
+    jargon = controller.get_by_string("One string")
+
+    assert type(jargon) is Jargon
+    assert jargon.id == "jargon-01234"
+
+
 def test_jargon_create(db: BaseDatabase):
     """
     Tests the creation of a jargon using a controller
