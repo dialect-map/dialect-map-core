@@ -11,7 +11,7 @@ from globals import service
 bp = Blueprint("categories", __name__)
 
 
-@bp.route("/categories/<category_id>", methods=["GET"])
+@bp.route("/category/<category_id>", methods=["GET"])
 def get_category(category_id: str):
     """
     Gets a category from the underlying database
@@ -23,7 +23,7 @@ def get_category(category_id: str):
     return make_response(jsonify(record), 200)
 
 
-@bp.route("/categories", methods=["POST"])
+@bp.route("/category", methods=["POST"])
 def create_category():
     """
     Creates a category with the provided JSON body
@@ -35,7 +35,7 @@ def create_category():
     return make_response({"id": resp}, 201)
 
 
-@bp.route("/categories/<category_id>", methods=["DELETE"])
+@bp.route("/category/<category_id>", methods=["DELETE"])
 def delete_category(category_id: str):
     """
     Deletes a category from the underlying database
