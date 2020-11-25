@@ -11,7 +11,7 @@ from globals import service
 bp = Blueprint("memberships", __name__)
 
 
-@bp.route("/memberships/<membership_id>", methods=["GET"])
+@bp.route("/membership/<membership_id>", methods=["GET"])
 def get_membership(membership_id: str):
     """
     Gets a membership from the underlying database
@@ -23,7 +23,7 @@ def get_membership(membership_id: str):
     return make_response(jsonify(record), 200)
 
 
-@bp.route("/memberships", methods=["POST"])
+@bp.route("/membership", methods=["POST"])
 def create_membership():
     """
     Creates a membership with the provided JSON body
@@ -35,7 +35,7 @@ def create_membership():
     return make_response({"id": resp}, 201)
 
 
-@bp.route("/memberships/<membership_id>", methods=["DELETE"])
+@bp.route("/membership/<membership_id>", methods=["DELETE"])
 def delete_membership(membership_id: str):
     """
     Deletes a membership from the underlying database
