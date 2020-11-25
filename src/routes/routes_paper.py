@@ -16,7 +16,7 @@ bp = Blueprint("papers", __name__)
 # ------------------- Paper model ------------------- #
 
 
-@bp.route("/papers/<paper_id>/<paper_rev>", methods=["GET"])
+@bp.route("/paper/<paper_id>/<paper_rev>", methods=["GET"])
 def get_paper(paper_id: str, paper_rev: int):
     """
     Gets a paper from the underlying database
@@ -29,7 +29,7 @@ def get_paper(paper_id: str, paper_rev: int):
     return make_response(jsonify(record), 200)
 
 
-@bp.route("/papers", methods=["POST"])
+@bp.route("/paper", methods=["POST"])
 def create_paper():
     """
     Creates a paper with the provided JSON body
@@ -41,7 +41,7 @@ def create_paper():
     return make_response({"id": resp}, 201)
 
 
-@bp.route("/papers/<paper_id>", methods=["DELETE"])
+@bp.route("/paper/<paper_id>", methods=["DELETE"])
 def delete_paper(paper_id: str):
     """
     Deletes a paper from the underlying database
@@ -53,7 +53,7 @@ def delete_paper(paper_id: str):
     return make_response(jsonify({}), 204)
 
 
-@bp.route("/papers/<paper_id>/<paper_rev>", methods=["DELETE"])
+@bp.route("/paper/<paper_id>/<paper_rev>", methods=["DELETE"])
 def delete_paper_rev(paper_id: str, paper_rev: int):
     """
     Deletes a paper from the underlying database
@@ -69,7 +69,7 @@ def delete_paper_rev(paper_id: str, paper_rev: int):
 # ---------------- Paper Author model ---------------- #
 
 
-@bp.route("/papers/authors/<author_id>", methods=["GET"])
+@bp.route("/paper/author/<author_id>", methods=["GET"])
 def get_paper_author(author_id: str):
     """
     Gets a paper author from the underlying database
@@ -81,7 +81,7 @@ def get_paper_author(author_id: str):
     return make_response(jsonify(record), 200)
 
 
-@bp.route("/papers/authors/<paper_id>/<paper_rev>", methods=["GET"])
+@bp.route("/paper/author/<paper_id>/<paper_rev>", methods=["GET"])
 def get_paper_authors_by_paper(paper_id: str, paper_rev: int):
     """
     Gets a paper authors from the underlying database
@@ -94,7 +94,7 @@ def get_paper_authors_by_paper(paper_id: str, paper_rev: int):
     return make_response(jsonify(record), 200)
 
 
-@bp.route("/papers/authors", methods=["POST"])
+@bp.route("/paper/author", methods=["POST"])
 def create_paper_author():
     """
     Creates a paper author with the provided JSON body
@@ -106,7 +106,7 @@ def create_paper_author():
     return make_response({"id": resp}, 201)
 
 
-@bp.route("/papers/authors/<author_id>", methods=["DELETE"])
+@bp.route("/paper/author/<author_id>", methods=["DELETE"])
 def delete_paper_author(author_id: str):
     """
     Deletes a paper author from the underlying database
@@ -121,7 +121,7 @@ def delete_paper_author(author_id: str):
 # --------------- Paper Ref Counters model --------------- #
 
 
-@bp.route("/papers/reference/counters/<counter_id>", methods=["GET"])
+@bp.route("/paper/reference/counters/<counter_id>", methods=["GET"])
 def get_ref_counter(counter_id: str):
     """
     Gets a paper ref. counter from the underlying database
@@ -133,7 +133,7 @@ def get_ref_counter(counter_id: str):
     return make_response(jsonify(record), 200)
 
 
-@bp.route("/papers/reference/counters/<paper_id>/<paper_rev>", methods=["GET"])
+@bp.route("/paper/reference/counters/<paper_id>/<paper_rev>", methods=["GET"])
 def get_ref_counter_by_paper(paper_id: str, paper_rev: int):
     """
     Gets a paper ref. counter from the underlying database
@@ -146,7 +146,7 @@ def get_ref_counter_by_paper(paper_id: str, paper_rev: int):
     return make_response(jsonify(record), 200)
 
 
-@bp.route("/papers/reference/counters", methods=["POST"])
+@bp.route("/paper/reference/counters", methods=["POST"])
 def create_ref_counter():
     """
     Creates a paper ref. counter with the provided JSON body
@@ -158,7 +158,7 @@ def create_ref_counter():
     return make_response({"id": resp}, 201)
 
 
-@bp.route("/papers/reference/counters/<counter_id>", methods=["DELETE"])
+@bp.route("/paper/reference/counters/<counter_id>", methods=["DELETE"])
 def delete_ref_counter(counter_id: str):
     """
     Deletes a paper ref. counter from the underlying database
