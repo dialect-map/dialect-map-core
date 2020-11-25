@@ -16,7 +16,7 @@ bp = Blueprint("jargons", __name__)
 # ------------------- Jargon model ------------------- #
 
 
-@bp.route("/jargons/<jargon_id>", methods=["GET"])
+@bp.route("/jargon/<jargon_id>", methods=["GET"])
 def get_jargon(jargon_id: str):
     """
     Gets a jargon from the underlying database
@@ -28,7 +28,7 @@ def get_jargon(jargon_id: str):
     return make_response(jsonify(record), 200)
 
 
-@bp.route("/jargons/string/<jargon_str>", methods=["GET"])
+@bp.route("/jargon/string/<jargon_str>", methods=["GET"])
 def get_jargon_by_string(jargon_str: str):
     """
     Gets a jargon from the underlying database
@@ -45,7 +45,7 @@ def get_jargon_by_string(jargon_str: str):
         return make_response(jsonify(record), 404)
 
 
-@bp.route("/jargons", methods=["POST"])
+@bp.route("/jargon", methods=["POST"])
 def create_jargon():
     """
     Creates a jargon with the provided JSON body
@@ -57,7 +57,7 @@ def create_jargon():
     return make_response({"id": resp}, 201)
 
 
-@bp.route("/jargons/<jargon_id>", methods=["DELETE"])
+@bp.route("/jargon/<jargon_id>", methods=["DELETE"])
 def delete_jargon(jargon_id: str):
     """
     Deletes a jargon from the underlying database
@@ -72,7 +72,7 @@ def delete_jargon(jargon_id: str):
 # ----------- Jargon Category Metrics model ----------- #
 
 
-@bp.route("/jargons/category/metrics/<metric_id>", methods=["GET"])
+@bp.route("/jargon/category/metrics/<metric_id>", methods=["GET"])
 def get_cat_metrics(metric_id: str):
     """
     Gets a jargon cat. metric from the underlying database
@@ -84,8 +84,8 @@ def get_cat_metrics(metric_id: str):
     return make_response(jsonify(record), 200)
 
 
-@bp.route("/jargons/category/metrics/<jargon_id>", methods=["GET"])
-@bp.route("/jargons/category/metrics/<jargon_id>/<category_id>", methods=["GET"])
+@bp.route("/jargon/category/metrics/<jargon_id>", methods=["GET"])
+@bp.route("/jargon/category/metrics/<jargon_id>/<category_id>", methods=["GET"])
 def get_cat_metrics_by_jargon(jargon_id: str, category_id: str = None):
     """
     Gets a jargon cat. metric from the underlying database
@@ -98,7 +98,7 @@ def get_cat_metrics_by_jargon(jargon_id: str, category_id: str = None):
     return make_response(jsonify(record), 200)
 
 
-@bp.route("/jargons/category/metrics", methods=["POST"])
+@bp.route("/jargon/category/metrics", methods=["POST"])
 def create_cat_metrics():
     """
     Creates a jargon cat. metrics with the provided JSON body
@@ -110,7 +110,7 @@ def create_cat_metrics():
     return make_response({"id": resp}, 201)
 
 
-@bp.route("/jargons/category/metrics/<metric_id>", methods=["DELETE"])
+@bp.route("/jargon/category/metrics/<metric_id>", methods=["DELETE"])
 def delete_cat_metrics(metric_id: str):
     """
     Deletes a jargon cat. metrics from the underlying database
@@ -125,7 +125,7 @@ def delete_cat_metrics(metric_id: str):
 # ----------- Jargon Paper Metrics model ----------- #
 
 
-@bp.route("/jargons/paper/metrics/<metric_id>", methods=["GET"])
+@bp.route("/jargon/paper/metrics/<metric_id>", methods=["GET"])
 def get_paper_metrics(metric_id: str):
     """
     Gets a jargon paper metric from the underlying database
@@ -137,9 +137,9 @@ def get_paper_metrics(metric_id: str):
     return make_response(jsonify(record), 200)
 
 
-@bp.route("/jargons/paper/metrics/<jargon_id>", methods=["GET"])
-@bp.route("/jargons/paper/metrics/<jargon_id>/<paper_id>", methods=["GET"])
-@bp.route("/jargons/paper/metrics/<jargon_id>/<paper_id>/<paper_rev>", methods=["GET"])
+@bp.route("/jargon/paper/metrics/<jargon_id>", methods=["GET"])
+@bp.route("/jargon/paper/metrics/<jargon_id>/<paper_id>", methods=["GET"])
+@bp.route("/jargon/paper/metrics/<jargon_id>/<paper_id>/<paper_rev>", methods=["GET"])
 def get_paper_metrics_by_jargon(jargon_id: str, paper_id: str = None, paper_rev: int = None):
     """
     Gets a jargon paper metric from the underlying database
@@ -153,7 +153,7 @@ def get_paper_metrics_by_jargon(jargon_id: str, paper_id: str = None, paper_rev:
     return make_response(jsonify(record), 200)
 
 
-@bp.route("/jargons/paper/metrics", methods=["POST"])
+@bp.route("/jargon/paper/metrics", methods=["POST"])
 def create_paper_metrics():
     """
     Creates a jargon paper metrics with the provided JSON body
@@ -165,7 +165,7 @@ def create_paper_metrics():
     return make_response({"id": resp}, 201)
 
 
-@bp.route("/jargons/paper/metrics/<metric_id>", methods=["DELETE"])
+@bp.route("/jargon/paper/metrics/<metric_id>", methods=["DELETE"])
 def delete_paper_metrics(metric_id: str):
     """
     Deletes a jargon paper metrics from the underlying database
