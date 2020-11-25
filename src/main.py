@@ -13,17 +13,10 @@ app = Flask(__name__)
 def setup_routes():
     """ Setup all the Flask blueprint routes """
 
-    from routes import blueprint_category
-    from routes import blueprint_jargon
-    from routes import blueprint_membership
-    from routes import blueprint_paper
-    from routes import blueprint_reference
+    from routes import all_blueprints
 
-    app.register_blueprint(blueprint_category)
-    app.register_blueprint(blueprint_jargon)
-    app.register_blueprint(blueprint_membership)
-    app.register_blueprint(blueprint_paper)
-    app.register_blueprint(blueprint_reference)
+    for bp in all_blueprints:
+        app.register_blueprint(bp)
 
 
 def setup_errors():
