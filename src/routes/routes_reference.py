@@ -11,7 +11,7 @@ from globals import service
 bp = Blueprint("references", __name__)
 
 
-@bp.route("/references/<reference_id>", methods=["GET"])
+@bp.route("/reference/<reference_id>", methods=["GET"])
 def get_reference(reference_id: str):
     """
     Gets a paper reference from the underlying database
@@ -49,7 +49,7 @@ def get_reference_by_target_paper(paper_id: str, paper_rev: int):
     return make_response(jsonify(record), 200)
 
 
-@bp.route("/references", methods=["POST"])
+@bp.route("/reference", methods=["POST"])
 def create_reference():
     """
     Creates a paper reference with the provided JSON body
@@ -61,7 +61,7 @@ def create_reference():
     return make_response({"id": resp}, 201)
 
 
-@bp.route("/references/<reference_id>", methods=["DELETE"])
+@bp.route("/reference/<reference_id>", methods=["DELETE"])
 def delete_reference(reference_id: str):
     """
     Deletes a paper reference from the underlying database
