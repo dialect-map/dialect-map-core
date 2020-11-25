@@ -2,16 +2,16 @@
 
 from .base import BaseController
 
-from .category_ctl import CategoryController
+from .ctl_category import CategoryController
 
-from .jargon_ctl import JargonController
-from .jargon_ctl import JargonCategoryMetricsController
-from .jargon_ctl import JargonPaperMetricsController
+from .ctl_jargon import JargonController
+from .ctl_jargon import JargonCategoryMetricsController
+from .ctl_jargon import JargonPaperMetricsController
 
-from .membership_ctl import MembershipController
+from .ctl_membership import MembershipController
 
-from .paper_ctl import PaperController
-from .paper_ctl import PaperAuthorController
-from .paper_ctl import PaperReferenceCountersController
+from .ctl_paper import PaperController
+from .ctl_paper import PaperAuthorController
+from .ctl_paper import PaperReferenceCountersController
 
-from .reference_ctl import ReferenceController
+from .ctl_reference import ReferenceController
