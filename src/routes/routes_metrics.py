@@ -36,8 +36,8 @@ def get_cat_metrics_by_jargon(jargon_id: str, category_id: str = None):
     :return: HTTP 200 response
     """
 
-    record = service.jargon_cat_metrics.get_by_jargon(jargon_id, category_id)
-    return make_response(jsonify(record), 200)
+    records = service.jargon_cat_metrics.get_by_jargon(jargon_id, category_id)
+    return make_response(jsonify(records), 200)
 
 
 @bp.route("/category/metrics", methods=["POST"])
@@ -89,8 +89,8 @@ def get_paper_metrics_by_jargon(jargon_id: str, paper_id: str = None, paper_rev:
     :return: HTTP 200 response
     """
 
-    record = service.jargon_paper_metrics.get_by_jargon(jargon_id, paper_id, paper_rev)
-    return make_response(jsonify(record), 200)
+    records = service.jargon_paper_metrics.get_by_jargon(jargon_id, paper_id, paper_rev)
+    return make_response(jsonify(records), 200)
 
 
 @bp.route("/paper/metrics", methods=["POST"])

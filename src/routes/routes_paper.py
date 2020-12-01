@@ -90,8 +90,8 @@ def get_paper_authors_by_paper(paper_id: str, paper_rev: int):
     :return: HTTP 200 response
     """
 
-    record = service.paper_authors.get_by_paper(paper_id, paper_rev)
-    return make_response(jsonify(record), 200)
+    records = service.paper_authors.get_by_paper(paper_id, paper_rev)
+    return make_response(jsonify(records), 200)
 
 
 @bp.route("/paper/author", methods=["POST"])
@@ -142,8 +142,8 @@ def get_ref_counter_by_paper(paper_id: str, paper_rev: int):
     :return: HTTP 200 response
     """
 
-    record = service.paper_ref_counters.get_by_paper(paper_id, paper_rev)
-    return make_response(jsonify(record), 200)
+    records = service.paper_ref_counters.get_by_paper(paper_id, paper_rev)
+    return make_response(jsonify(records), 200)
 
 
 @bp.route("/paper/reference/counters", methods=["POST"])
