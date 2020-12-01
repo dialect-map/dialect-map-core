@@ -4,8 +4,9 @@ from flask import Blueprint
 from flask import jsonify
 from flask import make_response
 from flask import request
-from models import Jargon
 from globals import service
+from models import Jargon
+from urllib import parse
 
 
 bp = Blueprint("jargons", __name__)
@@ -34,7 +35,8 @@ def get_jargon_by_string(jargon_str: str):
     :return: HTTP 200 / HTTP 404 responses
     """
 
-    string = jargon_str.lower()
+    string = parse.unquote(jargon_str)
+    string = string.lower()
     record = service.jargons.get_by_string(string)
 
     if not record:
