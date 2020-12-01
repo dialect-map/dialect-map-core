@@ -81,7 +81,7 @@ def get_paper_author(author_id: str):
     return make_response(jsonify(record), 200)
 
 
-@bp.route("/paper/author/<paper_id>/<paper_rev>", methods=["GET"])
+@bp.route("/paper/<paper_id>/<paper_rev>/authors", methods=["GET"])
 def get_paper_authors_by_paper(paper_id: str, paper_rev: int):
     """
     Gets a paper authors from the underlying database
@@ -133,7 +133,7 @@ def get_ref_counter(counter_id: str):
     return make_response(jsonify(record), 200)
 
 
-@bp.route("/paper/reference/counters/<paper_id>/<paper_rev>", methods=["GET"])
+@bp.route("/paper/<paper_id>/<paper_rev>/reference/counters", methods=["GET"])
 def get_ref_counter_by_paper(paper_id: str, paper_rev: int):
     """
     Gets a paper ref. counter from the underlying database
