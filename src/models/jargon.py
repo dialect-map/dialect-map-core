@@ -53,7 +53,7 @@ class JargonCategoryMetrics(Base, BaseStaticModel):
     __tablename__ = "jargon_category_metrics"
 
     metric_id = Column(String(32), default=uuid.uuid4, primary_key=True)
-    jargon_id = Column(String(32), nullable=False)
+    jargon_id = Column(String(32), nullable=False, index=True)
     category_id = Column(String(32), nullable=False)
     abs_freq = Column(Integer, nullable=False)
     rel_freq = Column(Float, nullable=False)
@@ -87,7 +87,7 @@ class JargonPaperMetrics(Base, BaseStaticModel):
     __tablename__ = "jargon_paper_metrics"
 
     metric_id = Column(String(32), default=uuid.uuid4, primary_key=True)
-    jargon_id = Column(String(32), nullable=False)
+    jargon_id = Column(String(32), nullable=False, index=True)
     arxiv_id = Column(String(32), nullable=False)
     arxiv_rev = Column(Integer, nullable=False)
     abs_freq = Column(Integer, nullable=False)
