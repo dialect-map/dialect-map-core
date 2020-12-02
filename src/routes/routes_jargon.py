@@ -39,7 +39,7 @@ def get_jargon_by_string(jargon_str: str):
     string = string.lower()
     record = service.jargons.get_by_string(string)
 
-    if not record:
+    if record:
         return make_response(jsonify(record), 200)
     else:
         return make_response(jsonify(record), 404)
