@@ -3,10 +3,8 @@
 import uuid
 from .base import Base
 from .base import BaseStaticModel
-from .base import BaseEvolvingModel
 from sqlalchemy import Column
 from sqlalchemy import Float
-from sqlalchemy import ForeignKey as FK
 from sqlalchemy import ForeignKeyConstraint as FKConstraint
 from sqlalchemy import Integer
 from sqlalchemy import String
@@ -55,10 +53,23 @@ class JargonCategoryMetrics(Base, BaseStaticModel):
     __tablename__ = "jargon_category_metrics"
 
     metric_id = Column(String(32), default=uuid.uuid4, primary_key=True)
-    jargon_id = Column(String(32), FK("jargons.jargon_id", ondelete="CASCADE"))
-    category_id = Column(String(32), FK("categories.category_id", ondelete="CASCADE"))
+    jargon_id = Column(String(32), nullable=False)
+    category_id = Column(String(32), nullable=False)
     abs_freq = Column(Integer, nullable=False)
     rel_freq = Column(Float, nullable=False)
+
+    __table_args__ = (
+        FKConstraint(
+            columns=("jargon_id",),
+            refcolumns=("jargons.jargon_id",),
+            ondelete="CASCADE",
+        ),
+        FKConstraint(
+            columns=("category_id",),
+            refcolumns=("categories.category_id",),
+            ondelete="CASCADE",
+        ),
+    )
 
     @property
     def id(self):
@@ -76,7 +87,7 @@ class JargonPaperMetrics(Base, BaseStaticModel):
     __tablename__ = "jargon_paper_metrics"
 
     metric_id = Column(String(32), default=uuid.uuid4, primary_key=True)
-    jargon_id = Column(String(32), FK("jargons.jargon_id", ondelete="CASCADE"))
+    jargon_id = Column(String(32), nullable=False)
     arxiv_id = Column(String(32), nullable=False)
     arxiv_rev = Column(Integer, nullable=False)
     abs_freq = Column(Integer, nullable=False)
@@ -86,6 +97,11 @@ class JargonPaperMetrics(Base, BaseStaticModel):
     # Official docs: https://docs.sqlalchemy.org/en/13/core/constraints.html
     # Stackoverflow: https://stackoverflow.com/a/7506168
     __table_args__ = (
+        FKConstraint(
+            columns=("jargon_id",),
+            refcolumns=("jargons.jargon_id",),
+            ondelete="CASCADE",
+        ),
         FKConstraint(
             columns=("arxiv_id", "arxiv_rev"),
             refcolumns=("papers.arxiv_id", "papers.arxiv_rev"),
