@@ -32,17 +32,39 @@ make test
 
 
 ### Docker
+There is a `Makefile` to perform both Docker `build` and `push` operations.
+
+The project is currently designed to be deployed in the _DS3-Workbench_ GCP project,
+so the initial step involve using [gcloud][gcloud-cli-setup] CLI tool to log in with GCP:
+
+```sh
+gcloud login
+gcloud auth configure-docker
+```
+
 In order to build a Docker image out of the project:
 ```sh
 make build
 ```
 
-In order to run the application as a Docker container:
+To push the image to the GCP registry:
 ```sh
-docker run --rm -p 8080:8080 dialect-map-server:latest
+export GCP_PROJECT="ds3-dialect-map"
+export GCP_REGISTRY="us.gcr.io"
+make push
 ```
+
+
+### Deployment
+This project uses a set of env. variables to configure certain aspects of the API:
+
+| ENV VARIABLE             | DEFAULT            | REQUIRED | DESCRIPTION                                   |
+|--------------------------|--------------------|----------|-----------------------------------------------|
+| DIALECT_MAP_DB_URL       | ...                | No       | Database connection URL                       |
+| DIALECT_MAP_LOG_LEVEL    | INFO               | No       | Log messages level                            |
 
 
 [black-web]: https://black.readthedocs.io/en/stable/
 [pytest-web]: https://docs.pytest.org/en/latest/#
 [dialect-map-ui]: https://github.com/ds3-nyu-archive/ds-dialect-map-ui
+[gcloud-cli-setup]: https://cloud.google.com/sdk/docs/install
