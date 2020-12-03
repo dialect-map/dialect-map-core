@@ -34,8 +34,8 @@ make test
 ### Docker
 There is a `Makefile` to perform both Docker `build` and `push` operations.
 
-The project is currently designed to be deployed in the _DS3-Workbench_ GCP project,
-so the initial step involve using [gcloud][gcloud-cli-setup] CLI tool to log in with GCP:
+The project is currently designed to be deployed in the _DS3-Dialect-Map_ GCP project,
+so the initial step involves using [gcloud][gcloud-cli-setup] CLI tool to log in with GCP:
 
 ```sh
 gcloud login
