@@ -47,7 +47,7 @@ class StaticController(BaseController, Generic[StaticModelVar]):
     """
     Controller for the static models
 
-    :attr data_model:
+    :attr model:
         Class attribute used to store the data model
         SQLAlchemy will be performing queries against
         (It cannot be obtained at runtime from StaticModelVar)
@@ -57,7 +57,7 @@ class StaticController(BaseController, Generic[StaticModelVar]):
         Ref: https://docs.python.org/3/library/typing.html#typing.get_args
     """
 
-    data_model: Type[StaticModelVar]
+    model: Type[StaticModelVar]
 
     def __init__(self, db: BaseDatabase):
         """
@@ -74,7 +74,7 @@ class StaticController(BaseController, Generic[StaticModelVar]):
         :return: data object representing the database record
         """
 
-        query = self.db.session.query(self.data_model)
+        query = self.db.session.query(self.model)
         record = query.get(id)
 
         if record is None:
@@ -114,7 +114,7 @@ class EvolvingController(BaseController, Generic[EvolvingModelVar]):
     """
     Controller for the evolving models
 
-    :attr data_model:
+    :attr model:
         Class attribute used to store the data model
         SQLAlchemy will be performing queries against
         (It cannot be obtained at runtime from StaticModelVar)
@@ -124,7 +124,7 @@ class EvolvingController(BaseController, Generic[EvolvingModelVar]):
         Ref: https://docs.python.org/3/library/typing.html#typing.get_args
     """
 
-    data_model: Type[EvolvingModelVar]
+    model: Type[EvolvingModelVar]
 
     def __init__(self, db: BaseDatabase):
         """
@@ -142,7 +142,7 @@ class EvolvingController(BaseController, Generic[EvolvingModelVar]):
         :return: data object representing the database record
         """
 
-        query = self.db.session.query(self.data_model)
+        query = self.db.session.query(self.model)
         record = query.get((id, rev))
 
         if record is None:

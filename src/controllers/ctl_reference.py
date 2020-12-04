@@ -11,7 +11,7 @@ class ReferenceController(StaticController[PaperReference]):
     Extend as desired
     """
 
-    data_model = PaperReference
+    model = PaperReference
 
     def get_by_source_paper(self, arxiv_id: str, arxiv_rev: int) -> list:
         """
@@ -21,9 +21,9 @@ class ReferenceController(StaticController[PaperReference]):
         :return: list of data object representing database records
         """
 
-        query = self.db.session.query(self.data_model)
-        query = query.filter(self.data_model.source_arxiv_id == arxiv_id)
-        query = query.filter(self.data_model.source_arxiv_rev == arxiv_rev)
+        query = self.db.session.query(self.model)
+        query = query.filter(self.model.source_arxiv_id == arxiv_id)
+        query = query.filter(self.model.source_arxiv_rev == arxiv_rev)
 
         return query.all()
 
@@ -35,8 +35,8 @@ class ReferenceController(StaticController[PaperReference]):
         :return: list of data object representing database records
         """
 
-        query = self.db.session.query(self.data_model)
-        query = query.filter(self.data_model.target_arxiv_id == arxiv_id)
-        query = query.filter(self.data_model.target_arxiv_rev == arxiv_rev)
+        query = self.db.session.query(self.model)
+        query = query.filter(self.model.target_arxiv_id == arxiv_id)
+        query = query.filter(self.model.target_arxiv_rev == arxiv_rev)
 
         return query.all()

@@ -13,7 +13,7 @@ class JargonController(StaticController[Jargon]):
     Extend as desired
     """
 
-    data_model = Jargon
+    model = Jargon
 
     def get_by_string(self, jargon_str: str) -> Jargon:
         """
@@ -22,8 +22,8 @@ class JargonController(StaticController[Jargon]):
         :return: data object representing the database record
         """
 
-        query = self.db.session.query(self.data_model)
-        query = query.filter(self.data_model.jargon_str == jargon_str)
+        query = self.db.session.query(self.model)
+        query = query.filter(self.model.jargon_str == jargon_str)
 
         return query.one_or_none()
 
@@ -34,7 +34,7 @@ class JargonCategoryMetricsController(StaticController[JCategoryMetrics]):
     Extend as desired
     """
 
-    data_model = JCategoryMetrics
+    model = JCategoryMetrics
 
     def get_by_jargon(self, jargon_id: str, category_id: str = None) -> list:
         """
@@ -44,11 +44,11 @@ class JargonCategoryMetricsController(StaticController[JCategoryMetrics]):
         :return: data objects representing the database records
         """
 
-        query = self.db.session.query(self.data_model)
-        query = query.filter(self.data_model.jargon_id == jargon_id)
+        query = self.db.session.query(self.model)
+        query = query.filter(self.model.jargon_id == jargon_id)
 
         if category_id:
-            query = query.filter(self.data_model.category_id == category_id)
+            query = query.filter(self.model.category_id == category_id)
 
         return query.all()
 
@@ -59,7 +59,7 @@ class JargonPaperMetricsController(StaticController[JPaperMetrics]):
     Extend as desired
     """
 
-    data_model = JPaperMetrics
+    model = JPaperMetrics
 
     def get_by_jargon(self, jargon_id: str, arxiv_id: str = None, arxiv_rev: int = None) -> list:
         """
@@ -70,12 +70,12 @@ class JargonPaperMetricsController(StaticController[JPaperMetrics]):
         :return: data objects representing the database records
         """
 
-        query = self.db.session.query(self.data_model)
-        query = query.filter(self.data_model.jargon_id == jargon_id)
+        query = self.db.session.query(self.model)
+        query = query.filter(self.model.jargon_id == jargon_id)
 
         if arxiv_id:
-            query = query.filter(self.data_model.arxiv_id == arxiv_id)
+            query = query.filter(self.model.arxiv_id == arxiv_id)
         if arxiv_rev:
-            query = query.filter(self.data_model.arxiv_rev == arxiv_rev)
+            query = query.filter(self.model.arxiv_rev == arxiv_rev)
 
         return query.all()

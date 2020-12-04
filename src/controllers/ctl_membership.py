@@ -10,4 +10,4 @@ class MembershipController(StaticController[CategoryMembership]):
     Extend as desired
     """
 
-    data_model = CategoryMembership
+    model = CategoryMembership

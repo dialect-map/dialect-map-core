@@ -10,4 +10,4 @@ class CategoryController(StaticController[Category]):
     Extend as desired
     """
 
-    data_model = Category
+    model = Category
