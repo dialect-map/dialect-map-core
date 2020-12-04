@@ -38,7 +38,7 @@ def test_paper_create(db: BaseDatabase):
         arxiv_id=paper_id,
         arxiv_rev=paper_rev,
         title="Test Paper",
-        submission_date=datetime.today(),
+        submission_date=datetime.today().date(),
         created_at=datetime.now(),
         updated_at=datetime.now(),
     )
@@ -63,7 +63,7 @@ def test_paper_delete(db: BaseDatabase):
         arxiv_id=paper_id,
         arxiv_rev=1,
         title="Test Paper",
-        submission_date=datetime.today(),
+        submission_date=datetime.today().date(),
         created_at=datetime.now(),
         updated_at=datetime.now(),
     )
@@ -91,7 +91,7 @@ def test_paper_delete_rev(db: BaseDatabase):
         arxiv_id=paper_id,
         arxiv_rev=paper_rev,
         title="Test Paper",
-        submission_date=datetime.today(),
+        submission_date=datetime.today().date(),
         created_at=datetime.now(),
         updated_at=datetime.now(),
     )
