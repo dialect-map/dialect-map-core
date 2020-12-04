@@ -114,4 +114,4 @@ def test_jargon_paper_metrics_get(db: BaseDatabase):
 
     assert type(all_metrics) == list
     assert type(one_metric) is JargonPaperMetrics
-    assert one_metric.id == "jargon-paper-metric-01234"
+    assert one_metric.id == "jargon-paper-metric-00001"
