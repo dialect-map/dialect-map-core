@@ -27,6 +27,20 @@ class BaseStaticModel:
     created_at = Column(DateTime, nullable=False, index=True)
     audited_at = Column(DateTime, nullable=True, default=ColumnDefault(datetime.now()))
 
+    def __str__(self) -> str:
+        """
+        Builds a string representation of the object
+        avoiding SQLAlchemy internal attributes
+        """
+
+        fields = ", ".join(
+            f"{key}='{value}'"
+            for key, value in self.__dict__.items()
+            if key.startswith("_") is False
+        )
+
+        return f"<{self.__class__.__name__}({fields})>"
+
     @property
     @abstractmethod
     def id(self) -> str:
@@ -52,6 +66,20 @@ class BaseEvolvingModel:
     created_at = Column(DateTime, nullable=False, index=True)
     updated_at = Column(DateTime, nullable=False, index=True)
     audited_at = Column(DateTime, nullable=True, default=ColumnDefault(datetime.now()))
+
+    def __str__(self) -> str:
+        """
+        Builds a string representation of the object
+        avoiding SQLAlchemy internal attributes
+        """
+
+        fields = ", ".join(
+            f"{key}='{value}'"
+            for key, value in self.__dict__.items()
+            if key.startswith("_") is False
+        )
+
+        return f"<{self.__class__.__name__}({fields})>"
 
     @property
     @abstractmethod
