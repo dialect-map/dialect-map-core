@@ -3,7 +3,6 @@
 from models import Jargon
 from models import JargonCategoryMetrics as JCategoryMetrics
 from models import JargonPaperMetrics as JPaperMetrics
-from models import Paper
 from .base import StaticController
 
 
