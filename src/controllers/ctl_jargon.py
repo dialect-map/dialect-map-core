@@ -3,6 +3,8 @@
 from models import Jargon
 from models import JargonCategoryMetrics as JCategoryMetrics
 from models import JargonPaperMetrics as JPaperMetrics
+from sqlalchemy import and_
+from sqlalchemy import func
 from .base import StaticController
 
 
@@ -76,5 +78,32 @@ class JargonPaperMetricsController(StaticController[JPaperMetrics]):
             query = query.filter(self.model.arxiv_id == arxiv_id)
         if arxiv_rev:
             query = query.filter(self.model.arxiv_rev == arxiv_rev)
+
+        return query.all()
+
+    def get_latest_by_jargon(self, jargon_id: str) -> list:
+        """
+        Gets latest paper metric records by jargon ID
+        :param jargon_id: ID of the metrics associated jargon
+        :return: data objects representing the database records
+        """
+
+        subquery = (
+            self.db.session.query(
+                self.model.arxiv_id, func.max(self.model.arxiv_rev).label("latest_rev")
+            )
+            .group_by(self.model.arxiv_id)
+            .subquery()
+        )
+
+        query = self.db.session.query(self.model)
+        query = query.filter(self.model.jargon_id == jargon_id)
+        query = query.join(
+            subquery,
+            and_(
+                self.model.arxiv_id == subquery.c.arxiv_id,
+                self.model.arxiv_rev == subquery.c.latest_rev,
+            ),
+        )
 
         return query.all()
