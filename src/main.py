@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from flask import Flask
+from flask_cors import CORS
 from config import ApplicationConfig
 from config import EnvironmentConfigLoader
 from globals import setup_service
@@ -8,6 +9,7 @@ from logs import setup_logger
 
 
 app = Flask(__name__)
+cors = CORS(app, methods=["GET"])
 
 
 def setup_routes():
