@@ -13,7 +13,7 @@ class PaperController(EvolvingController[Paper]):
     Extend as desired
     """
 
-    data_model = Paper
+    model = Paper
 
 
 class PaperAuthorController(StaticController[PaperAuthor]):
@@ -22,7 +22,7 @@ class PaperAuthorController(StaticController[PaperAuthor]):
     Extend as desired
     """
 
-    data_model = PaperAuthor
+    model = PaperAuthor
 
     def get_by_paper(self, arxiv_id: str, arxiv_rev: int) -> list:
         """
@@ -32,9 +32,9 @@ class PaperAuthorController(StaticController[PaperAuthor]):
         :return: list of data object representing database records
         """
 
-        query = self.db.session.query(self.data_model)
-        query = query.filter(self.data_model.arxiv_id == arxiv_id)
-        query = query.filter(self.data_model.arxiv_rev == arxiv_rev)
+        query = self.db.session.query(self.model)
+        query = query.filter(self.model.arxiv_id == arxiv_id)
+        query = query.filter(self.model.arxiv_rev == arxiv_rev)
 
         return query.all()
 
@@ -45,7 +45,7 @@ class PaperReferenceCountersController(StaticController[PaperReferenceCounters])
     Extend as desired
     """
 
-    data_model = PaperReferenceCounters
+    model = PaperReferenceCounters
 
     def get_by_paper(self, arxiv_id: str, arxiv_rev: int) -> list:
         """
@@ -55,8 +55,8 @@ class PaperReferenceCountersController(StaticController[PaperReferenceCounters])
         :return: list of data object representing database records
         """
 
-        query = self.db.session.query(self.data_model)
-        query = query.filter(self.data_model.arxiv_id == arxiv_id)
-        query = query.filter(self.data_model.arxiv_rev == arxiv_rev)
+        query = self.db.session.query(self.model)
+        query = query.filter(self.model.arxiv_id == arxiv_id)
+        query = query.filter(self.model.arxiv_rev == arxiv_rev)
 
         return query.all()

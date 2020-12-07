@@ -114,4 +114,19 @@ def test_jargon_paper_metrics_get(db: BaseDatabase):
 
     assert type(all_metrics) == list
     assert type(one_metric) is JargonPaperMetrics
-    assert one_metric.id == "jargon-paper-metric-01234"
+    assert one_metric.id == "jargon-paper-metric-00001"
+
+
+def test_jargon_paper_metrics_get_latest(db: BaseDatabase):
+    """
+    Tests the retrieval of the latest jargon paper metrics using a controller
+    :param db: initiated and loaded database
+    """
+
+    controller = JargonPaperMetricsController(db=db)
+    all_metrics = controller.get_latest_by_jargon("jargon-01234")
+
+    assert type(all_metrics) == list
+
+    for metric in all_metrics:
+        assert metric.arxiv_rev > 1

@@ -93,6 +93,18 @@ def get_paper_metrics_by_jargon(jargon_id: str, paper_id: str = None, paper_rev:
     return make_response(jsonify(records), 200)
 
 
+@bp.route("/paper/metrics/latest/<jargon_id>", methods=["GET"])
+def get_latest_paper_metrics(jargon_id: str):
+    """
+    Gets latest paper metric records by jargon ID
+    :param jargon_id: ID of the metrics associated jargon
+    :return: HTTP 200 response
+    """
+
+    records = service.jargon_paper_metrics.get_latest_by_jargon(jargon_id)
+    return make_response(jsonify(records), 200)
+
+
 @bp.route("/paper/metrics", methods=["POST"])
 def create_paper_metrics():
     """
