@@ -3,14 +3,16 @@
 import logging
 from abc import ABCMeta
 from abc import abstractmethod
-from models.base import Base
 from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
 from typing import Type
+
 from .loader import BaseLoader
 from .loader import JsonLoader
+from ..models.base import Base
+
 
 logger = logging.getLogger()
 

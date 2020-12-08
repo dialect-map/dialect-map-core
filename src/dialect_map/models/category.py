@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from .base import Base
-from .base import BaseStaticModel
 from sqlalchemy import Column
 from sqlalchemy import String
 from sqlalchemy.orm import relationship
+
+from .base import Base
+from .base import BaseStaticModel
 
 
 class Category(Base, BaseStaticModel):

@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from models import Paper
-from models import PaperReference
 from .base import StaticController
+from ..models import PaperReference
 
 
 class ReferenceController(StaticController[PaperReference]):

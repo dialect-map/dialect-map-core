@@ -2,14 +2,15 @@
 
 from abc import ABCMeta
 from abc import abstractmethod
-from models import Base
-from models import BaseStaticModel
-from models import BaseEvolvingModel
-from storage import BaseDatabase
 from typing import Generic
 from typing import Tuple
 from typing import Type
 from typing import TypeVar
+
+from ..models import Base
+from ..models import BaseStaticModel
+from ..models import BaseEvolvingModel
+from ..storage import BaseDatabase
 
 
 # Generic static model type

@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import logging
-from storage import BaseDatabase
-from controllers import *
+
+from ..storage import BaseDatabase
+from ..controllers import *
+
 
 logger = logging.getLogger()
 

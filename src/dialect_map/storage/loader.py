@@ -3,8 +3,9 @@
 import json
 from abc import ABCMeta
 from abc import abstractmethod
-from parsers import BaseParser
 from typing import List
+
+from ..parsers import BaseParser
 
 
 class BaseLoader(metaclass=ABCMeta):

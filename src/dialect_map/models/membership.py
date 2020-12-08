@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
 import uuid
-from .base import Base
-from .base import BaseStaticModel
 from sqlalchemy import Column
 from sqlalchemy import ForeignKeyConstraint as FKConstraint
 from sqlalchemy import Integer
 from sqlalchemy import String
+
+from .base import Base
+from .base import BaseStaticModel
 
 
 class CategoryMembership(Base, BaseStaticModel):

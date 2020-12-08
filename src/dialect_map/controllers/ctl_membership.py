@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from models import CategoryMembership
 from .base import StaticController
+from ..models import CategoryMembership
 
 
 class MembershipController(StaticController[CategoryMembership]):

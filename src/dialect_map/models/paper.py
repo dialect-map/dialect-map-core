@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
 
 import uuid
-from .base import Base
-from .base import BaseStaticModel
-from .base import BaseEvolvingModel
 from sqlalchemy import Column
 from sqlalchemy import Date
 from sqlalchemy import ForeignKeyConstraint as FKConstraint
 from sqlalchemy import Integer
 from sqlalchemy import String
 from sqlalchemy.orm import relationship
+
+from .base import Base
+from .base import BaseStaticModel
+from .base import BaseEvolvingModel
 
 
 class Paper(Base, BaseEvolvingModel):

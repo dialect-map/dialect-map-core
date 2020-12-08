@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from models import Paper
-from models import PaperAuthor
-from models import PaperReferenceCounters
 from .base import StaticController
 from .base import EvolvingController
+from ..models import Paper
+from ..models import PaperAuthor
+from ..models import PaperReferenceCounters
 
 
 class PaperController(EvolvingController[Paper]):

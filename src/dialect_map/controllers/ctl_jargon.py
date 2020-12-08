@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from models import Jargon
-from models import JargonCategoryMetrics as JCategoryMetrics
-from models import JargonPaperMetrics as JPaperMetrics
 from sqlalchemy import and_
 from sqlalchemy import func
+
 from .base import StaticController
+from ..models import Jargon
+from ..models import JargonCategoryMetrics as JCategoryMetrics
+from ..models import JargonPaperMetrics as JPaperMetrics
 
 
 class JargonController(StaticController[Jargon]):
