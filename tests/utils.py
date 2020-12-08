@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from models import Category
-from models import Jargon
-from models import JargonCategoryMetrics
-from models import JargonPaperMetrics
-from models import CategoryMembership
-from models import Paper
-from models import PaperAuthor
-from models import PaperReference
-from models import PaperReferenceCounters
 from pathlib import Path
+from src.dialect_map.models import Category
+from src.dialect_map.models import Jargon
+from src.dialect_map.models import JargonCategoryMetrics
+from src.dialect_map.models import JargonPaperMetrics
+from src.dialect_map.models import CategoryMembership
+from src.dialect_map.models import Paper
+from src.dialect_map.models import PaperAuthor
+from src.dialect_map.models import PaperReference
+from src.dialect_map.models import PaperReferenceCounters
 
 
 # Get the tests folder absolute path

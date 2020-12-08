@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 
 import pytest
-from controllers import JargonController
-from controllers import JargonCategoryMetricsController
-from controllers import JargonPaperMetricsController
 from datetime import datetime
-from models import Jargon
-from models import JargonCategoryMetrics
-from models import JargonPaperMetrics
-from storage import BaseDatabase
+from src.dialect_map.controllers import JargonController
+from src.dialect_map.controllers import JargonCategoryMetricsController
+from src.dialect_map.controllers import JargonPaperMetricsController
+from src.dialect_map.models import Jargon
+from src.dialect_map.models import JargonCategoryMetrics
+from src.dialect_map.models import JargonPaperMetrics
+from src.dialect_map.storage import BaseDatabase
 
 
 def test_jargon_get(db: BaseDatabase):

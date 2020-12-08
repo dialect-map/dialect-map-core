@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import pytest
-from parsers import DateParser
-from parsers import DatetimeParser
-from storage import SQLAlchemyDatabase
-from storage import JsonLoader
+from src.dialect_map.parsers import DateParser
+from src.dialect_map.parsers import DatetimeParser
+from src.dialect_map.storage import SQLAlchemyDatabase
+from src.dialect_map.storage import JsonLoader
 from ..utils import FILES_MAPPINGS
 
 

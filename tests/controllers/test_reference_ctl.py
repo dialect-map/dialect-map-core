@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import pytest
-from controllers import ReferenceController
 from datetime import datetime
-from models import PaperReference
-from storage import BaseDatabase
+from src.dialect_map.controllers import ReferenceController
+from src.dialect_map.models import PaperReference
+from src.dialect_map.storage import BaseDatabase
 
 
 def test_reference_get(db: BaseDatabase):

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from parsers import DateParser
+from src.dialect_map.parsers import DateParser
 
 
 def test_date_parser_check():
