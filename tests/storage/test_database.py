@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
 
 import pytest
-from storage.database import BaseDatabase
-from storage.database import SQLAlchemyDatabase
-from storage.loader import JsonLoader
+from src.dialect_map.storage import BaseDatabase
+from src.dialect_map.storage import SQLAlchemyDatabase
 
 
 @pytest.fixture(scope="module")
 def db() -> SQLAlchemyDatabase:
     """ Creates a dummy database to test database operations """
 
-    return SQLAlchemyDatabase("sqlite:///:memory:", JsonLoader([]))
+    return SQLAlchemyDatabase("sqlite:///:memory:")
 
 
 def test_sql_table_creation(db: BaseDatabase):

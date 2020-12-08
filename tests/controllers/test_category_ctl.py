@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import pytest
-from controllers import CategoryController
 from datetime import datetime
-from models import Category
-from storage import BaseDatabase
+from src.dialect_map.controllers import CategoryController
+from src.dialect_map.models import Category
+from src.dialect_map.storage import BaseDatabase
 
 
 def test_category_get(db: BaseDatabase):

@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import pytest
-from controllers import MembershipController
 from datetime import datetime
-from models import CategoryMembership
-from storage import BaseDatabase
+from src.dialect_map.controllers import MembershipController
+from src.dialect_map.models import CategoryMembership
+from src.dialect_map.storage import BaseDatabase
 
 
 def test_membership_get(db: BaseDatabase):

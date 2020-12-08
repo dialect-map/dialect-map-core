@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 
 import pytest
-from controllers import PaperController
-from controllers import PaperAuthorController
-from controllers import PaperReferenceCountersController
 from datetime import datetime
-from models import Paper
-from models import PaperAuthor
-from models import PaperReferenceCounters
-from storage import BaseDatabase
+from src.dialect_map.controllers import PaperController
+from src.dialect_map.controllers import PaperAuthorController
+from src.dialect_map.controllers import PaperReferenceCountersController
+from src.dialect_map.models import Paper
+from src.dialect_map.models import PaperAuthor
+from src.dialect_map.models import PaperReferenceCounters
+from src.dialect_map.storage import BaseDatabase
 
 
 def test_paper_get(db: BaseDatabase):
