@@ -15,14 +15,6 @@ check:
 	@mypy "$(TYPING_PARAMS)" $(TESTS_FOLDER)
 
 
-.PHONY: install-dev
-install-dev:
-	@echo "Installing Development packages"
-	@pip install -r requirements.txt
-	@pip install -r requirements-dev.txt
-	@pre-commit install
-
-
 .PHONY: test
 test:
 	@echo "Testing code"
