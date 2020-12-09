@@ -63,7 +63,10 @@ class Paper(Base, BaseEvolvingModel):
 
     @property
     def rev(self) -> int:
-        """ Gets the unique revision of the model """
+        """
+        Gets the unique revision of the model
+        :return: uniquer revision
+        """
 
         return self.arxiv_rev
 

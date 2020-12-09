@@ -91,6 +91,9 @@ class BaseEvolvingModel:
     @property
     @abstractmethod
     def rev(self) -> int:
-        """ Gets the unique revision of the model """
+        """
+        Gets the unique revision of the model
+        :return: uniquer revision
+        """
 
         raise NotImplementedError()
