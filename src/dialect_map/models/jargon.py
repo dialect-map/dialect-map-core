@@ -39,8 +39,11 @@ class Jargon(Base, BaseStaticModel):
     )
 
     @property
-    def id(self):
-        """ Gets the unique ID of the model """
+    def id(self) -> str:
+        """
+        Gets the unique ID of the data object
+        :return: unique ID
+        """
 
         return self.jargon_id
 
@@ -73,8 +76,11 @@ class JargonCategoryMetrics(Base, BaseStaticModel):
     )
 
     @property
-    def id(self):
-        """ Gets the unique ID of the model """
+    def id(self) -> str:
+        """
+        Gets the unique ID of the data object
+        :return: unique ID
+        """
 
         return self.metric_id
 
@@ -111,7 +117,10 @@ class JargonPaperMetrics(Base, BaseStaticModel):
     )
 
     @property
-    def id(self):
-        """ Gets the unique ID of the model """
+    def id(self) -> str:
+        """
+        Gets the unique ID of the data object
+        :return: unique ID
+        """
 
         return self.metric_id

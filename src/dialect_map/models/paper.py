@@ -54,7 +54,10 @@ class Paper(Base, BaseEvolvingModel):
 
     @property
     def id(self) -> str:
-        """ Gets the unique ID of the model """
+        """
+        Gets the unique ID of the data object
+        :return: unique ID
+        """
 
         return self.arxiv_id
 
@@ -90,8 +93,11 @@ class PaperAuthor(Base, BaseStaticModel):
     )
 
     @property
-    def id(self):
-        """ Gets the unique ID of the model """
+    def id(self) -> str:
+        """
+        Gets the unique ID of the data object
+        :return: unique ID
+        """
 
         return self.author_id
 
@@ -122,7 +128,10 @@ class PaperReferenceCounters(Base, BaseStaticModel):
     )
 
     @property
-    def id(self):
-        """ Gets the unique ID of the model """
+    def id(self) -> str:
+        """
+        Gets the unique ID of the data object
+        :return: unique ID
+        """
 
         return self.count_id
