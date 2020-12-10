@@ -19,11 +19,12 @@ pre-commit install
 
 
 ### Formatting
-All Python files are formatted using [Black][black-web],  and the custom properties defined
+All Python files are formatted using [Black][black-web], and the custom properties defined
 in the `pyproject.toml` file.
 ```sh
 make check
 ```
+
 
 ### Testing
 Project testing is performed using [Pytest][pytest-web]. In order to run the tests:
@@ -32,6 +33,14 @@ make test
 ```
 
 
+### Tagging
+Commits can be tagged to create _informal_ releases of the package. In order to do so:
+
+1. Bump up the package version (`VERSION`) following [Semantic Versioning][semantic-web].
+2. Create and push a tag: `make tag`.
+
+
+[dialect-map-ui]: https://github.com/ds3-nyu-archive/ds-dialect-map-ui
 [black-web]: https://black.readthedocs.io/en/stable/
 [pytest-web]: https://docs.pytest.org/en/latest/#
-[dialect-map-ui]: https://github.com/ds3-nyu-archive/ds-dialect-map-ui
+[semantic-web]: https://semver.org/

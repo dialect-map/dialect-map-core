@@ -1,3 +1,4 @@
+PKG_VERSION    = $(shell cat VERSION)
 COV_CONFIG     = ".coveragerc"
 SOURCE_FOLDER  = "src"
 TESTS_FOLDER   = "tests"
@@ -13,6 +14,13 @@ check:
 	@echo "Checking type annotations"
 	@mypy "$(TYPING_PARAMS)" $(SOURCE_FOLDER)
 	@mypy "$(TYPING_PARAMS)" $(TESTS_FOLDER)
+
+
+.PHONY: tag
+tag:
+	@echo "Tagging current commit"
+	@git tag --annotate "v$(PKG_VERSION)" --message "Tag v$(PKG_VERSION)"
+	@git push --follow-tags
 
 
 .PHONY: test
