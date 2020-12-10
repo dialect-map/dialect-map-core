@@ -3,38 +3,38 @@
 import json
 from abc import ABCMeta
 from abc import abstractmethod
-from typing import List
 
-from ..parsers import BaseParser
+from ..encoding import CustomJSONDecoder
 
 
-class BaseLoader(metaclass=ABCMeta):
-    """ Interface for the data loader classes """
+class BaseFileLoader(metaclass=ABCMeta):
+    """ Interface for the data file loader classes """
 
     @abstractmethod
     def load(self, file_path: str) -> list:
         """
         Loads a specific file of data objects into memory
         :param file_path: path to the specific file to load
+        :return: list of dictionary records
         """
 
         raise NotImplementedError()
 
 
-class JsonLoader(BaseLoader):
-    """ Data loader class for JSON documents """
+class JSONFileLoader(BaseFileLoader):
+    """ Data file loader class for JSON documents """
 
-    def __init__(self, string_parsers: List[BaseParser]):
+    def __init__(self, **kwargs):
         """
-        Initialized the JSON data loader
-        :param string_parsers: list of parsers to translate string to Python objects
+        Initialized the JSON data file loader
+        :param kwargs: arguments for the JSON decoder
         """
 
-        self.string_parsers = string_parsers
+        self.decoder = CustomJSONDecoder(**kwargs)
 
     def load(self, file_path: str) -> list:
         """
-        Loads a specific JSON file of data records into memory
+        Loads a specific JSON records file into memory
         :param file_path: path to the specific JSON file to load
         :return: list of dictionary records
         """
@@ -45,11 +45,9 @@ class JsonLoader(BaseLoader):
         if type(records) != list:
             records = [records]
 
-        # Parse strings into corresponding Python objects
+        # Decode strings into corresponding Python objects
         for record in records:
             for key, val in record.items():
-                for parser in self.string_parsers:
-                    if parser.check(val):
-                        record[key] = parser.parse(val)
+                record[key] = self.decoder.custom_decode(val)
 
         return records

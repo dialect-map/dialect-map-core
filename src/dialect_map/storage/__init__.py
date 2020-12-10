@@ -3,5 +3,5 @@
 from .database import BaseDatabase
 from .database import SQLAlchemyDatabase
 
-from .loader import BaseLoader
-from .loader import JsonLoader
+from .loader import BaseFileLoader
+from .loader import JSONFileLoader

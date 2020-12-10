@@ -9,8 +9,8 @@ from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
 from typing import Type
 
-from .loader import BaseLoader
-from .loader import JsonLoader
+from .loader import BaseFileLoader
+from .loader import JSONFileLoader
 from ..models.base import Base
 
 
@@ -87,7 +87,7 @@ class SQLAlchemyDatabase(BaseDatabase):
         self,
         connection_url: str,
         factory_session: bool = True,
-        files_loader: BaseLoader = None,
+        files_loader: BaseFileLoader = None,
     ):
         """
         Initiates the database connection
@@ -97,7 +97,7 @@ class SQLAlchemyDatabase(BaseDatabase):
         """
 
         if files_loader is None:
-            files_loader = JsonLoader([])
+            files_loader = JSONFileLoader()
 
         logger.info(f"Connecting to database URL: {connection_url}")
 
