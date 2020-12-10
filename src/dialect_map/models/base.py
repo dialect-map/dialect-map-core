@@ -5,6 +5,7 @@ from datetime import datetime
 from sqlalchemy import Column
 from sqlalchemy import ColumnDefault
 from sqlalchemy import DateTime
+from sqlalchemy import Table
 from sqlalchemy.ext.declarative import declarative_base
 
 
@@ -12,7 +13,57 @@ from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 
 
-class BaseStaticModel:
+class BaseModel:
+    """
+    Base class for all the Python data models
+
+    Defines class attributes:
+        __table__: Table object containing model SQL table information
+
+    Defines object properties:
+        id: unique identifier of the data object (abstract)
+        json: JSON serialization of the data object
+    """
+
+    __table__ = Table()
+
+    def __str__(self) -> str:
+        """
+        Builds a string representation of the data object
+        :return: string representation
+        """
+
+        model_class = self.__class__.__name__
+        model_fields = []
+
+        for column in self.__table__.columns:
+            column_key = column.name
+            column_val = getattr(self, column.name)
+            model_fields.append(f"{column_key}='{column_val}'")
+
+        return f"<{model_class}({', '.join(model_fields)}>)"
+
+    @property
+    @abstractmethod
+    def id(self) -> str:
+        """
+        Gets the unique ID of the data object
+        :return: unique ID
+        """
+
+        raise NotImplementedError()
+
+    @property
+    def data(self) -> dict:
+        """
+        Gets the data dictionary out of the model object
+        :return: data dictionary
+        """
+
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+
+class BaseStaticModel(BaseModel):
     """
     Base class defining key timestamps for keeping track of static models
 
@@ -27,29 +78,8 @@ class BaseStaticModel:
     created_at = Column(DateTime, nullable=False, index=True)
     audited_at = Column(DateTime, nullable=True, default=ColumnDefault(datetime.now()))
 
-    def __str__(self) -> str:
-        """
-        Builds a string representation of the object
-        avoiding SQLAlchemy internal attributes
-        """
 
-        fields = ", ".join(
-            f"{key}='{value}'"
-            for key, value in self.__dict__.items()
-            if key.startswith("_") is False
-        )
-
-        return f"<{self.__class__.__name__}({fields})>"
-
-    @property
-    @abstractmethod
-    def id(self) -> str:
-        """ Gets the unique ID of the model """
-
-        raise NotImplementedError()
-
-
-class BaseEvolvingModel:
+class BaseEvolvingModel(BaseModel):
     """
     Base class defining key timestamps for keeping track of evolving models
 
@@ -67,30 +97,12 @@ class BaseEvolvingModel:
     updated_at = Column(DateTime, nullable=False, index=True)
     audited_at = Column(DateTime, nullable=True, default=ColumnDefault(datetime.now()))
 
-    def __str__(self) -> str:
-        """
-        Builds a string representation of the object
-        avoiding SQLAlchemy internal attributes
-        """
-
-        fields = ", ".join(
-            f"{key}='{value}'"
-            for key, value in self.__dict__.items()
-            if key.startswith("_") is False
-        )
-
-        return f"<{self.__class__.__name__}({fields})>"
-
-    @property
-    @abstractmethod
-    def id(self) -> str:
-        """ Gets the unique ID of the model """
-
-        raise NotImplementedError()
-
     @property
     @abstractmethod
     def rev(self) -> int:
-        """ Gets the unique revision of the model """
+        """
+        Gets the unique revision of the model
+        :return: uniquer revision
+        """
 
         raise NotImplementedError()

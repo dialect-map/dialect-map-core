@@ -29,7 +29,10 @@ class Category(Base, BaseStaticModel):
     )
 
     @property
-    def id(self):
-        """ Gets the unique ID of the model """
+    def id(self) -> str:
+        """
+        Gets the unique ID of the data object
+        :return: unique ID
+        """
 
         return self.category_id
