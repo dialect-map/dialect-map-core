@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import pytest
-from src.dialect_map.parsers import DateParser
-from src.dialect_map.parsers import DatetimeParser
+from src.dialect_map.storage import JSONFileLoader
 from src.dialect_map.storage import SQLAlchemyDatabase
-from src.dialect_map.storage import JsonLoader
 from ..utils import FILES_MAPPINGS
 
 
@@ -12,12 +10,7 @@ from ..utils import FILES_MAPPINGS
 def db() -> SQLAlchemyDatabase:
     """ Creates a memory-based database to test database operations """
 
-    parsers = [
-        DateParser(),
-        DatetimeParser(),
-    ]
-
-    loader = JsonLoader(parsers)
+    loader = JSONFileLoader()
     database = SQLAlchemyDatabase("sqlite:///:memory:", files_loader=loader)
     database.setup()
 
