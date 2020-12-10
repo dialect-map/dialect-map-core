@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import uuid
 from sqlalchemy import Column
 from sqlalchemy import Float
 from sqlalchemy import ForeignKeyConstraint as FKConstraint
@@ -10,6 +9,7 @@ from sqlalchemy.orm import relationship
 
 from .base import Base
 from .base import BaseStaticModel
+from .__utils import generate_id
 
 
 class Jargon(Base, BaseStaticModel):
@@ -20,7 +20,7 @@ class Jargon(Base, BaseStaticModel):
 
     __tablename__ = "jargons"
 
-    jargon_id = Column(String(32), default=uuid.uuid4, primary_key=True)
+    jargon_id = Column(String(32), default=generate_id, primary_key=True)
     jargon_str = Column(String(64), nullable=False, index=True)
     num_words = Column(Integer, nullable=False)
 
@@ -56,7 +56,7 @@ class JargonCategoryMetrics(Base, BaseStaticModel):
 
     __tablename__ = "jargon_category_metrics"
 
-    metric_id = Column(String(32), default=uuid.uuid4, primary_key=True)
+    metric_id = Column(String(32), default=generate_id, primary_key=True)
     jargon_id = Column(String(32), nullable=False, index=True)
     category_id = Column(String(32), nullable=False)
     abs_freq = Column(Integer, nullable=False)
@@ -93,7 +93,7 @@ class JargonPaperMetrics(Base, BaseStaticModel):
 
     __tablename__ = "jargon_paper_metrics"
 
-    metric_id = Column(String(32), default=uuid.uuid4, primary_key=True)
+    metric_id = Column(String(32), default=generate_id, primary_key=True)
     jargon_id = Column(String(32), nullable=False, index=True)
     arxiv_id = Column(String(32), nullable=False)
     arxiv_rev = Column(Integer, nullable=False)

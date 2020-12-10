@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import uuid
 from sqlalchemy import Column
 from sqlalchemy import Date
 from sqlalchemy import ForeignKeyConstraint as FKConstraint
@@ -11,6 +10,7 @@ from sqlalchemy.orm import relationship
 from .base import Base
 from .base import BaseStaticModel
 from .base import BaseEvolvingModel
+from .__utils import generate_id
 
 
 class Paper(Base, BaseEvolvingModel):
@@ -79,7 +79,7 @@ class PaperAuthor(Base, BaseStaticModel):
 
     __tablename__ = "paper_authors"
 
-    author_id = Column(String(32), default=uuid.uuid4, primary_key=True)
+    author_id = Column(String(32), default=generate_id, primary_key=True)
     arxiv_id = Column(String(32), nullable=False)
     arxiv_rev = Column(Integer, nullable=False)
     author_name = Column(String(64), nullable=False)
@@ -113,7 +113,7 @@ class PaperReferenceCounters(Base, BaseStaticModel):
 
     __tablename__ = "paper_reference_counters"
 
-    count_id = Column(String(32), default=uuid.uuid4, primary_key=True)
+    count_id = Column(String(32), default=generate_id, primary_key=True)
     arxiv_id = Column(String(32), nullable=False)
     arxiv_rev = Column(Integer, nullable=False)
     arxiv_ref_count = Column(Integer, nullable=False)

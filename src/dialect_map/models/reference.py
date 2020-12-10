@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import uuid
 from sqlalchemy import Column
 from sqlalchemy import ForeignKeyConstraint as FKConstraint
 from sqlalchemy import Integer
@@ -8,6 +7,7 @@ from sqlalchemy import String
 
 from .base import Base
 from .base import BaseStaticModel
+from .__utils import generate_id
 
 
 class PaperReference(Base, BaseStaticModel):
@@ -18,7 +18,7 @@ class PaperReference(Base, BaseStaticModel):
 
     __tablename__ = "paper_references"
 
-    reference_id = Column(String(32), default=uuid.uuid4, primary_key=True)
+    reference_id = Column(String(32), default=generate_id, primary_key=True)
     source_arxiv_id = Column(String(32), nullable=False)
     source_arxiv_rev = Column(Integer, nullable=False)
     target_arxiv_id = Column(String(32), nullable=False)

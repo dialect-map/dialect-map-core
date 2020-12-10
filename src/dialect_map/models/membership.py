@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import uuid
 from sqlalchemy import Column
 from sqlalchemy import ForeignKeyConstraint as FKConstraint
 from sqlalchemy import Integer
@@ -8,6 +7,7 @@ from sqlalchemy import String
 
 from .base import Base
 from .base import BaseStaticModel
+from .__utils import generate_id
 
 
 class CategoryMembership(Base, BaseStaticModel):
@@ -18,7 +18,7 @@ class CategoryMembership(Base, BaseStaticModel):
 
     __tablename__ = "paper_categories"
 
-    membership_id = Column(String(32), default=uuid.uuid4, primary_key=True)
+    membership_id = Column(String(32), default=generate_id, primary_key=True)
     arxiv_id = Column(String(32), nullable=False)
     arxiv_rev = Column(Integer, nullable=False)
     category_id = Column(String(32), nullable=False)
