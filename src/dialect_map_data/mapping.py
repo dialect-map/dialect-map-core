@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
 
 from pathlib import Path
-from src.dialect_map.models import Category
-from src.dialect_map.models import Jargon
-from src.dialect_map.models import JargonCategoryMetrics
-from src.dialect_map.models import JargonPaperMetrics
-from src.dialect_map.models import CategoryMembership
-from src.dialect_map.models import Paper
-from src.dialect_map.models import PaperAuthor
-from src.dialect_map.models import PaperReference
-from src.dialect_map.models import PaperReferenceCounters
+
+from dialect_map.models import Category
+from dialect_map.models import Jargon
+from dialect_map.models import JargonCategoryMetrics
+from dialect_map.models import JargonPaperMetrics
+from dialect_map.models import CategoryMembership
+from dialect_map.models import Paper
+from dialect_map.models import PaperAuthor
+from dialect_map.models import PaperReference
+from dialect_map.models import PaperReferenceCounters
 
 
 # Get the tests folder absolute path
-TESTS_PATH = Path(__file__).parent
-FILES_PATH = TESTS_PATH.joinpath(".files")
+FILES_PATH = Path(__file__).parent.joinpath("files")
 
 
 # Define a relationship between data files and models
