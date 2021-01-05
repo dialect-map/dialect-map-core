@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from pathlib import Path
+from typing import NamedTuple
+from typing import Type
 
 from dialect_map.models import Category
 from dialect_map.models import Jargon
@@ -13,46 +15,54 @@ from dialect_map.models import PaperReference
 from dialect_map.models import PaperReferenceCounters
 
 
-# Get the tests folder absolute path
+class Mapping(NamedTuple):
+    """ Mapping between file data records and their associated data model """
+
+    file: str
+    model: Type
+
+
 FILES_PATH = Path(__file__).parent.joinpath("files")
 
 
-# Define a relationship between data files and models
+### NOTE:
+### Mappings order matters, as there are some data models
+### that define Foreign key constrains on other data models.
 FILES_MAPPINGS = [
-    {
-        "file": FILES_PATH.joinpath("test_category.json"),
-        "model": Category,
-    },
-    {
-        "file": FILES_PATH.joinpath("test_jargon.json"),
-        "model": Jargon,
-    },
-    {
-        "file": FILES_PATH.joinpath("test_jargon_cat_metrics.json"),
-        "model": JargonCategoryMetrics,
-    },
-    {
-        "file": FILES_PATH.joinpath("test_jargon_paper_metrics.json"),
-        "model": JargonPaperMetrics,
-    },
-    {
-        "file": FILES_PATH.joinpath("test_membership.json"),
-        "model": CategoryMembership,
-    },
-    {
-        "file": FILES_PATH.joinpath("test_paper.json"),
-        "model": Paper,
-    },
-    {
-        "file": FILES_PATH.joinpath("test_paper_author.json"),
-        "model": PaperAuthor,
-    },
-    {
-        "file": FILES_PATH.joinpath("test_paper_ref.json"),
-        "model": PaperReference,
-    },
-    {
-        "file": FILES_PATH.joinpath("test_paper_ref_counters.json"),
-        "model": PaperReferenceCounters,
-    },
+    Mapping(
+        file=str(FILES_PATH.joinpath("test_category.json")),
+        model=Category,
+    ),
+    Mapping(
+        file=str(FILES_PATH.joinpath("test_jargon.json")),
+        model=Jargon,
+    ),
+    Mapping(
+        file=str(FILES_PATH.joinpath("test_paper.json")),
+        model=Paper,
+    ),
+    Mapping(
+        file=str(FILES_PATH.joinpath("test_membership.json")),
+        model=CategoryMembership,
+    ),
+    Mapping(
+        file=str(FILES_PATH.joinpath("test_jargon_cat_metrics.json")),
+        model=JargonCategoryMetrics,
+    ),
+    Mapping(
+        file=str(FILES_PATH.joinpath("test_jargon_paper_metrics.json")),
+        model=JargonPaperMetrics,
+    ),
+    Mapping(
+        file=str(FILES_PATH.joinpath("test_paper_author.json")),
+        model=PaperAuthor,
+    ),
+    Mapping(
+        file=str(FILES_PATH.joinpath("test_paper_ref.json")),
+        model=PaperReference,
+    ),
+    Mapping(
+        file=str(FILES_PATH.joinpath("test_paper_ref_counters.json")),
+        model=PaperReferenceCounters,
+    ),
 ]
