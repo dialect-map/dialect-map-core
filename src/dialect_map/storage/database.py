@@ -141,6 +141,8 @@ class SQLAlchemyDatabase(BaseDatabase):
             obj = data_model(**record)
             self.session.add(obj)  # type: ignore
 
+        self.session.commit()  # type: ignore
+
     def setup(self, check: bool = True):
         """
         Creates all the tables necessary to operate the project

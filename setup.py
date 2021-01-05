@@ -41,6 +41,7 @@ setup(
     packages=find_packages(where="src"),
     package_dir={"": "src"},
     include_package_data=True,
+    package_data={"": ["data/*.json", "files/*.json"]},
     install_requires=INSTALLATION_REQS,
     extras_require={
         "dev": DEVELOPMENT_REQS,

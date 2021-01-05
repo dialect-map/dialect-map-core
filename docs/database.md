@@ -3,7 +3,10 @@
 
 ## Introduction
 The `dialect_map` package defines a CLI tool called `dm-admin` that can be used to perform
-setup and teardown operations on the desired SQL database.
+setup, teardown and loading operations on the desired SQL database.
+
+The `dialect_map_data` package contains testing data files that can be loaded into any database
+thanks to the mapping between these files and their corresponding data model classes.
 
 For now, the only supported SQL database is _PostgreSQL_, although future ones can be easily added
 given the flexibility of the library used ([SQLAlchemy][sqlalchemy-website]).
@@ -50,6 +53,16 @@ $ dm-admin teardown-db
 |-------------|-----------------------|----------|---------|------------------------------------|
 | --url       | DIALECT_MAP_DB_URL    | No       | ...     | Database connection URL            |
 | --force     | -                     | No       | False   | Whether to delete non-empty tables |
+
+#### Load
+Loads testing data into the desired database instance
+```sh
+$ dm-admin load-db
+```
+
+| PARAMETER   | ENV. VARIABLE         | REQUIRED | DEFAULT | DESCRIPTION                        |
+|-------------|-----------------------|----------|---------|------------------------------------|
+| --url       | DIALECT_MAP_DB_URL    | No       | ...     | Database connection URL            |
 
 
 [sqlalchemy-website]: https://www.sqlalchemy.org/
