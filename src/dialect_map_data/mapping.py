@@ -46,11 +46,11 @@ FILES_MAPPINGS = [
         model=CategoryMembership,
     ),
     Mapping(
-        file=str(FILES_PATH.joinpath("test_jargon_cat_metrics.json")),
+        file=str(FILES_PATH.joinpath("test_metrics_jargon_cat.json")),
         model=JargonCategoryMetrics,
     ),
     Mapping(
-        file=str(FILES_PATH.joinpath("test_jargon_paper_metrics.json")),
+        file=str(FILES_PATH.joinpath("test_metrics_jargon_paper.json")),
         model=JargonPaperMetrics,
     ),
     Mapping(
