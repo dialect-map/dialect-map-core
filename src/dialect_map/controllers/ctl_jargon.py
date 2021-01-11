@@ -25,6 +25,22 @@ class JargonController(StaticController[Jargon]):
 
         return query.one_or_none()
 
+    def get_by_group(self) -> list:
+        """
+        Gets a database jargon records grouped
+        :return: list of jargon term groups
+        """
+
+        group_ids = [g.id for g in self.db.session.query(JargonGroup)]
+        grouped = []
+
+        for id in group_ids:
+            query = self.db.session.query(self.model)
+            query = query.filter(self.model.group_id == id)
+            grouped.append(query.all())
+
+        return grouped
+
 
 class JargonGroupController(StaticController[JargonGroup]):
     """
