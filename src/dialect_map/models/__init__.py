@@ -8,6 +8,7 @@ from .category import Category
 from .membership import CategoryMembership
 
 from .jargon import Jargon
+from .jargon import JargonGroup
 
 from .metrics import JargonCategoryMetrics
 from .metrics import JargonPaperMetrics
