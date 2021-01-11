@@ -16,7 +16,7 @@ class CategoryMembership(Base, BaseStaticModel):
     Intermediate table to relate papers to categories
     """
 
-    __tablename__ = "paper_categories"
+    __tablename__ = "category_memberships"
 
     membership_id = Column(String(32), default=generate_id, primary_key=True)
     arxiv_id = Column(String(32), nullable=False)
