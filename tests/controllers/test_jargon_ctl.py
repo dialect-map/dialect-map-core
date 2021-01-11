@@ -3,11 +3,9 @@
 import pytest
 from datetime import datetime
 from src.dialect_map.controllers import JargonController
-from src.dialect_map.controllers import JargonCategoryMetricsController
-from src.dialect_map.controllers import JargonPaperMetricsController
+from src.dialect_map.controllers import JargonGroupController
 from src.dialect_map.models import Jargon
-from src.dialect_map.models import JargonCategoryMetrics
-from src.dialect_map.models import JargonPaperMetrics
+from src.dialect_map.models import JargonGroup
 from src.dialect_map.storage import BaseDatabase
 
 
@@ -35,6 +33,20 @@ def test_jargon_get_by_string(db: BaseDatabase):
 
     assert type(jargon) is Jargon
     assert jargon.id == "jargon-01234"
+
+
+def test_jargon_get_by_group(db: BaseDatabase):
+    """
+    Tests the retrieval of jargon groups using a controller
+    :param db: initiated and loaded database
+    """
+
+    controller = JargonController(db=db)
+    groups = controller.get_by_group()
+
+    assert type(groups) is list
+    assert len(groups) == 1
+    assert len(groups[0]) == 2
 
 
 def test_jargon_create(db: BaseDatabase):
@@ -87,46 +99,62 @@ def test_jargon_delete(db: BaseDatabase):
         controller.get(jargon_id)
 
 
-def test_jargon_cat_metrics_get(db: BaseDatabase):
+def test_jargon_group_get(db: BaseDatabase):
     """
-    Tests the retrieval of a jargon category metrics using a controller
+    Tests the retrieval of a jargon group using a controller
     :param db: initiated and loaded database
     """
 
-    controller = JargonCategoryMetricsController(db=db)
-    all_metrics = controller.get_by_jargon("jargon-01234", "category-01234")
-    one_metric = all_metrics[0]
+    controller = JargonGroupController(db=db)
+    group = controller.get("jargon-group-01234")
 
-    assert type(all_metrics) == list
-    assert type(one_metric) is JargonCategoryMetrics
-    assert one_metric.id == "jargon-cat-metric-01234"
+    assert type(group) is JargonGroup
+    assert group.id == "jargon-group-01234"
 
 
-def test_jargon_paper_metrics_get(db: BaseDatabase):
+def test_jargon_group_create(db: BaseDatabase):
     """
-    Tests the retrieval of a jargon paper metrics using a controller
+    Tests the creation of a jargon group using a controller
     :param db: initiated and loaded database
     """
 
-    controller = JargonPaperMetricsController(db=db)
-    all_metrics = controller.get_by_jargon("jargon-01234", "paper-01234", 1)
-    one_metric = all_metrics[0]
+    controller = JargonGroupController(db=db)
 
-    assert type(all_metrics) == list
-    assert type(one_metric) is JargonPaperMetrics
-    assert one_metric.id == "jargon-paper-metric-00001"
+    group_id = "jargon-group-creation"
+    group_ds = "My test group"
+    group = JargonGroup(
+        group_id=group_id,
+        description=group_ds,
+        created_at=datetime.now(),
+    )
+
+    creation_id = controller.create(group)
+    created_obj = controller.get(group_id)
+
+    assert creation_id == group_id
+    assert created_obj == group
 
 
-def test_jargon_paper_metrics_get_latest(db: BaseDatabase):
+def test_jargon_group_delete(db: BaseDatabase):
     """
-    Tests the retrieval of the latest jargon paper metrics using a controller
+    Tests the deletion of a jargon group using a controller
     :param db: initiated and loaded database
     """
 
-    controller = JargonPaperMetricsController(db=db)
-    all_metrics = controller.get_latest_by_jargon("jargon-01234")
+    controller = JargonGroupController(db=db)
 
-    assert type(all_metrics) == list
+    group_id = "jargon-group-deletion"
+    group_ds = "My test group"
+    group = JargonGroup(
+        group_id=group_id,
+        description=group_ds,
+        created_at=datetime.now(),
+    )
 
-    for metric in all_metrics:
-        assert metric.arxiv_rev > 1
+    creation_id = controller.create(group)
+    deletion_id = controller.delete(group_id)
+
+    assert creation_id == deletion_id
+
+    with pytest.raises(ValueError):
+        controller.get(group_id)

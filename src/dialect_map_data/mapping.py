@@ -6,6 +6,7 @@ from typing import Type
 
 from dialect_map.models import Category
 from dialect_map.models import Jargon
+from dialect_map.models import JargonGroup
 from dialect_map.models import JargonCategoryMetrics
 from dialect_map.models import JargonPaperMetrics
 from dialect_map.models import CategoryMembership
@@ -34,23 +35,27 @@ FILES_MAPPINGS = [
         model=Category,
     ),
     Mapping(
-        file=str(FILES_PATH.joinpath("test_jargon.json")),
-        model=Jargon,
-    ),
-    Mapping(
         file=str(FILES_PATH.joinpath("test_paper.json")),
         model=Paper,
+    ),
+    Mapping(
+        file=str(FILES_PATH.joinpath("test_jargon_group.json")),
+        model=JargonGroup,
+    ),
+    Mapping(
+        file=str(FILES_PATH.joinpath("test_jargon.json")),
+        model=Jargon,
     ),
     Mapping(
         file=str(FILES_PATH.joinpath("test_membership.json")),
         model=CategoryMembership,
     ),
     Mapping(
-        file=str(FILES_PATH.joinpath("test_jargon_cat_metrics.json")),
+        file=str(FILES_PATH.joinpath("test_metrics_jargon_cat.json")),
         model=JargonCategoryMetrics,
     ),
     Mapping(
-        file=str(FILES_PATH.joinpath("test_jargon_paper_metrics.json")),
+        file=str(FILES_PATH.joinpath("test_metrics_jargon_paper.json")),
         model=JargonPaperMetrics,
     ),
     Mapping(

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from sqlalchemy import Column
-from sqlalchemy import Float
 from sqlalchemy import ForeignKeyConstraint as FKConstraint
 from sqlalchemy import Integer
 from sqlalchemy import String
@@ -22,7 +21,16 @@ class Jargon(Base, BaseStaticModel):
 
     jargon_id = Column(String(32), default=generate_id, primary_key=True)
     jargon_str = Column(String(64), nullable=False, index=True)
+    group_id = Column(String(32), nullable=True)
     num_words = Column(Integer, nullable=False)
+
+    __table_args__ = (
+        FKConstraint(
+            columns=("group_id",),
+            refcolumns=("jargon_groups.group_id",),
+            ondelete="CASCADE",
+        ),
+    )
 
     # All main table relationships to child tables. References:
     # Official docs: https://docs.sqlalchemy.org/en/13/orm/basic_relationships.html
@@ -48,31 +56,24 @@ class Jargon(Base, BaseStaticModel):
         return self.jargon_id
 
 
-class JargonCategoryMetrics(Base, BaseStaticModel):
+class JargonGroup(Base, BaseStaticModel):
     """
-    ArXiv category jargon NLP metrics
-    Contains every NLP metric information computable for a jargon term.
+    Jargon group to relate jargons with similar meaning.
+    Contains all the static properties of a jargon group
     """
 
-    __tablename__ = "jargon_category_metrics"
+    __tablename__ = "jargon_groups"
 
-    metric_id = Column(String(32), default=generate_id, primary_key=True)
-    jargon_id = Column(String(32), nullable=False, index=True)
-    category_id = Column(String(32), nullable=False)
-    abs_freq = Column(Integer, nullable=False)
-    rel_freq = Column(Float, nullable=False)
+    group_id = Column(String(32), default=generate_id, primary_key=True)
+    description = Column(String(256), nullable=False)
 
-    __table_args__ = (
-        FKConstraint(
-            columns=("jargon_id",),
-            refcolumns=("jargons.jargon_id",),
-            ondelete="CASCADE",
-        ),
-        FKConstraint(
-            columns=("category_id",),
-            refcolumns=("categories.category_id",),
-            ondelete="CASCADE",
-        ),
+    # All main table relationships to child tables. References:
+    # Official docs: https://docs.sqlalchemy.org/en/13/orm/basic_relationships.html
+    # Stackoverflow: https://stackoverflow.com/a/38770040
+    jargons = relationship(
+        argument="Jargon",
+        backref="jargons",
+        passive_deletes=True,
     )
 
     @property
@@ -82,45 +83,4 @@ class JargonCategoryMetrics(Base, BaseStaticModel):
         :return: unique ID
         """
 
-        return self.metric_id
-
-
-class JargonPaperMetrics(Base, BaseStaticModel):
-    """
-    ArXiv paper jargon NLP metrics
-    Contains every NLP metric information computable for a jargon term.
-    """
-
-    __tablename__ = "jargon_paper_metrics"
-
-    metric_id = Column(String(32), default=generate_id, primary_key=True)
-    jargon_id = Column(String(32), nullable=False, index=True)
-    arxiv_id = Column(String(32), nullable=False)
-    arxiv_rev = Column(Integer, nullable=False)
-    abs_freq = Column(Integer, nullable=False)
-    rel_freq = Column(Float, nullable=False)
-
-    # Define a Foreign key over multiple columns (Composite Foreign Key)
-    # Official docs: https://docs.sqlalchemy.org/en/13/core/constraints.html
-    # Stackoverflow: https://stackoverflow.com/a/7506168
-    __table_args__ = (
-        FKConstraint(
-            columns=("jargon_id",),
-            refcolumns=("jargons.jargon_id",),
-            ondelete="CASCADE",
-        ),
-        FKConstraint(
-            columns=("arxiv_id", "arxiv_rev"),
-            refcolumns=("papers.arxiv_id", "papers.arxiv_rev"),
-            ondelete="CASCADE",
-        ),
-    )
-
-    @property
-    def id(self) -> str:
-        """
-        Gets the unique ID of the data object
-        :return: unique ID
-        """
-
-        return self.metric_id
+        return self.group_id

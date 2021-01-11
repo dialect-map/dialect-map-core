@@ -43,6 +43,11 @@ class ApplicationService:
         return JargonController(db=self.db)
 
     @property
+    def jargon_groups(self) -> JargonGroupController:
+        """ Returns an initialized controller for the jargons group model """
+        return JargonGroupController(db=self.db)
+
+    @property
     def jargon_cat_metrics(self) -> JargonCategoryMetricsController:
         """ Returns an initialized controller for the jargon cat. metrics model """
         return JargonCategoryMetricsController(db=self.db)

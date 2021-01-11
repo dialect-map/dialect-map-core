@@ -3,12 +3,13 @@
 from .base import BaseController
 
 from .ctl_category import CategoryController
+from .ctl_membership import MembershipController
 
 from .ctl_jargon import JargonController
-from .ctl_jargon import JargonCategoryMetricsController
-from .ctl_jargon import JargonPaperMetricsController
+from .ctl_jargon import JargonGroupController
 
-from .ctl_membership import MembershipController
+from .ctl_metrics import JargonCategoryMetricsController
+from .ctl_metrics import JargonPaperMetricsController
 
 from .ctl_paper import PaperController
 from .ctl_paper import PaperAuthorController
