@@ -2,6 +2,7 @@
 
 from .base import StaticController
 from ..models import Jargon
+from ..models import JargonGroup
 
 
 class JargonController(StaticController[Jargon]):
@@ -23,3 +24,12 @@ class JargonController(StaticController[Jargon]):
         query = query.filter(self.model.jargon_str == jargon_str)
 
         return query.one_or_none()
+
+
+class JargonGroupController(StaticController[JargonGroup]):
+    """
+    Controller for the jargon group objects (static)
+    Extend as desired
+    """
+
+    model = JargonGroup
