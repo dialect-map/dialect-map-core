@@ -46,7 +46,7 @@ Commits can be tagged to create _informal_ releases of the package. In order to 
 2. Create and push a tag: `make tag`.
 
 
-[dialect-map-ui]: https://github.com/ds3-nyu-archive/ds-dialect-map-ui
+[dialect-map-ui]: https://github.com/dialect-map/dialect-map-ui
 [docs-database]: docs/database.md
 [docs-models]: docs/models.md
 [black-web]: https://black.readthedocs.io/en/stable/
