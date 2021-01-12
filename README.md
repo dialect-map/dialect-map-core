@@ -8,6 +8,12 @@ construct colored areas over the [Dialect map UI][dialect-map-ui] interface,
 given the papers categorization over a pair of user specified jargon words frequencies.
 
 
+### Documentation
+For more information about the interaction with this repository:
+- [Database setup][docs-database].
+- [Models definitions][docs-models].
+
+
 ### Dependencies
 Python dependencies are specified within the `setup.py` file.
 
@@ -41,6 +47,8 @@ Commits can be tagged to create _informal_ releases of the package. In order to 
 
 
 [dialect-map-ui]: https://github.com/ds3-nyu-archive/ds-dialect-map-ui
+[docs-database]: docs/database.md
+[docs-models]: docs/models.md
 [black-web]: https://black.readthedocs.io/en/stable/
 [pytest-web]: https://docs.pytest.org/en/latest/#
 [semantic-web]: https://semver.org/
