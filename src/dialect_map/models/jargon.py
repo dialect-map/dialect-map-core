@@ -21,6 +21,7 @@ class Jargon(Base, BaseStaticModel):
 
     jargon_id = Column(String(32), default=generate_id, primary_key=True)
     jargon_str = Column(String(64), nullable=False, index=True)
+    jargon_regex = Column(String(128), nullable=False)
     group_id = Column(String(32), nullable=True)
     num_words = Column(Integer, nullable=False)
 
