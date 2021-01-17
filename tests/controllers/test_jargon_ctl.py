@@ -59,9 +59,11 @@ def test_jargon_create(db: BaseDatabase):
 
     jargon_id = "jargon-creation"
     jargon_ds = "My test jargon"
+    jargon_re = "[Mm]y test jargon"
     jargon = Jargon(
         jargon_id=jargon_id,
         jargon_str=jargon_ds,
+        jargon_regex=jargon_re,
         num_words=len(jargon_ds.split(" ")),
         created_at=datetime.now(),
     )
@@ -83,9 +85,11 @@ def test_jargon_delete(db: BaseDatabase):
 
     jargon_id = "jargon-deletion"
     jargon_ds = "My test jargon"
+    jargon_re = "[Mm]y test jargon"
     jargon = Jargon(
         jargon_id=jargon_id,
         jargon_str=jargon_ds,
+        jargon_regex=jargon_re,
         num_words=len(jargon_ds.split(" ")),
         created_at=datetime.now(),
     )
