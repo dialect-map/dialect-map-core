@@ -24,7 +24,7 @@ INSTALLATION_REQS = [
 DEVELOPMENT_REQS = [
     "black>=20.8b1",
     "coverage>=5.0.4",
-    "mypy==0.790",
+    "mypy==0.800",
     "pre-commit>=2.4.0",
     "pytest>=6.0.2",
     "pytest-cov>=2.10.0",
@@ -49,7 +49,7 @@ setup(
     entry_points={
         "console_scripts": [
             "dm-admin = dialect_map.cli:main",
-        ]
+        ],
     },
     license="MIT",
     classifiers=[
