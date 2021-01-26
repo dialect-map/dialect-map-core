@@ -4,6 +4,7 @@ from sqlalchemy import Column
 from sqlalchemy import ForeignKeyConstraint as FKConstraint
 from sqlalchemy import Integer
 from sqlalchemy import String
+from sqlalchemy import UniqueConstraint
 
 from .base import Base
 from .base import BaseStaticModel
@@ -37,6 +38,7 @@ class CategoryMembership(Base, BaseStaticModel):
             refcolumns=("categories.category_id",),
             ondelete="CASCADE",
         ),
+        UniqueConstraint("arxiv_id", "arxiv_rev", "category_id"),
     )
 
     @property
