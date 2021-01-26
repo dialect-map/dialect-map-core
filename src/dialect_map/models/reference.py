@@ -4,6 +4,7 @@ from sqlalchemy import Column
 from sqlalchemy import ForeignKeyConstraint as FKConstraint
 from sqlalchemy import Integer
 from sqlalchemy import String
+from sqlalchemy import UniqueConstraint
 
 from .base import Base
 from .base import BaseStaticModel
@@ -37,6 +38,9 @@ class PaperReference(Base, BaseStaticModel):
             columns=("target_arxiv_id", "target_arxiv_rev"),
             refcolumns=("papers.arxiv_id", "papers.arxiv_rev"),
             ondelete="CASCADE",
+        ),
+        UniqueConstraint(
+            "source_arxiv_id", "source_arxiv_rev", "target_arxiv_id", "target_arxiv_rev"
         ),
     )
 
