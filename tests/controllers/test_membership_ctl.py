@@ -2,69 +2,76 @@
 
 import pytest
 from datetime import datetime
+
 from src.dialect_map.controllers import MembershipController
 from src.dialect_map.models import CategoryMembership
 from src.dialect_map.storage import BaseDatabase
 
 
-def test_membership_get(db: BaseDatabase):
-    """
-    Tests the retrieval of a category membership using a controller
-    :param db: initiated and loaded database
-    """
+@pytest.mark.usefixtures("database_rollback")
+class TestMembershipController:
+    """ Class to group all the CategoryMembership model controller tests """
 
-    controller = MembershipController(db=db)
-    membership = controller.get("membership-01234")
+    @pytest.fixture(scope="class")
+    def controller(self, database: BaseDatabase):
+        """
+        Creates a memory-based controller for the Membership records
+        :param database: dummy database instance
+        :return: initiated instance
+        """
 
-    assert type(membership) is CategoryMembership
-    assert membership.id == "membership-01234"
+        return MembershipController(db=database)
 
+    def test_get(self, controller: MembershipController):
+        """
+        Tests the retrieval of a category membership by the controller
+        :param controller: initiated instance
+        """
 
-def test_membership_create(db: BaseDatabase):
-    """
-    Tests the creation of a category membership using a controller
-    :param db: initiated and loaded database
-    """
+        membership_id = "membership-01234"
+        membership_obj = controller.get(membership_id)
 
-    controller = MembershipController(db=db)
+        assert type(membership_obj) is CategoryMembership
+        assert membership_obj.id == membership_id
 
-    membership_id = "membership-creation"
-    membership = CategoryMembership(
-        membership_id=membership_id,
-        arxiv_id="paper-01234",
-        arxiv_rev=2,
-        category_id="category-01234",
-        created_at=datetime.now(),
-    )
+    def test_create(self, controller: MembershipController):
+        """
+        Tests the creation of a category membership by the controller
+        :param controller: initiated instance
+        """
 
-    creation_id = controller.create(membership)
-    created_obj = controller.get(membership_id)
+        membership_id = "membership-creation"
+        membership = CategoryMembership(
+            membership_id=membership_id,
+            arxiv_id="paper-01234",
+            arxiv_rev=2,
+            category_id="category-01234",
+            created_at=datetime.now(),
+        )
 
-    assert creation_id == membership_id
-    assert created_obj == membership
+        creation_id = controller.create(membership)
+        created_obj = controller.get(membership_id)
 
+        assert creation_id == membership_id
+        assert created_obj == membership
 
-def test_membership_delete(db: BaseDatabase):
-    """
-    Tests the deletion of a category membership using a controller
-    :param db: initiated and loaded database
-    """
+    def test_delete(self, controller: MembershipController):
+        """
+        Tests the deletion of a category membership by the controller
+        :param controller: initiated instance
+        """
 
-    controller = MembershipController(db=db)
+        membership_id = "membership-deletion"
+        membership = CategoryMembership(
+            membership_id=membership_id,
+            arxiv_id="paper-01234",
+            arxiv_rev=2,
+            category_id="category-01234",
+            created_at=datetime.now(),
+        )
 
-    membership_id = "membership-deletion"
-    membership = CategoryMembership(
-        membership_id=membership_id,
-        arxiv_id="paper-01234",
-        arxiv_rev=2,
-        category_id="category-01234",
-        created_at=datetime.now(),
-    )
+        creation_id = controller.create(membership)
+        deletion_id = controller.delete(membership_id)
 
-    creation_id = controller.create(membership)
-    deletion_id = controller.delete(membership_id)
-
-    assert creation_id == deletion_id
-
-    with pytest.raises(ValueError):
-        controller.get(membership_id)
+        assert creation_id == deletion_id
+        assert pytest.raises(ValueError, controller.get, membership_id)
