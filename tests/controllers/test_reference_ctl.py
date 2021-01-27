@@ -78,9 +78,9 @@ def test_reference_create(db: BaseDatabase):
     ref = PaperReference(
         reference_id=ref_id,
         source_arxiv_id="paper-01234",
-        source_arxiv_rev=1,
+        source_arxiv_rev=2,
         target_arxiv_id="paper-56789",
-        target_arxiv_rev=1,
+        target_arxiv_rev=2,
         created_at=datetime.now(),
     )
 
@@ -103,9 +103,9 @@ def test_reference_delete(db: BaseDatabase):
     ref = PaperReference(
         reference_id=ref_id,
         source_arxiv_id="paper-01234",
-        source_arxiv_rev=1,
+        source_arxiv_rev=2,
         target_arxiv_id="paper-56789",
-        target_arxiv_rev=1,
+        target_arxiv_rev=2,
         created_at=datetime.now(),
     )
 

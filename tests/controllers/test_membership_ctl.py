@@ -32,7 +32,7 @@ def test_membership_create(db: BaseDatabase):
     membership = CategoryMembership(
         membership_id=membership_id,
         arxiv_id="paper-01234",
-        arxiv_rev=1,
+        arxiv_rev=2,
         category_id="category-01234",
         created_at=datetime.now(),
     )
@@ -56,7 +56,7 @@ def test_membership_delete(db: BaseDatabase):
     membership = CategoryMembership(
         membership_id=membership_id,
         arxiv_id="paper-01234",
-        arxiv_rev=1,
+        arxiv_rev=2,
         category_id="category-01234",
         created_at=datetime.now(),
     )
