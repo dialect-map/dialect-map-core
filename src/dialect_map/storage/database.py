@@ -22,8 +22,8 @@ class BaseDatabase(metaclass=ABCMeta):
 
     @property
     @abstractmethod
-    def engine(self):
-        """ Database engine object """
+    def conn(self):
+        """ Database connection object """
 
         raise NotImplementedError()
 
@@ -79,7 +79,7 @@ class BaseDatabase(metaclass=ABCMeta):
 class SQLAlchemyDatabase(BaseDatabase):
     """ Database class using SQLAlchemy utilities"""
 
-    engine = None
+    conn = None
     session = None
     session_error = SQLAlchemyError
 
@@ -104,6 +104,7 @@ class SQLAlchemyDatabase(BaseDatabase):
         self.loader = files_loader
         self.web_app = factory_session
         self.engine = create_engine(connection_url)
+        self.conn = self.engine.connect()
         self.session = self.__init_session(self.web_app)
 
     def __init_session(self, web_app: bool):
@@ -113,7 +114,7 @@ class SQLAlchemyDatabase(BaseDatabase):
         :return: session or session factory
         """
 
-        session = sessionmaker(bind=self.engine)
+        session = sessionmaker(bind=self.conn)
 
         if web_app:
             return scoped_session(session)
@@ -124,9 +125,8 @@ class SQLAlchemyDatabase(BaseDatabase):
         """ Closes the database session """
 
         logger.info("Disconnecting from the database")
-
-        if self.web_app:
-            self.session.close()
+        self.session.close() if self.web_app else False
+        self.conn.close()
 
     def load(self, file_path: str, data_model: Type):
         """
@@ -149,7 +149,7 @@ class SQLAlchemyDatabase(BaseDatabase):
         :param check: whether to respect the already created tables
         """
 
-        Base.metadata.create_all(bind=self.engine, checkfirst=check)
+        Base.metadata.create_all(bind=self.conn, checkfirst=check)
 
     def teardown(self, check: bool = False):
         """
@@ -157,4 +157,4 @@ class SQLAlchemyDatabase(BaseDatabase):
         :param check: whether to respect the filled tables
         """
 
-        Base.metadata.drop_all(bind=self.engine, checkfirst=check)
+        Base.metadata.drop_all(bind=self.conn, checkfirst=check)
