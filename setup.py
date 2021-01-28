@@ -25,7 +25,7 @@ DEVELOPMENT_REQS = [
     "black>=20.8b1",
     "coverage>=5.0.4",
     "mypy==0.800",
-    "pre-commit>=2.4.0",
+    "pre-commit>=2.10.0",
     "pytest>=6.0.2",
     "pytest-cov>=2.10.0",
 ]
