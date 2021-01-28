@@ -27,7 +27,7 @@ def load_db(url: str):
 
     try:
         loader = JSONFileLoader()
-        database = SQLAlchemyDatabase(url, files_loader=loader)
+        database = SQLAlchemyDatabase(url, file_loader=loader)
         database.setup()
     except Exception as e:
         print(e)

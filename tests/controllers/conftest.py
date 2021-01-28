@@ -16,7 +16,7 @@ def database() -> SQLAlchemyDatabase:
     """
 
     loader = JSONFileLoader()
-    database = SQLAlchemyDatabase("sqlite:///:memory:", files_loader=loader)
+    database = SQLAlchemyDatabase("sqlite:///:memory:", file_loader=loader)
     database.setup()
 
     for mapping in FILES_MAPPINGS:

@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 
 import logging
+import time
+
 from abc import ABCMeta
 from abc import abstractmethod
-from sqlalchemy import create_engine
+from sqlalchemy.engine import Connection
+from sqlalchemy.engine import create_engine
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
@@ -86,28 +89,53 @@ class SQLAlchemyDatabase(BaseDatabase):
     def __init__(
         self,
         connection_url: str,
+        backoff_seconds: int = 32,
         factory_session: bool = True,
-        files_loader: BaseFileLoader = None,
+        file_loader: BaseFileLoader = None,
     ):
         """
         Initiates the database connection
         :param connection_url: complete url to connect to the database
+        :param backoff_seconds: maximum seconds to wait for connection (optional)
         :param factory_session: whether to create a new session per request (optional)
-        :param files_loader: file loader to populate the database if needed (optional)
+        :param file_loader: file loader to populate the database if needed (optional)
         """
 
-        if files_loader is None:
-            files_loader = JSONFileLoader()
+        if file_loader is None:
+            file_loader = JSONFileLoader()
 
         logger.info(f"Connecting to database URL: {connection_url}")
 
-        self.loader = files_loader
+        self.max_backoff = backoff_seconds
+        self.file_loader = file_loader
         self.web_app = factory_session
-        self.engine = create_engine(connection_url)
-        self.conn = self.engine.connect()
-        self.session = self.__init_session(self.web_app)
 
-    def __init_session(self, web_app: bool):
+        self.engine = create_engine(connection_url)
+        self.conn = self._create_connection()
+        self.session = self._create_session(self.web_app)
+
+    def _create_connection(self) -> Connection:
+        """
+        Creates and returns a valid database connection.
+        Performs exponential backoff upon connection failure.
+        :return: Connection object
+        """
+
+        backoff_exp = 1
+        backoff_secs = 2 ** backoff_exp
+
+        while backoff_secs <= self.max_backoff:
+            try:
+                return self.engine.connect()
+            except SQLAlchemyError:
+                logger.info("Trying to connect to the database...")
+                time.sleep(backoff_secs)
+                backoff_exp += 1
+                backoff_secs = 2 ** backoff_exp
+
+        raise ConnectionError("Database connection timeout")
+
+    def _create_session(self, web_app: bool):
         """
         Initializes the database object session
         :param web_app: whether or not should be a new session per request
@@ -135,7 +163,7 @@ class SQLAlchemyDatabase(BaseDatabase):
         :param data_model: SQLAlchemy model to instantiate
         """
 
-        records = self.loader.load(file_path)
+        records = self.file_loader.load(file_path)
 
         for record in records:
             obj = data_model(**record)
