@@ -2,117 +2,112 @@
 
 import pytest
 from datetime import datetime
+
 from src.dialect_map.controllers import ReferenceController
 from src.dialect_map.models import PaperReference
 from src.dialect_map.storage import BaseDatabase
 
 
-def test_reference_get(db: BaseDatabase):
-    """
-    Tests the retrieval of a paper reference using a controller
-    :param db: initiated and loaded database
-    """
+@pytest.mark.usefixtures("database_rollback")
+class TestPaperReferenceController:
+    """ Class to group all the PaperReference model controller tests """
 
-    controller = ReferenceController(db=db)
-    reference = controller.get("reference-01234")
+    @pytest.fixture(scope="class")
+    def controller(self, database: BaseDatabase):
+        """
+        Creates a memory-based controller for the PaperReference records
+        :param database: dummy database instance
+        :return: initiated controller instance
+        """
 
-    assert type(reference) is PaperReference
-    assert reference.id == "reference-01234"
+        return ReferenceController(db=database)
 
+    def test_get(self, controller: ReferenceController):
+        """
+        Tests the retrieval of a paper reference by the controller
+        :param controller: initiated instance
+        """
 
-def test_reference_get_by_source(db: BaseDatabase):
-    """
-    Tests the retrieval of a paper reference with the source paper
-    :param db: initiated and loaded database
-    """
+        reference_id = "reference-01234"
+        reference_obj = controller.get(reference_id)
 
-    controller = ReferenceController(db=db)
+        assert type(reference_obj) is PaperReference
+        assert reference_obj.id == reference_id
 
-    source_paper_id = "paper-01234"
-    source_paper_rev = 1
+    def test_get_by_source(self, controller: ReferenceController):
+        """
+        Tests the retrieval of a paper reference by the source paper
+        :param controller: initiated instance
+        """
 
-    all_refs = controller.get_by_source_paper(
-        arxiv_id=source_paper_id,
-        arxiv_rev=source_paper_rev,
-    )
-    one_ref = all_refs[0]
+        paper_id = "paper-01234"
+        paper_rev = 1
 
-    assert type(all_refs) == list
-    assert type(one_ref) is PaperReference
-    assert one_ref.source_arxiv_id == source_paper_id
-    assert one_ref.source_arxiv_rev == source_paper_rev
+        all_refs = controller.get_by_source_paper(paper_id, paper_rev)
+        one_ref = all_refs[0]
 
+        assert type(all_refs) == list
+        assert type(one_ref) is PaperReference
+        assert one_ref.source_arxiv_id == paper_id
+        assert one_ref.source_arxiv_rev == paper_rev
 
-def test_reference_get_by_target(db: BaseDatabase):
-    """
-    Tests the retrieval of a paper reference with the target paper
-    :param db: initiated and loaded database
-    """
+    def test_get_by_target(self, controller: ReferenceController):
+        """
+        Tests the retrieval of a paper reference by the target paper
+        :param controller: initiated instance
+        """
 
-    controller = ReferenceController(db=db)
+        paper_id = "paper-56789"
+        paper_rev = 1
 
-    target_paper_id = "paper-56789"
-    target_paper_rev = 1
+        all_refs = controller.get_by_target_paper(paper_id, paper_rev)
+        one_ref = all_refs[0]
 
-    all_refs = controller.get_by_target_paper(
-        arxiv_id=target_paper_id,
-        arxiv_rev=target_paper_rev,
-    )
-    one_ref = all_refs[0]
+        assert type(all_refs) == list
+        assert type(one_ref) is PaperReference
+        assert one_ref.target_arxiv_id == paper_id
+        assert one_ref.target_arxiv_rev == paper_rev
 
-    assert type(all_refs) == list
-    assert type(one_ref) is PaperReference
-    assert one_ref.target_arxiv_id == target_paper_id
-    assert one_ref.target_arxiv_rev == target_paper_rev
+    def test_create(self, controller: ReferenceController):
+        """
+        Tests the creation of a paper reference by the controller
+        :param controller: initiated instance
+        """
 
+        ref_id = "reference-creation"
+        ref = PaperReference(
+            reference_id=ref_id,
+            source_arxiv_id="paper-01234",
+            source_arxiv_rev=2,
+            target_arxiv_id="paper-56789",
+            target_arxiv_rev=2,
+            created_at=datetime.now(),
+        )
 
-def test_reference_create(db: BaseDatabase):
-    """
-    Tests the creation of a reference using a controller
-    :param db: initiated and loaded database
-    """
+        creation_id = controller.create(ref)
+        created_obj = controller.get(ref_id)
 
-    controller = ReferenceController(db=db)
+        assert creation_id == ref_id
+        assert created_obj == ref
 
-    ref_id = "reference-creation"
-    ref = PaperReference(
-        reference_id=ref_id,
-        source_arxiv_id="paper-01234",
-        source_arxiv_rev=1,
-        target_arxiv_id="paper-56789",
-        target_arxiv_rev=1,
-        created_at=datetime.now(),
-    )
+    def test_delete(self, controller: ReferenceController):
+        """
+        Tests the deletion of a paper reference by the controller
+        :param controller: initiated instance
+        """
 
-    creation_id = controller.create(ref)
-    created_obj = controller.get(ref_id)
+        ref_id = "reference-deletion"
+        ref = PaperReference(
+            reference_id=ref_id,
+            source_arxiv_id="paper-01234",
+            source_arxiv_rev=2,
+            target_arxiv_id="paper-56789",
+            target_arxiv_rev=2,
+            created_at=datetime.now(),
+        )
 
-    assert creation_id == ref_id
-    assert created_obj == ref
+        creation_id = controller.create(ref)
+        deletion_id = controller.delete(ref_id)
 
-
-def test_reference_delete(db: BaseDatabase):
-    """
-    Tests the deletion of a reference using a controller
-    :param db: initiated and loaded database
-    """
-
-    controller = ReferenceController(db=db)
-
-    ref_id = "reference-deletion"
-    ref = PaperReference(
-        reference_id=ref_id,
-        source_arxiv_id="paper-01234",
-        source_arxiv_rev=1,
-        target_arxiv_id="paper-56789",
-        target_arxiv_rev=1,
-        created_at=datetime.now(),
-    )
-
-    creation_id = controller.create(ref)
-    deletion_id = controller.delete(ref_id)
-
-    assert creation_id == deletion_id
-
-    with pytest.raises(ValueError):
-        controller.get(ref_id)
+        assert creation_id == deletion_id
+        assert pytest.raises(ValueError, controller.get, ref_id)
