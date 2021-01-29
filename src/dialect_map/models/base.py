@@ -6,6 +6,7 @@ from sqlalchemy import Column
 from sqlalchemy import ColumnDefault
 from sqlalchemy import DateTime
 from sqlalchemy import Table
+from sqlalchemy.orm import validates
 from sqlalchemy.ext.declarative import declarative_base
 
 
@@ -17,15 +18,15 @@ class BaseModel:
     """
     Base class for all the Python data models
 
-    Defines class attributes:
+    Class attributes:
         __table__: Table object containing model SQL table information
 
-    Defines object properties:
+    Object properties:
         id: unique identifier of the data object (abstract)
         json: JSON serialization of the data object
     """
 
-    __table__ = Table()
+    __table__: Table
 
     def __str__(self) -> str:
         """
@@ -37,9 +38,8 @@ class BaseModel:
         model_fields = []
 
         for column in self.__table__.columns:
-            column_key = column.name
-            column_val = getattr(self, column.name)
-            model_fields.append(f"{column_key}='{column_val}'")
+            record = getattr(self, column.name)
+            model_fields.append(f"{column.name}='{record}'")
 
         return f"<{model_class}({', '.join(model_fields)}>)"
 
@@ -67,28 +67,38 @@ class BaseStaticModel(BaseModel):
     """
     Base class defining key timestamps for keeping track of static models
 
-    Defines tables:
+    Columns:
         created_at: when the referenced entity was originally created
         audited_at: when the referenced entity reached the database
 
-    Defines indexes:
+    Indexes:
         idx_created_at: to query entities by when they were created
     """
 
     created_at = Column(DateTime, nullable=False, index=True)
     audited_at = Column(DateTime, nullable=True, default=ColumnDefault(datetime.now()))
 
+    @validates("audited_at")
+    def check_audited(self, key, val):
+        """
+        Checks that a private field is not provided by the user
+        :param key: targeting column name (unused)
+        :param val: provided user value (unused)
+        """
+
+        raise ValueError("The column 'audited_at' must not be provided")
+
 
 class BaseEvolvingModel(BaseModel):
     """
     Base class defining key timestamps for keeping track of evolving models
 
-    Defines tables:
+    Columns:
         created_at: when the referenced entity was originally created
         updated_at: when the referenced entity was last modified
         audited_at: when the referenced entity reached the database
 
-    Defines indexes:
+    Indexes:
         idx_created_at: to query entities by when they were created
         idx_updated_at: to query entities  by when they were updated
     """
@@ -96,6 +106,16 @@ class BaseEvolvingModel(BaseModel):
     created_at = Column(DateTime, nullable=False, index=True)
     updated_at = Column(DateTime, nullable=False, index=True)
     audited_at = Column(DateTime, nullable=True, default=ColumnDefault(datetime.now()))
+
+    @validates("audited_at")
+    def check_audited(self, key, val):
+        """
+        Checks that a private field is not provided by the user
+        :param key: targeting column name (unused)
+        :param val: provided user value (unused)
+        """
+
+        raise ValueError("The column 'audited_at' must not be provided")
 
     @property
     @abstractmethod
