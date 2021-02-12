@@ -7,7 +7,7 @@ from setuptools import setup
 # Package meta-data
 NAME = "dialect-map-core"
 INFO = "Python package containing the core models of the Dialect Map"
-URL = "https://github.com/ds3-nyu-archive/dialect-map-core"
+URL = "https://github.com/dialect-map/dialect-map-core"
 REQUIRES_PYTHON = ">=3.6, <4"
 AUTHORS = "NYU DS3 Team"
 VERSION = open("VERSION", "r").read().strip()
