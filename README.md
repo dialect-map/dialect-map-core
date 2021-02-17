@@ -1,11 +1,12 @@
 # Dialect map core
 
 ### About
-This repository contains the web server to access the database information.
+This repository contains core models and controllers for the database.
 
-It will be used in combination with the original PaperScape server, in order to
-construct colored areas over the [Dialect map UI][dialect-map-ui] interface,
-given the papers categorization over a pair of user specified jargon words frequencies.
+It is used as a dependency package on the HTTP API components that manage
+public and private access to the database information. The public API is used by the
+[Dialect map UI][dialect-map-ui], while the private one by a set of data-ingestion jobs
+which populate the database.
 
 
 ### Documentation
