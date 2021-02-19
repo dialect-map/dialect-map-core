@@ -23,6 +23,8 @@ EvolvingModelVar = TypeVar("EvolvingModelVar", bound=BaseEvolvingModel)
 class BaseController(metaclass=ABCMeta):
     """ Interface for the data controllers """
 
+    db: BaseDatabase
+
     @abstractmethod
     def create(self, data_object: Base) -> str:
         """
