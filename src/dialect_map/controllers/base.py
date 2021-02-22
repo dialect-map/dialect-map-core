@@ -26,10 +26,10 @@ class BaseController(metaclass=ABCMeta):
     db: BaseDatabase
 
     @abstractmethod
-    def create(self, data_object: Base) -> str:
+    def create(self, instance: Base) -> str:
         """
         Creates a new database record given its object properties
-        :param data_object: object properties to create the record with
+        :param instance: data object to create the record from
         :return: ID of the created record
         """
 
@@ -85,21 +85,21 @@ class StaticController(BaseController, Generic[StaticModelVar]):
 
         return record
 
-    def create(self, model: StaticModelVar) -> str:
+    def create(self, instance: StaticModelVar) -> str:
         """
         Creates a new database record given its object properties
-        :param model: model object to create the record with
+        :param instance: data object to create the record from
         :return: ID of the created object
         """
 
         try:
-            self.db.session.add(model)
+            self.db.session.add(instance)
             self.db.session.commit()
         except self.db.session_error as error:
             self.db.session.rollback()
             raise ValueError(error)
 
-        return model.id
+        return instance.id
 
     def delete(self, id: str) -> str:
         """
@@ -153,21 +153,21 @@ class EvolvingController(BaseController, Generic[EvolvingModelVar]):
 
         return record
 
-    def create(self, model: EvolvingModelVar) -> str:
+    def create(self, instance: EvolvingModelVar) -> str:
         """
         Creates a new database record given its object properties
-        :param model: model object to create the record with
+        :param instance: data object to create the record from
         :return: ID of the created object
         """
 
         try:
-            self.db.session.add(model)
+            self.db.session.add(instance)
             self.db.session.commit()
         except self.db.session_error as error:
             self.db.session.rollback()
             raise ValueError(error)
 
-        return model.id
+        return instance.id
 
     def delete(self, id: str) -> str:
         """
