@@ -72,6 +72,7 @@ class TestJargonController:
             jargon_id=jargon_id,
             jargon_str=jargon_ds,
             jargon_regex=jargon_re,
+            archived=False,
             num_words=len(jargon_ds.split(" ")),
             created_at=datetime.now(),
         )
@@ -95,6 +96,7 @@ class TestJargonController:
             jargon_id=jargon_id,
             jargon_str=jargon_ds,
             jargon_regex=jargon_re,
+            archived=False,
             num_words=len(jargon_ds.split(" ")),
             created_at=datetime.now(),
         )
@@ -143,6 +145,7 @@ class TestJargonGroupController:
         group = JargonGroup(
             group_id=group_id,
             description=group_ds,
+            archived=False,
             created_at=datetime.now(),
         )
 
@@ -163,6 +166,7 @@ class TestJargonGroupController:
         group = JargonGroup(
             group_id=group_id,
             description=group_ds,
+            archived=False,
             created_at=datetime.now(),
         )
 
