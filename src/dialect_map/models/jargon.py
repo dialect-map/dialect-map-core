@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from sqlalchemy import Boolean
 from sqlalchemy import Column
 from sqlalchemy import ForeignKeyConstraint as FKConstraint
 from sqlalchemy import Integer
@@ -8,10 +9,11 @@ from sqlalchemy.orm import relationship
 
 from .base import Base
 from .base import BaseStaticModel
+from .base import BaseArchivalModel
 from .__utils import generate_id
 
 
-class Jargon(Base, BaseStaticModel):
+class Jargon(Base, BaseArchivalModel):
     """
     Jargon term related information record.
     Contains all the static properties of a jargon term
@@ -23,6 +25,7 @@ class Jargon(Base, BaseStaticModel):
     jargon_str = Column(String(64), nullable=False, index=True)
     jargon_regex = Column(String(128), nullable=False)
     group_id = Column(String(32), nullable=True)
+    archived = Column(Boolean, nullable=False)
     num_words = Column(Integer, nullable=False)
 
     __table_args__ = (
