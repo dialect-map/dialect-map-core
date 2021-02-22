@@ -120,7 +120,7 @@ class EvolvingController(BaseController, Generic[EvolvingModelVar]):
     :attr model:
         Class attribute used to store the data model
         SQLAlchemy will be performing queries against
-        (It cannot be obtained at runtime from StaticModelVar)
+        (It cannot be obtained at runtime from EvolvingModelVar)
 
         For Python 3.8+, remove this attribute and access
         the specific subclass type by using 'typing.get_args'
