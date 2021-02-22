@@ -2,6 +2,7 @@
 
 from .base import Base
 from .base import BaseStaticModel
+from .base import BaseArchivalModel
 from .base import BaseEvolvingModel
 
 from .category import Category

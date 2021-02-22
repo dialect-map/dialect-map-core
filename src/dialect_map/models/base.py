@@ -9,6 +9,8 @@ from sqlalchemy import Table
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.declarative import declarative_base
 
+from .__utils import mutable_property
+
 
 # Base class for all database tables
 Base = declarative_base()
@@ -87,6 +89,54 @@ class BaseStaticModel(BaseModel):
         """
 
         raise ValueError("The column 'audited_at' must not be provided")
+
+
+class BaseArchivalModel(BaseModel):
+    """
+    Base class defining key timestamps for keeping track of archival models
+
+    Columns:
+        created_at: when the referenced entity was originally created
+        archived_at: when the referenced entity was last archived
+        audited_at: when the referenced entity reached the database
+
+    Indexes:
+        idx_created_at: to query entities by when they were created
+    """
+
+    created_at = Column(DateTime, nullable=False, index=True)
+    archived_at = Column(DateTime, nullable=True, index=False)
+    audited_at = Column(DateTime, nullable=True, default=ColumnDefault(datetime.now()))
+
+    @validates("archived_at")
+    def check_archived(self, key, val):
+        """
+        Checks that a private field is not provided by the user
+        :param key: targeting column name (unused)
+        :param val: provided user value (unused)
+        """
+
+        raise ValueError("The column 'archived_at' must not be provided")
+
+    @validates("audited_at")
+    def check_audited(self, key, val):
+        """
+        Checks that a private field is not provided by the user
+        :param key: targeting column name (unused)
+        :param val: provided user value (unused)
+        """
+
+        raise ValueError("The column 'audited_at' must not be provided")
+
+    @mutable_property
+    @abstractmethod
+    def archived(self) -> bool:
+        """
+        Whether the model was archived or not
+        :return: archive status
+        """
+
+        raise NotImplementedError()
 
 
 class BaseEvolvingModel(BaseModel):
