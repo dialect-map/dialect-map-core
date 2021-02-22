@@ -8,7 +8,6 @@ from sqlalchemy import String
 from sqlalchemy.orm import relationship
 
 from .base import Base
-from .base import BaseStaticModel
 from .base import BaseArchivalModel
 from .__utils import generate_id
 
@@ -60,7 +59,7 @@ class Jargon(Base, BaseArchivalModel):
         return self.jargon_id
 
 
-class JargonGroup(Base, BaseStaticModel):
+class JargonGroup(Base, BaseArchivalModel):
     """
     Jargon group to relate jargons with similar meaning.
     Contains all the static properties of a jargon group
@@ -70,6 +69,7 @@ class JargonGroup(Base, BaseStaticModel):
 
     group_id = Column(String(32), default=generate_id, primary_key=True)
     description = Column(String(256), nullable=False)
+    archived = Column(Boolean, nullable=False)
 
     # All main table relationships to child tables. References:
     # Official docs: https://docs.sqlalchemy.org/en/13/orm/basic_relationships.html
