@@ -1,8 +1,14 @@
 [
   {
     "group_id": "jargon-group-01234",
-    "description": "Test jargon group",
+    "description": "Test jargon group A",
     "archived": false,
     "created_at": "2020-11-18 10:00:00"
+  },
+    {
+    "group_id": "jargon-group-archived",
+    "description": "Test jargon group B",
+    "archived": true,
+    "created_at": "2021-02-22 17:00:00"
   }
 ]
