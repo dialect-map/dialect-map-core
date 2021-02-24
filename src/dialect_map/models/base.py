@@ -46,6 +46,15 @@ class BaseModel:
         return f"<{model_class}({', '.join(model_fields)}>)"
 
     @property
+    def data(self) -> dict:
+        """
+        Gets the data dictionary out of the model object
+        :return: data dictionary
+        """
+
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+    @property
     @abstractmethod
     def id(self) -> str:
         """
@@ -54,15 +63,6 @@ class BaseModel:
         """
 
         raise NotImplementedError()
-
-    @property
-    def data(self) -> dict:
-        """
-        Gets the data dictionary out of the model object
-        :return: data dictionary
-        """
-
-        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 
 class BaseStaticModel(BaseModel):
