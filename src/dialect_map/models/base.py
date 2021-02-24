@@ -116,7 +116,10 @@ class BaseArchivalModel(BaseModel):
         :param val: provided user value (unused)
         """
 
-        raise ValueError("The column 'archived_at' must not be provided")
+        if not self.archived:
+            raise ValueError("The column 'archived_at' must not be provided")
+
+        return val
 
     @validates("audited_at")
     def check_audited(self, key, val):
