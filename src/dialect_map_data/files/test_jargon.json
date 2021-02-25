@@ -4,6 +4,7 @@
     "jargon_str": "One string",
     "jargon_regex": "[Oo]ne string",
     "group_id": "jargon-group-01234",
+    "archived": false,
     "num_words": 2,
     "created_at": "2020-11-20 10:00:00"
   },
@@ -12,7 +13,17 @@
     "jargon_str": "Other string",
     "jargon_regex": "[Oo]ther string",
     "group_id": "jargon-group-01234",
+    "archived": false,
     "num_words": 2,
     "created_at": "2020-11-20 12:00:00"
+  },
+  {
+    "jargon_id": "jargon-archived",
+    "jargon_str": "Archived string",
+    "jargon_regex": "[Aa]rchived string",
+    "group_id": "jargon-group-archived",
+    "archived": true,
+    "num_words": 2,
+    "created_at": "2021-02-22 17:00:00"
   }
 ]

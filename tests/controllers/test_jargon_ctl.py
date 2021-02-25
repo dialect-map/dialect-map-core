@@ -36,6 +36,14 @@ class TestJargonController:
         assert type(jargon_obj) is Jargon
         assert jargon_obj.id == jargon_id
 
+    def test_get_archived(self, controller: JargonController):
+        """
+        Tests the raised error when retrieving an archived jargon
+        :param controller: initiated instance
+        """
+
+        assert pytest.raises(ValueError, controller.get, "jargon-archived")
+
     def test_get_by_string(self, controller: JargonController):
         """
         Tests the retrieval of a jargon by the controller
@@ -72,6 +80,7 @@ class TestJargonController:
             jargon_id=jargon_id,
             jargon_str=jargon_ds,
             jargon_regex=jargon_re,
+            archived=False,
             num_words=len(jargon_ds.split(" ")),
             created_at=datetime.now(),
         )
@@ -95,6 +104,7 @@ class TestJargonController:
             jargon_id=jargon_id,
             jargon_str=jargon_ds,
             jargon_regex=jargon_re,
+            archived=False,
             num_words=len(jargon_ds.split(" ")),
             created_at=datetime.now(),
         )
@@ -104,6 +114,19 @@ class TestJargonController:
 
         assert creation_id == deletion_id
         assert pytest.raises(ValueError, controller.get, jargon_id)
+
+    def test_archive(self, controller: JargonController):
+        """
+        Tests the archival of a jargon by the controller
+        :param controller: initiated instance
+        """
+
+        jargon_id = "jargon-01234"
+        jargon_id = controller.archive(jargon_id)
+        jargon_obj = controller.get(jargon_id, include_archived=True)
+
+        assert jargon_obj.archived is True
+        assert jargon_obj.archived_at is not None
 
 
 @pytest.mark.usefixtures("database_rollback")
@@ -143,6 +166,7 @@ class TestJargonGroupController:
         group = JargonGroup(
             group_id=group_id,
             description=group_ds,
+            archived=False,
             created_at=datetime.now(),
         )
 
@@ -163,6 +187,7 @@ class TestJargonGroupController:
         group = JargonGroup(
             group_id=group_id,
             description=group_ds,
+            archived=False,
             created_at=datetime.now(),
         )
 

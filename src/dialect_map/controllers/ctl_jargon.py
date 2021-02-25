@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from .base import StaticController
+from .base import ArchivalController
 from ..models import Jargon
 from ..models import JargonGroup
 
 
-class JargonController(StaticController[Jargon]):
+class JargonController(ArchivalController[Jargon]):
     """
-    Controller for the jargon objects (static)
+    Controller for the jargon objects (archival)
     Extend as desired
     """
 
@@ -22,6 +22,7 @@ class JargonController(StaticController[Jargon]):
 
         query = self.db.session.query(self.model)
         query = query.filter(self.model.jargon_str == jargon_str)
+        query = query.filter(self.model.archived.is_(False))
 
         return query.one_or_none()
 
@@ -31,20 +32,24 @@ class JargonController(StaticController[Jargon]):
         :return: list of jargon term groups
         """
 
-        group_ids = [g.id for g in self.db.session.query(JargonGroup)]
+        groups = self.db.session.query(JargonGroup)
+        groups = groups.filter(JargonGroup.archived.is_(False))
+
+        group_ids = [g.id for g in groups]
         grouped = []
 
         for id in group_ids:
             query = self.db.session.query(self.model)
             query = query.filter(self.model.group_id == id)
+            query = query.filter(self.model.archived.is_(False))
             grouped.append(query.all())
 
         return grouped
 
 
-class JargonGroupController(StaticController[JargonGroup]):
+class JargonGroupController(ArchivalController[JargonGroup]):
     """
-    Controller for the jargon group objects (static)
+    Controller for the jargon group objects (archival)
     Extend as desired
     """
 

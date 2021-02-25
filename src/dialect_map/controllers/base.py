@@ -2,6 +2,7 @@
 
 from abc import ABCMeta
 from abc import abstractmethod
+from datetime import datetime
 from typing import Generic
 from typing import Tuple
 from typing import Type
@@ -9,14 +10,14 @@ from typing import TypeVar
 
 from ..models import Base
 from ..models import BaseStaticModel
+from ..models import BaseArchivalModel
 from ..models import BaseEvolvingModel
 from ..storage import BaseDatabase
 
 
-# Generic static model type
+# Generic base model types
 StaticModelVar = TypeVar("StaticModelVar", bound=BaseStaticModel)
-
-# Generic evolving model type
+ArchivalModelVar = TypeVar("ArchivalModelVar", bound=BaseArchivalModel)
 EvolvingModelVar = TypeVar("EvolvingModelVar", bound=BaseEvolvingModel)
 
 
@@ -109,6 +110,91 @@ class StaticController(BaseController, Generic[StaticModelVar]):
         """
 
         self.db.session.delete(self.get(id))
+        self.db.session.commit()
+        return id
+
+
+class ArchivalController(BaseController, Generic[ArchivalModelVar]):
+    """
+    Controller for the archival models
+
+    :attr model:
+        Class attribute used to store the data model
+        SQLAlchemy will be performing queries against
+        (It cannot be obtained at runtime from ArchivalModelVar)
+
+        For Python 3.8+, remove this attribute and access
+        the specific subclass type by using 'typing.get_args'
+        Ref: https://docs.python.org/3/library/typing.html#typing.get_args
+    """
+
+    model: Type[ArchivalModelVar]
+
+    def __init__(self, db: BaseDatabase):
+        """
+        Initializes the controller with the underlying database
+        :param db: database engine to use
+        """
+
+        self.db = db
+
+    def get(self, id: str, include_archived: bool = False) -> ArchivalModelVar:
+        """
+        Gets a database record by its ID
+        :param id: ID of the database entry
+        :param include_archived: whether to include archived records
+        :return: data object representing the database record
+        """
+
+        query = self.db.session.query(self.model)
+        record = query.get(id)
+
+        if record is None:
+            raise ValueError(f"Unknown record: {id}")
+
+        if record.archived is True and include_archived is False:
+            raise ValueError(f"The record {id} has been archived")
+
+        return record
+
+    def create(self, instance: ArchivalModelVar) -> str:
+        """
+        Creates a new database record given its object properties
+        :param instance: data object to create the record from
+        :return: ID of the created object
+        """
+
+        try:
+            self.db.session.add(instance)
+            self.db.session.commit()
+        except self.db.session_error as error:
+            self.db.session.rollback()
+            raise ValueError(error)
+
+        return instance.id
+
+    def delete(self, id: str) -> str:
+        """
+        Deletes a database record by its ID
+        :param id: ID of the database entry
+        :return: ID of the deleted object
+        """
+
+        self.db.session.delete(self.get(id, include_archived=True))
+        self.db.session.commit()
+        return id
+
+    def archive(self, id: str) -> str:
+        """
+        Archives a database record by its ID
+        :param id: ID of the database entry
+        :return: ID of the archived object
+        """
+
+        record = self.get(id)
+        record.archived = True
+        record.archived_at = datetime.now()
+
         self.db.session.commit()
         return id
 
