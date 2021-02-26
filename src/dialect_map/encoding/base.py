@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from abc import ABCMeta
+from abc import ABC
 from abc import abstractmethod
 from typing import Any
 
 
-class BaseEncoder(metaclass=ABCMeta):
+class BaseEncoder(ABC):
     """ Interface for the Python types encoding classes """
 
     @abstractmethod
@@ -19,7 +19,7 @@ class BaseEncoder(metaclass=ABCMeta):
         raise NotImplementedError()
 
 
-class BaseDecoder(metaclass=ABCMeta):
+class BaseDecoder(ABC):
     """ Interface for the Python types decoding classes """
 
     @abstractmethod

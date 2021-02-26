@@ -3,7 +3,7 @@
 import logging
 import time
 
-from abc import ABCMeta
+from abc import ABC
 from abc import abstractmethod
 from sqlalchemy.engine import Connection
 from sqlalchemy.engine import create_engine
@@ -20,7 +20,7 @@ from ..models.base import Base
 logger = logging.getLogger()
 
 
-class BaseDatabase(metaclass=ABCMeta):
+class BaseDatabase(ABC):
     """ Interface for the database classes """
 
     @property

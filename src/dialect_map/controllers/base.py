@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from abc import ABCMeta
+from abc import ABC
 from abc import abstractmethod
 from datetime import datetime
 from typing import Generic
@@ -21,7 +21,7 @@ ArchivalModelVar = TypeVar("ArchivalModelVar", bound=BaseArchivalModel)
 EvolvingModelVar = TypeVar("EvolvingModelVar", bound=BaseEvolvingModel)
 
 
-class BaseController(metaclass=ABCMeta):
+class BaseController(ABC):
     """ Interface for the data controllers """
 
     db: BaseDatabase

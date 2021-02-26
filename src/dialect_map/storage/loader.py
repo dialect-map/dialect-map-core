@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
 import json
-from abc import ABCMeta
+from abc import ABC
 from abc import abstractmethod
 
 from ..encoding import CustomJSONDecoder
 
 
-class BaseFileLoader(metaclass=ABCMeta):
+class BaseFileLoader(ABC):
     """ Interface for the data file loader classes """
 
     @abstractmethod
