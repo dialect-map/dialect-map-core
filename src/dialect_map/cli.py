@@ -17,13 +17,11 @@ def main():
     "--url",
     envvar="DIALECT_MAP_DB_URL",
     default="postgresql+psycopg2://dm:dmpwd@localhost/dialect_map",
+    help="Connection URL for the database to load",
     type=str,
 )
 def load_db(url: str):
-    """
-    Loads testing data into the specified database instance
-    :param url: connection URL for the database to setup
-    """
+    """ Loads testing data into the specified database instance """
 
     try:
         loader = JSONFileLoader()
@@ -45,13 +43,11 @@ def load_db(url: str):
     "--url",
     envvar="DIALECT_MAP_DB_URL",
     default="postgresql+psycopg2://dm:dmpwd@localhost/dialect_map",
+    help="Connection URL for the database to setup",
     type=str,
 )
 def setup_db(url: str):
-    """
-    Creates all the database schema tables that do not exist
-    :param url: connection URL for the database to setup
-    """
+    """ Creates all the database tables that do not exist """
 
     try:
         database = SQLAlchemyDatabase(url)
@@ -65,20 +61,18 @@ def setup_db(url: str):
     "--url",
     envvar="DIALECT_MAP_DB_URL",
     default="postgresql+psycopg2://dm:dmpwd@localhost/dialect_map",
+    help="Connection URL for the database to tear down",
     type=str,
 )
 @click.option(
     "--force",
     is_flag=True,
     default=False,
+    help="Whether to delete non-empty tables",
     type=bool,
 )
 def teardown_db(url: str, force: bool):
-    """
-    Destroys all the empty database schema tables, unless --force is used
-    :param url: connection URL for the database to tear down
-    :param force: whether to delete non-empty tables
-    """
+    """ Destroys all the empty database tables """
 
     check = not force
 
