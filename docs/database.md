@@ -2,19 +2,21 @@
 
 
 ## Introduction
-The `dialect_map` package defines a CLI tool called `dm-admin` that can be used to perform
-setup, teardown and loading operations on the desired SQL database.
+The database related contents are split between two packages:
 
-The `dialect_map_data` package contains testing data files that can be loaded into any database
-thanks to the mapping between these files and their corresponding data model classes.
+- `dialect_map`: defining a CLI (`dm-admin`) to perform setup, teardown and loading operations.
+- `dialect_map_data`: containing testing files loadable thanks to the _file-to-model_ mappings.
 
-For now, the only supported SQL database is _PostgreSQL_, although future ones can be easily added
-given the flexibility of the library used ([SQLAlchemy][sqlalchemy-website]).
+For now, the only supported SQL database is _PostgreSQL_, although other ones can be easily added
+thanks to the use of ([SQLAlchemy][sqlalchemy-website]).
 
 
 ## Database
-To start a local PostgreSQL database, install the PostgreSQL binaries through their website or by one
-of your OS package managers (i.e. `apt` for Ubuntu, `brew` for macOS...).
+To start a local PostgreSQL database, install the PostgreSQL binaries through their website or
+by one of your OS package managers
+
+- For Ubuntu: `apt install postgresql`.
+- For Mac OS: `brew install postgresql`.
 
 Then run:
 ```sh
