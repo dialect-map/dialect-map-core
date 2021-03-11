@@ -51,8 +51,8 @@ class TestPaperController:
             arxiv_rev=paper_rev,
             title="Test Paper",
             submission_date=datetime.today().date(),
-            created_at=datetime.now(),
-            updated_at=datetime.now(),
+            created_at=datetime.utcnow(),
+            updated_at=datetime.utcnow(),
         )
 
         creation_id = controller.create(paper)
@@ -74,8 +74,8 @@ class TestPaperController:
             arxiv_rev=paper_rev,
             title="Test Paper",
             submission_date=datetime.today().date(),
-            created_at=datetime.now(),
-            updated_at=datetime.now(),
+            created_at=datetime.utcnow(),
+            updated_at=datetime.utcnow(),
         )
 
         creation_id = controller.create(paper)
@@ -97,8 +97,8 @@ class TestPaperController:
             arxiv_rev=paper_rev,
             title="Test Paper",
             submission_date=datetime.today().date(),
-            created_at=datetime.now(),
-            updated_at=datetime.now(),
+            created_at=datetime.utcnow(),
+            updated_at=datetime.utcnow(),
         )
 
         controller.create(paper)

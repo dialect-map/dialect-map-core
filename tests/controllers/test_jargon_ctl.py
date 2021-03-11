@@ -82,7 +82,7 @@ class TestJargonController:
             jargon_regex=jargon_re,
             archived=False,
             num_words=len(jargon_ds.split(" ")),
-            created_at=datetime.now(),
+            created_at=datetime.utcnow(),
         )
 
         creation_id = controller.create(jargon)
@@ -106,7 +106,7 @@ class TestJargonController:
             jargon_regex=jargon_re,
             archived=False,
             num_words=len(jargon_ds.split(" ")),
-            created_at=datetime.now(),
+            created_at=datetime.utcnow(),
         )
 
         creation_id = controller.create(jargon)
@@ -167,7 +167,7 @@ class TestJargonGroupController:
             group_id=group_id,
             description=group_ds,
             archived=False,
-            created_at=datetime.now(),
+            created_at=datetime.utcnow(),
         )
 
         creation_id = controller.create(group)
@@ -188,7 +188,7 @@ class TestJargonGroupController:
             group_id=group_id,
             description=group_ds,
             archived=False,
-            created_at=datetime.now(),
+            created_at=datetime.utcnow(),
         )
 
         creation_id = controller.create(group)

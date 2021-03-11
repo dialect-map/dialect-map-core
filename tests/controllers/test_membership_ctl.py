@@ -46,7 +46,7 @@ class TestMembershipController:
             arxiv_id="paper-01234",
             arxiv_rev=2,
             category_id="category-01234",
-            created_at=datetime.now(),
+            created_at=datetime.utcnow(),
         )
 
         creation_id = controller.create(membership)
@@ -67,7 +67,7 @@ class TestMembershipController:
             arxiv_id="paper-01234",
             arxiv_rev=2,
             category_id="category-01234",
-            created_at=datetime.now(),
+            created_at=datetime.utcnow(),
         )
 
         creation_id = controller.create(membership)

@@ -45,7 +45,7 @@ class TestCategoryController:
         category = Category(
             category_id=category_id,
             description=category_ds,
-            created_at=datetime.now(),
+            created_at=datetime.utcnow(),
         )
 
         creation_id = controller.create(category)
@@ -65,7 +65,7 @@ class TestCategoryController:
         category = Category(
             category_id=category_id,
             description=category_ds,
-            created_at=datetime.now(),
+            created_at=datetime.utcnow(),
         )
 
         creation_id = controller.create(category)

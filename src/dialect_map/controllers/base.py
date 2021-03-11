@@ -151,7 +151,6 @@ class ArchivalController(BaseController, Generic[ArchivalModelVar]):
 
         if record is None:
             raise ValueError(f"Unknown record: {id}")
-
         if record.archived is True and include_archived is False:
             raise ValueError(f"The record {id} has been archived")
 
@@ -193,7 +192,7 @@ class ArchivalController(BaseController, Generic[ArchivalModelVar]):
 
         record = self.get(id)
         record.archived = True
-        record.archived_at = datetime.now()
+        record.archived_at = datetime.utcnow()
 
         self.db.session.commit()
         return id

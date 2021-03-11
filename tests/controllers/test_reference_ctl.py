@@ -81,7 +81,7 @@ class TestPaperReferenceController:
             source_arxiv_rev=2,
             target_arxiv_id="paper-56789",
             target_arxiv_rev=2,
-            created_at=datetime.now(),
+            created_at=datetime.utcnow(),
         )
 
         creation_id = controller.create(ref)
@@ -103,7 +103,7 @@ class TestPaperReferenceController:
             source_arxiv_rev=2,
             target_arxiv_id="paper-56789",
             target_arxiv_rev=2,
-            created_at=datetime.now(),
+            created_at=datetime.utcnow(),
         )
 
         creation_id = controller.create(ref)
