@@ -40,18 +40,18 @@ Depending on the type of data model, there is a subset of Python properties avai
 Depending on the type of data model, there is a subset of data fields available to query:
 
 ### Static models:
-- `created_at`: the timestamp where the object referenced with the used ID was created.
-- `audited_at`: the timestamp where the database record was stored.
+- `created_at`: UTC timestamp when the object referenced with the used ID was created.
+- `audited_at`: UTC timestamp when the database record was stored.
 
 ### Archival models:
-- `created_at`: the timestamp where the object referenced with the used ID was created.
-- `archived_at`: the timestamp where the object referenced with the used ID was archived.
-- `audited_at`: the timestamp where the database record was stored.
+- `created_at`: UTC timestamp when the object referenced with the used ID was created.
+- `archived_at`: UTC timestamp when the object referenced with the used ID was archived.
+- `audited_at`: UTC timestamp when the database record was stored.
 
 ### Evolving models:
-- `created_at`: the timestamp where the object referenced with the used ID was created.
-- `updated_at`: the timestamp where the object referenced with the used ID was updated.
-- `audited_at`: the timestamp where the database record was stored.
+- `created_at`: UTC timestamp when the object referenced with the used ID was created.
+- `updated_at`: UTC timestamp when the object referenced with the used ID was updated.
+- `audited_at`: UTC timestamp when the database record was stored.
 
 ### Explanation
 There exist a clear differentiation across the set of common fields inherit from the base models.
