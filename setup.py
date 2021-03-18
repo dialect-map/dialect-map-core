@@ -26,7 +26,7 @@ DEVELOPMENT_REQS = [
     "coverage>=5.0.4",
     "mypy==0.800",
     "pre-commit>=2.10.0",
-    "pytest>=6.0.2",
+    "pytest>=6.2.2",
     "pytest-cov>=2.10.0",
 ]
 
