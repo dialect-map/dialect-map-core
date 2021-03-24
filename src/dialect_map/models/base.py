@@ -3,7 +3,6 @@
 from abc import abstractmethod
 from datetime import datetime
 from sqlalchemy import Column
-from sqlalchemy import ColumnDefault
 from sqlalchemy import DateTime
 from sqlalchemy import Table
 from sqlalchemy.orm import validates
@@ -78,7 +77,7 @@ class BaseStaticModel(BaseModel):
     """
 
     created_at = Column(DateTime, nullable=False, index=True)
-    audited_at = Column(DateTime, nullable=True, default=ColumnDefault(datetime.utcnow()))
+    audited_at = Column(DateTime, nullable=True, default=datetime.utcnow)
 
     @validates("audited_at")
     def check_audited(self, key, val):
@@ -106,7 +105,7 @@ class BaseArchivalModel(BaseModel):
 
     created_at = Column(DateTime, nullable=False, index=True)
     archived_at = Column(DateTime, nullable=True, index=False)
-    audited_at = Column(DateTime, nullable=True, default=ColumnDefault(datetime.utcnow()))
+    audited_at = Column(DateTime, nullable=True, default=datetime.utcnow)
 
     @validates("archived_at")
     def check_archived(self, key, val):
@@ -158,7 +157,7 @@ class BaseEvolvingModel(BaseModel):
 
     created_at = Column(DateTime, nullable=False, index=True)
     updated_at = Column(DateTime, nullable=False, index=True)
-    audited_at = Column(DateTime, nullable=True, default=ColumnDefault(datetime.utcnow()))
+    audited_at = Column(DateTime, nullable=True, default=datetime.utcnow)
 
     @validates("audited_at")
     def check_audited(self, key, val):
