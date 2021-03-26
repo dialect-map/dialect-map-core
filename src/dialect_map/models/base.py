@@ -2,11 +2,13 @@
 
 from abc import abstractmethod
 from datetime import datetime
+
 from sqlalchemy import Column
 from sqlalchemy import DateTime
 from sqlalchemy import Table
 from sqlalchemy.orm import validates
 from sqlalchemy.orm import declarative_base
+from sqlalchemy.orm import declared_attr
 
 from .__utils import mutable_property
 
@@ -76,8 +78,13 @@ class BaseStaticModel(BaseModel):
         idx_created_at: to query entities by when they were created
     """
 
-    created_at = Column(DateTime, nullable=False, index=True)
-    audited_at = Column(DateTime, nullable=True, default=datetime.utcnow)
+    @declared_attr
+    def created_at(self):
+        return Column(DateTime, nullable=False, index=True)
+
+    @declared_attr
+    def audited_at(self):
+        return Column(DateTime, nullable=True, default=datetime.utcnow)
 
     @validates("audited_at")
     def check_audited(self, key, val):
@@ -103,9 +110,17 @@ class BaseArchivalModel(BaseModel):
         idx_created_at: to query entities by when they were created
     """
 
-    created_at = Column(DateTime, nullable=False, index=True)
-    archived_at = Column(DateTime, nullable=True, index=False)
-    audited_at = Column(DateTime, nullable=True, default=datetime.utcnow)
+    @declared_attr
+    def created_at(self):
+        return Column(DateTime, nullable=False, index=True)
+
+    @declared_attr
+    def archived_at(self):
+        return Column(DateTime, nullable=True, index=False)
+
+    @declared_attr
+    def audited_at(self):
+        return Column(DateTime, nullable=True, default=datetime.utcnow)
 
     @validates("archived_at")
     def check_archived(self, key, val):
@@ -155,9 +170,17 @@ class BaseEvolvingModel(BaseModel):
         idx_updated_at: to query entities  by when they were updated
     """
 
-    created_at = Column(DateTime, nullable=False, index=True)
-    updated_at = Column(DateTime, nullable=False, index=True)
-    audited_at = Column(DateTime, nullable=True, default=datetime.utcnow)
+    @declared_attr
+    def created_at(self):
+        return Column(DateTime, nullable=False, index=True)
+
+    @declared_attr
+    def updated_at(self):
+        return Column(DateTime, nullable=False, index=True)
+
+    @declared_attr
+    def audited_at(self):
+        return Column(DateTime, nullable=True, default=datetime.utcnow)
 
     @validates("audited_at")
     def check_audited(self, key, val):
