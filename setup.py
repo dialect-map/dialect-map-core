@@ -17,7 +17,7 @@ VERSION = open("VERSION", "r").read().strip()
 INSTALLATION_REQS = [
     "click==7.1.2",
     "psycopg2-binary==2.8.6",
-    "sqlalchemy==1.4.1",
+    "sqlalchemy==1.4.4",
 ]
 
 # Development requirements
