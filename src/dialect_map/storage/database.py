@@ -5,8 +5,8 @@ import time
 
 from abc import ABC
 from abc import abstractmethod
-from sqlalchemy.engine import Connection
-from sqlalchemy.engine import create_engine
+from sqlalchemy.engine.base import Connection
+from sqlalchemy.engine.create import create_engine
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
