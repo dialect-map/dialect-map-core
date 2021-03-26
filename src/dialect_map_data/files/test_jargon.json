@@ -1,7 +1,7 @@
 [
   {
     "jargon_id": "jargon-01234",
-    "jargon_str": "One string",
+    "jargon_term": "One string",
     "jargon_regex": "[Oo]ne string",
     "group_id": "jargon-group-01234",
     "archived": false,
@@ -10,7 +10,7 @@
   },
   {
     "jargon_id": "jargon-56789",
-    "jargon_str": "Other string",
+    "jargon_term": "Other string",
     "jargon_regex": "[Oo]ther string",
     "group_id": "jargon-group-01234",
     "archived": false,
@@ -19,7 +19,7 @@
   },
   {
     "jargon_id": "jargon-archived",
-    "jargon_str": "Archived string",
+    "jargon_term": "Archived string",
     "jargon_regex": "[Aa]rchived string",
     "group_id": "jargon-group-archived",
     "archived": true,

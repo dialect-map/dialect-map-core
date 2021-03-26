@@ -21,7 +21,7 @@ class Jargon(Base, BaseArchivalModel):
     __tablename__ = "jargons"
 
     jargon_id = Column(String(32), default=generate_id, primary_key=True)
-    jargon_str = Column(String(64), nullable=False, index=True)
+    jargon_term = Column(String(64), nullable=False, index=True)
     jargon_regex = Column(String(128), nullable=False)
     group_id = Column(String(32), nullable=True)
     archived = Column(Boolean, nullable=False)

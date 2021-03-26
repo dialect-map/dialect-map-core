@@ -74,14 +74,14 @@ class TestJargonController:
         """
 
         jargon_id = "jargon-creation"
-        jargon_ds = "My test jargon"
-        jargon_re = "[Mm]y test jargon"
+        jargon_term = "My test jargon"
+        jargon_regex = "[Mm]y test jargon"
         jargon = Jargon(
             jargon_id=jargon_id,
-            jargon_str=jargon_ds,
-            jargon_regex=jargon_re,
+            jargon_term=jargon_term,
+            jargon_regex=jargon_regex,
             archived=False,
-            num_words=len(jargon_ds.split(" ")),
+            num_words=len(jargon_term.split(" ")),
             created_at=datetime.utcnow(),
         )
 
@@ -98,14 +98,14 @@ class TestJargonController:
         """
 
         jargon_id = "jargon-deletion"
-        jargon_ds = "My test jargon"
-        jargon_re = "[Mm]y test jargon"
+        jargon_term = "My test jargon"
+        jargon_regex = "[Mm]y test jargon"
         jargon = Jargon(
             jargon_id=jargon_id,
-            jargon_str=jargon_ds,
-            jargon_regex=jargon_re,
+            jargon_term=jargon_term,
+            jargon_regex=jargon_regex,
             archived=False,
-            num_words=len(jargon_ds.split(" ")),
+            num_words=len(jargon_term.split(" ")),
             created_at=datetime.utcnow(),
         )
 
