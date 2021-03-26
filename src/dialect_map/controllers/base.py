@@ -80,9 +80,9 @@ class StaticController(BaseController, Generic[StaticModelVar]):
 
         try:
             record = self.db.session.get(self.model, id)
-        except self.db.session_error as error:
+        except Exception:
             self.db.session.rollback()
-            raise ValueError(error)
+            raise
 
         if record is None:
             raise ValueError(f"Unknown record: {id}")
@@ -99,9 +99,9 @@ class StaticController(BaseController, Generic[StaticModelVar]):
         try:
             self.db.session.add(instance)
             self.db.session.commit()
-        except self.db.session_error as error:
+        except Exception:
             self.db.session.rollback()
-            raise ValueError(error)
+            raise
 
         return instance.id
 
@@ -151,9 +151,9 @@ class ArchivalController(BaseController, Generic[ArchivalModelVar]):
 
         try:
             record = self.db.session.get(self.model, id)
-        except self.db.session_error as error:
+        except Exception:
             self.db.session.rollback()
-            raise ValueError(error)
+            raise
 
         if record is None:
             raise ValueError(f"Unknown record: {id}")
@@ -172,9 +172,9 @@ class ArchivalController(BaseController, Generic[ArchivalModelVar]):
         try:
             self.db.session.add(instance)
             self.db.session.commit()
-        except self.db.session_error as error:
+        except Exception:
             self.db.session.rollback()
-            raise ValueError(error)
+            raise
 
         return instance.id
 
@@ -238,9 +238,9 @@ class EvolvingController(BaseController, Generic[EvolvingModelVar]):
 
         try:
             record = self.db.session.get(self.model, (id, rev))
-        except self.db.session_error as error:
+        except Exception:
             self.db.session.rollback()
-            raise ValueError(error)
+            raise
 
         if record is None:
             raise ValueError(f"Unknown record: {id} - Revision: {rev}")
@@ -257,9 +257,9 @@ class EvolvingController(BaseController, Generic[EvolvingModelVar]):
         try:
             self.db.session.add(instance)
             self.db.session.commit()
-        except self.db.session_error as error:
+        except Exception:
             self.db.session.rollback()
-            raise ValueError(error)
+            raise
 
         return instance.id
 

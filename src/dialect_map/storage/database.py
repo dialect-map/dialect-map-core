@@ -37,13 +37,6 @@ class BaseDatabase(ABC):
 
         raise NotImplementedError()
 
-    @property
-    @abstractmethod
-    def session_error(self):
-        """ Database highest error upon exception """
-
-        raise NotImplementedError()
-
     @abstractmethod
     def close(self):
         """ Closes the database connection """
@@ -84,7 +77,6 @@ class SQLAlchemyDatabase(BaseDatabase):
 
     conn = None
     session = None
-    session_error = SQLAlchemyError
 
     def __init__(
         self,
