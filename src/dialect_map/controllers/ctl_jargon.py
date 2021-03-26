@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from sqlalchemy import false
+
 from .base import ArchivalController
 from ..models import Jargon
 from ..models import JargonGroup
@@ -22,7 +24,7 @@ class JargonController(ArchivalController[Jargon]):
 
         query = self.db.session.query(self.model)
         query = query.filter(self.model.jargon_str == jargon_str)
-        query = query.filter(self.model.archived.is_(False))
+        query = query.filter(self.model.archived == false())
 
         return query.one_or_none()
 
@@ -33,7 +35,7 @@ class JargonController(ArchivalController[Jargon]):
         """
 
         groups = self.db.session.query(JargonGroup)
-        groups = groups.filter(JargonGroup.archived.is_(False))
+        groups = groups.filter(JargonGroup.archived == false())
 
         group_ids = [g.id for g in groups]
         grouped = []
@@ -41,7 +43,7 @@ class JargonController(ArchivalController[Jargon]):
         for id in group_ids:
             query = self.db.session.query(self.model)
             query = query.filter(self.model.group_id == id)
-            query = query.filter(self.model.archived.is_(False))
+            query = query.filter(self.model.archived == false())
             grouped.append(query.all())
 
         return grouped
