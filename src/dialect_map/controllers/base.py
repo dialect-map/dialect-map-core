@@ -79,8 +79,7 @@ class StaticController(BaseController, Generic[StaticModelVar]):
         """
 
         try:
-            query = self.db.session.query(self.model)
-            record = query.get(id)
+            record = self.db.session.get(self.model, id)
         except self.db.session_error as error:
             self.db.session.rollback()
             raise ValueError(error)
@@ -151,8 +150,7 @@ class ArchivalController(BaseController, Generic[ArchivalModelVar]):
         """
 
         try:
-            query = self.db.session.query(self.model)
-            record = query.get(id)
+            record = self.db.session.get(self.model, id)
         except self.db.session_error as error:
             self.db.session.rollback()
             raise ValueError(error)
@@ -239,8 +237,7 @@ class EvolvingController(BaseController, Generic[EvolvingModelVar]):
         """
 
         try:
-            query = self.db.session.query(self.model)
-            record = query.get((id, rev))
+            record = self.db.session.get(self.model, (id, rev))
         except self.db.session_error as error:
             self.db.session.rollback()
             raise ValueError(error)
