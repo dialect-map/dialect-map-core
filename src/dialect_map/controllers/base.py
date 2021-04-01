@@ -78,8 +78,12 @@ class StaticController(BaseController, Generic[StaticModelVar]):
         :return: data object representing the database record
         """
 
-        query = self.db.session.query(self.model)
-        record = query.get(id)
+        try:
+            query = self.db.session.query(self.model)
+            record = query.get(id)
+        except self.db.session_error as error:
+            self.db.session.rollback()
+            raise ValueError(error)
 
         if record is None:
             raise ValueError(f"Unknown record: {id}")
@@ -146,8 +150,12 @@ class ArchivalController(BaseController, Generic[ArchivalModelVar]):
         :return: data object representing the database record
         """
 
-        query = self.db.session.query(self.model)
-        record = query.get(id)
+        try:
+            query = self.db.session.query(self.model)
+            record = query.get(id)
+        except self.db.session_error as error:
+            self.db.session.rollback()
+            raise ValueError(error)
 
         if record is None:
             raise ValueError(f"Unknown record: {id}")
@@ -230,8 +238,12 @@ class EvolvingController(BaseController, Generic[EvolvingModelVar]):
         :return: data object representing the database record
         """
 
-        query = self.db.session.query(self.model)
-        record = query.get((id, rev))
+        try:
+            query = self.db.session.query(self.model)
+            record = query.get((id, rev))
+        except self.db.session_error as error:
+            self.db.session.rollback()
+            raise ValueError(error)
 
         if record is None:
             raise ValueError(f"Unknown record: {id} - Revision: {rev}")
