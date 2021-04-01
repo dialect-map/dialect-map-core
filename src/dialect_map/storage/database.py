@@ -5,8 +5,8 @@ import time
 
 from abc import ABC
 from abc import abstractmethod
-from sqlalchemy.engine import Connection
-from sqlalchemy.engine import create_engine
+from sqlalchemy.engine.base import Connection
+from sqlalchemy.engine.create import create_engine
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
@@ -34,13 +34,6 @@ class BaseDatabase(ABC):
     @abstractmethod
     def session(self):
         """ Database session object """
-
-        raise NotImplementedError()
-
-    @property
-    @abstractmethod
-    def session_error(self):
-        """ Database highest error upon exception """
 
         raise NotImplementedError()
 
@@ -84,7 +77,6 @@ class SQLAlchemyDatabase(BaseDatabase):
 
     conn = None
     session = None
-    session_error = SQLAlchemyError
 
     def __init__(
         self,
@@ -156,7 +148,7 @@ class SQLAlchemyDatabase(BaseDatabase):
         self.session.close() if self.web_app else False
         self.conn.close()
 
-    def load(self, file_path: str, data_model: Type):
+    def load(self, file_path: str, data_model: Type[Base]):
         """
         Loads a specific file of data objects into the database
         :param file_path: path to the specific file to load
@@ -164,11 +156,7 @@ class SQLAlchemyDatabase(BaseDatabase):
         """
 
         records = self.file_loader.load(file_path)
-
-        for record in records:
-            obj = data_model(**record)
-            self.session.add(obj)  # type: ignore
-
+        self.session.add_all(data_model(**record) for record in records)  # type: ignore
         self.session.commit()  # type: ignore
 
     def setup(self, check: bool = True):
