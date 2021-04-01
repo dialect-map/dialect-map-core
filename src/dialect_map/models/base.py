@@ -23,8 +23,8 @@ class BaseModel:
         __table__: Table object containing model SQL table information
 
     Object properties:
+        data: data dictionary of the data object
         id: unique identifier of the data object (abstract)
-        json: JSON serialization of the data object
     """
 
     __table__: Table
