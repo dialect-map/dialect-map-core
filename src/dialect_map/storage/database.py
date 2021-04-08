@@ -38,8 +38,14 @@ class BaseDatabase(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def close(self):
+    def close_conn(self):
         """ Closes the database connection """
+
+        raise NotImplementedError()
+
+    @abstractmethod
+    def close_session(self):
+        """ Closes the database process / thread session """
 
         raise NotImplementedError()
 
@@ -82,14 +88,14 @@ class SQLAlchemyDatabase(BaseDatabase):
         self,
         connection_url: str,
         backoff_seconds: int = 32,
-        factory_session: bool = True,
+        thread_sessions: bool = True,
         file_loader: BaseFileLoader = None,
     ):
         """
         Initiates the database connection
         :param connection_url: complete url to connect to the database
         :param backoff_seconds: maximum seconds to wait for connection (optional)
-        :param factory_session: whether to create a new session per request (optional)
+        :param thread_sessions: whether or not to use thread-local sessions (optional)
         :param file_loader: file loader to populate the database if needed (optional)
         """
 
@@ -98,13 +104,13 @@ class SQLAlchemyDatabase(BaseDatabase):
 
         logger.info(f"Connecting to database URL: {connection_url}")
 
-        self.max_backoff = backoff_seconds
         self.file_loader = file_loader
-        self.web_app = factory_session
+        self.max_backoff = backoff_seconds
+        self.use_threads = thread_sessions
 
         self.engine = create_engine(connection_url)
         self.conn = self._create_connection()
-        self.session = self._create_session(self.web_app)
+        self.session = self._create_session()
 
     def _create_connection(self) -> Connection:
         """
@@ -127,26 +133,31 @@ class SQLAlchemyDatabase(BaseDatabase):
 
         raise ConnectionError("Database connection timeout")
 
-    def _create_session(self, web_app: bool):
+    def _create_session(self):
         """
         Initializes the database object session
-        :param web_app: whether or not should be a new session per request
-        :return: session or session factory
+        :return: session factory or session registry
         """
 
         session = sessionmaker(bind=self.conn)
 
-        if web_app:
+        if self.use_threads:
             return scoped_session(session)
         else:
             return session()
 
-    def close(self):
+    def close_conn(self):
+        """ Closes the database connection """
+
+        self.conn.close()
+
+    def close_session(self):
         """ Closes the database session """
 
-        logger.info("Disconnecting from the database")
-        self.session.close() if self.web_app else False
-        self.conn.close()
+        if self.use_threads:
+            self.session.remove()
+        else:
+            self.session.close()
 
     def load(self, file_path: str, data_model: Type[Base]):
         """
