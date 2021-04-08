@@ -38,8 +38,14 @@ class BaseDatabase(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def close(self):
+    def close_conn(self):
         """ Closes the database connection """
+
+        raise NotImplementedError()
+
+    @abstractmethod
+    def close_session(self):
+        """ Closes the database process / thread session """
 
         raise NotImplementedError()
 
@@ -130,8 +136,8 @@ class SQLAlchemyDatabase(BaseDatabase):
     def _create_session(self, web_app: bool):
         """
         Initializes the database object session
-        :param web_app: whether or not should be a new session per request
-        :return: session or session factory
+        :param web_app: whether or not to use thread-local sessions
+        :return: session factory or session registry
         """
 
         session = sessionmaker(bind=self.conn)
@@ -141,12 +147,20 @@ class SQLAlchemyDatabase(BaseDatabase):
         else:
             return session()
 
-    def close(self):
-        """ Closes the database session """
+    def close_conn(self):
+        """ Closes the database connection """
 
         logger.info("Disconnecting from the database")
-        self.session.close() if self.web_app else False
         self.conn.close()
+
+    def close_session(self):
+        """ Closes the database session """
+
+        logger.info("Cleaning current session")
+        if self.web_app:
+            self.session.remove()
+        else:
+            self.session.close()
 
     def load(self, file_path: str, data_model: Type[Base]):
         """

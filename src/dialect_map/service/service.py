@@ -25,7 +25,7 @@ class ApplicationService:
         """ Stops and closes the application service """
 
         logger.info("Stopping application service")
-        self.db.close()
+        self.db.close_conn()
 
     @property
     def categories(self) -> CategoryController:
