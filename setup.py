@@ -8,7 +8,7 @@ from setuptools import setup
 NAME = "dialect-map-core"
 INFO = "Python package containing the core models of the Dialect Map"
 URL = "https://github.com/dialect-map/dialect-map-core"
-REQUIRES_PYTHON = ">=3.6, <4"
+REQUIRES_PYTHON = ">=3.7, <4"
 AUTHORS = "NYU DS3 Team"
 VERSION = open("VERSION", "r").read().strip()
 
@@ -60,9 +60,9 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
     ],
     cmdclass={},
 )
