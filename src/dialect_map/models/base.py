@@ -6,9 +6,9 @@ from datetime import datetime
 from sqlalchemy import Column
 from sqlalchemy import DateTime
 from sqlalchemy import Table
-from sqlalchemy.orm import validates
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import declared_attr
+from sqlalchemy.orm import validates
 
 from .__utils import mutable_property
 
