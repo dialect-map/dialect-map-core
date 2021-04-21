@@ -34,6 +34,17 @@ class TestMembershipController:
         assert type(membership_obj) is CategoryMembership
         assert membership_obj.id == membership_id
 
+    def test_get_by_paper(self, controller: MembershipController):
+        """
+        Tests the retrieval of a category membership by the controller
+        :param controller: initiated instance
+        """
+
+        memberships = controller.get_by_paper("paper-01234", 1)
+
+        assert type(memberships) is list
+        assert len(memberships) == 2
+
     def test_create(self, controller: MembershipController):
         """
         Tests the creation of a category membership by the controller

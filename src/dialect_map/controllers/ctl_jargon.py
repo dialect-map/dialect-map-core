@@ -15,38 +15,51 @@ class JargonController(ArchivalController[Jargon]):
 
     model = Jargon
 
+    def get_all(self) -> list:
+        """
+        Gets all database jargon terms
+        :return: list of jargon terms
+        """
+
+        query = self.db.session.query(self.model)
+        query = query.filter(self.model.archived == false())
+
+        return query.all()
+
     def get_by_string(self, jargon_term: str) -> Jargon:
         """
         Gets a database record by its string value
         :param jargon_term: jargon string representation
-        :return: data object representing the database record
+        :return: jargon term object
         """
 
         query = self.db.session.query(self.model)
-        query = query.filter(self.model.jargon_term == jargon_term)
         query = query.filter(self.model.archived == false())
+        query = query.filter(self.model.jargon_term == jargon_term)
 
         return query.one_or_none()
 
-    def get_by_group(self) -> list:
+    def get_by_group(self, group_id: str) -> list:
         """
-        Gets a database jargon records grouped
-        :return: list of jargon term groups
+        Gets a database set of jargons given their group ID
+        :param group_id: jargon group ID to filter by
+        :return: list of jargon terms
         """
 
-        groups = self.db.session.query(JargonGroup)
-        groups = groups.filter(JargonGroup.archived == false())
+        group = self.db.session.query(JargonGroup)
+        group = group.filter(JargonGroup.archived == false())
+        group = group.filter(JargonGroup.group_id == group_id)
 
-        group_ids = [g.id for g in groups]
-        grouped = []
+        group = group.one_or_none()
+        jargons = []
 
-        for id in group_ids:
+        if group:
             query = self.db.session.query(self.model)
-            query = query.filter(self.model.group_id == id)
             query = query.filter(self.model.archived == false())
-            grouped.append(query.all())
+            query = query.filter(self.model.group_id == group_id)
+            jargons = query.all()
 
-        return grouped
+        return jargons
 
 
 class JargonGroupController(ArchivalController[JargonGroup]):

@@ -18,10 +18,10 @@ class JargonCategoryMetricsController(StaticController[JCategoryMetrics]):
 
     def get_by_jargon(self, jargon_id: str, category_id: str = None) -> list:
         """
-        Gets a database record by its ID
+        Gets a list of category jargon metrics
         :param jargon_id: ID of the metrics associated jargon
         :param category_id: ID of the metrics associated category (optional)
-        :return: data objects representing the database records
+        :return: list of database objects
         """
 
         query = self.db.session.query(self.model)
@@ -43,11 +43,11 @@ class JargonPaperMetricsController(StaticController[JPaperMetrics]):
 
     def get_by_jargon(self, jargon_id: str, arxiv_id: str = None, arxiv_rev: int = None) -> list:
         """
-        Gets a database record by its ID
+        Gets a list of paper jargon metrics
         :param jargon_id: ID of the metrics associated jargon
         :param arxiv_id: ID of the metrics associated paper (optional)
         :param arxiv_rev: revision of the metrics associated paper (optional)
-        :return: data objects representing the database records
+        :return: list of database objects
         """
 
         query = self.db.session.query(self.model)
@@ -62,9 +62,9 @@ class JargonPaperMetricsController(StaticController[JPaperMetrics]):
 
     def get_latest_by_jargon(self, jargon_id: str) -> list:
         """
-        Gets latest paper metric records by jargon ID
+        Gets the latest paper jargon metrics given a jargon ID
         :param jargon_id: ID of the metrics associated jargon
-        :return: data objects representing the database records
+        :return: list of database objects
         """
 
         subquery = (

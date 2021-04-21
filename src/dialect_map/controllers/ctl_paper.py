@@ -26,10 +26,10 @@ class PaperAuthorController(StaticController[PaperAuthor]):
 
     def get_by_paper(self, arxiv_id: str, arxiv_rev: int) -> list:
         """
-        Gets a database record by its ID
+        Gets a list paper authors given a paper
         :param arxiv_id: ID of the metrics associated paper
         :param arxiv_rev: revision of the metrics associated paper
-        :return: list of data object representing database records
+        :return: list of database objects
         """
 
         query = self.db.session.query(self.model)
@@ -49,10 +49,10 @@ class PaperReferenceCountersController(StaticController[PaperReferenceCounters])
 
     def get_by_paper(self, arxiv_id: str, arxiv_rev: int) -> list:
         """
-        Gets a database record by its ID
+        Gets a list of paper reference counters given a paper
         :param arxiv_id: ID of the metrics associated paper
         :param arxiv_rev: revision of the metrics associated paper
-        :return: list of data object representing database records
+        :return: list of database objects
         """
 
         query = self.db.session.query(self.model)

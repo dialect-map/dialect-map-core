@@ -61,11 +61,10 @@ class TestJargonController:
         :param controller: initiated instance
         """
 
-        groups = controller.get_by_group()
+        jargons = controller.get_by_group("jargon-group-01234")
 
-        assert type(groups) is list
-        assert len(groups) == 1
-        assert len(groups[0]) == 2
+        assert type(jargons) is list
+        assert len(jargons) == 2
 
     def test_create(self, controller: JargonController):
         """
