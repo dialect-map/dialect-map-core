@@ -15,6 +15,17 @@ class JargonController(ArchivalController[Jargon]):
 
     model = Jargon
 
+    def get_all(self) -> list:
+        """
+        Gets all database jargon terms
+        :return: list of jargon terms
+        """
+
+        query = self.db.session.query(self.model)
+        query = query.filter(self.model.archived == false())
+
+        return query.all()
+
     def get_by_string(self, jargon_term: str) -> Jargon:
         """
         Gets a database record by its string value
