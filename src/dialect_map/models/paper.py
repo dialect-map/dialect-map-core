@@ -79,7 +79,7 @@ class PaperAuthor(Base, BaseStaticModel):
 
     __tablename__ = "paper_authors"
 
-    author_id = Column(String(32), default=generate_id, primary_key=True)
+    author_id = Column(String(32), nullable=False, primary_key=True, default=generate_id)
     arxiv_id = Column(String(32), nullable=False)
     arxiv_rev = Column(Integer, nullable=False)
     author_name = Column(String(64), nullable=False)
@@ -113,7 +113,7 @@ class PaperReferenceCounters(Base, BaseStaticModel):
 
     __tablename__ = "paper_reference_counters"
 
-    count_id = Column(String(32), default=generate_id, primary_key=True)
+    count_id = Column(String(32), nullable=False, primary_key=True, default=generate_id)
     arxiv_id = Column(String(32), nullable=False)
     arxiv_rev = Column(Integer, nullable=False)
     arxiv_ref_count = Column(Integer, nullable=False)

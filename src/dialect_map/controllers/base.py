@@ -3,6 +3,7 @@
 from abc import ABC
 from abc import abstractmethod
 from datetime import datetime
+from sqlalchemy import false
 from typing import Generic
 from typing import Tuple
 from typing import Type
@@ -25,6 +26,15 @@ class BaseController(ABC):
     """Interface for the data controllers"""
 
     db: BaseDatabase
+
+    @abstractmethod
+    def get_all(self) -> list:
+        """
+        Gets all database records
+        :return: list of records
+        """
+
+        raise NotImplementedError()
 
     @abstractmethod
     def create(self, instance: Base) -> str:
@@ -88,6 +98,14 @@ class StaticController(BaseController, Generic[StaticModelVar]):
             raise ValueError(f"Unknown record: {id}")
 
         return record
+
+    def get_all(self) -> list:
+        """
+        Gets all database records
+        :return: list of records
+        """
+
+        return self.db.session.query(self.model).all()
 
     def create(self, instance: StaticModelVar) -> str:
         """
@@ -161,6 +179,20 @@ class ArchivalController(BaseController, Generic[ArchivalModelVar]):
             raise ValueError(f"The record {id} has been archived")
 
         return record
+
+    def get_all(self) -> list:
+        """
+        Gets all database records
+        :return: list of records
+        """
+
+        # fmt: off
+        query = self.db.session \
+            .query(self.model) \
+            .filter(self.model.archived == false())
+
+        # fmt: on
+        return query.all()
 
     def create(self, instance: ArchivalModelVar) -> str:
         """
@@ -246,6 +278,14 @@ class EvolvingController(BaseController, Generic[EvolvingModelVar]):
             raise ValueError(f"Unknown record: {id} - Revision: {rev}")
 
         return record
+
+    def get_all(self) -> list:
+        """
+        Gets all database records
+        :return: list of records
+        """
+
+        return self.db.session.query(self.model).all()
 
     def create(self, instance: EvolvingModelVar) -> str:
         """

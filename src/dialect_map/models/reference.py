@@ -19,7 +19,7 @@ class PaperReference(Base, BaseStaticModel):
 
     __tablename__ = "paper_references"
 
-    reference_id = Column(String(32), default=generate_id, primary_key=True)
+    reference_id = Column(String(32), nullable=False, primary_key=True, default=generate_id)
     source_arxiv_id = Column(String(32), nullable=False)
     source_arxiv_rev = Column(Integer, nullable=False)
     target_arxiv_id = Column(String(32), nullable=False)

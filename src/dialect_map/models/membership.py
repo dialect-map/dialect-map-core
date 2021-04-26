@@ -19,7 +19,7 @@ class CategoryMembership(Base, BaseStaticModel):
 
     __tablename__ = "category_memberships"
 
-    membership_id = Column(String(32), default=generate_id, primary_key=True)
+    membership_id = Column(String(32), nullable=False, primary_key=True, default=generate_id)
     arxiv_id = Column(String(32), nullable=False)
     arxiv_rev = Column(Integer, nullable=False)
     category_id = Column(String(32), nullable=False)

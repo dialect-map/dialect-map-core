@@ -20,7 +20,7 @@ class Jargon(Base, BaseArchivalModel):
 
     __tablename__ = "jargons"
 
-    jargon_id = Column(String(32), default=generate_id, primary_key=True)
+    jargon_id = Column(String(32), nullable=False, primary_key=True, default=generate_id)
     jargon_term = Column(String(64), nullable=False, index=True)
     jargon_regex = Column(String(128), nullable=False)
     group_id = Column(String(32), nullable=True)
@@ -67,7 +67,7 @@ class JargonGroup(Base, BaseArchivalModel):
 
     __tablename__ = "jargon_groups"
 
-    group_id = Column(String(32), default=generate_id, primary_key=True)
+    group_id = Column(String(32), nullable=False, primary_key=True, default=generate_id)
     description = Column(String(256), nullable=False)
     archived = Column(Boolean, nullable=False)
 
