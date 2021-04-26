@@ -21,31 +21,31 @@ logger = logging.getLogger()
 
 
 class BaseDatabase(ABC):
-    """ Interface for the database classes """
+    """Interface for the database classes"""
 
     @property
     @abstractmethod
     def conn(self):
-        """ Database connection object """
+        """Database connection object"""
 
         raise NotImplementedError()
 
     @property
     @abstractmethod
     def session(self):
-        """ Database session object """
+        """Database session object"""
 
         raise NotImplementedError()
 
     @abstractmethod
     def close_conn(self):
-        """ Closes the database connection """
+        """Closes the database connection"""
 
         raise NotImplementedError()
 
     @abstractmethod
     def close_session(self):
-        """ Closes the database process / thread session """
+        """Closes the database process / thread session"""
 
         raise NotImplementedError()
 
@@ -79,7 +79,7 @@ class BaseDatabase(ABC):
 
 
 class SQLAlchemyDatabase(BaseDatabase):
-    """ Database class using SQLAlchemy utilities"""
+    """Database class using SQLAlchemy utilities"""
 
     conn = None
     session = None
@@ -147,12 +147,12 @@ class SQLAlchemyDatabase(BaseDatabase):
             return session()
 
     def close_conn(self):
-        """ Closes the database connection """
+        """Closes the database connection"""
 
         self.conn.close()
 
     def close_session(self):
-        """ Closes the database session """
+        """Closes the database session"""
 
         if self.use_threads:
             self.session.remove()

@@ -12,7 +12,7 @@ from .base import BaseEncoder
 
 
 class CustomJSONEncoder(BaseEncoder, JSONEncoder):
-    """ Custom JSON encoder for Python data types """
+    """Custom JSON encoder for Python data types"""
 
     def __init__(self, time_res: str = None, time_sep: str = None, **kwargs):
         """
@@ -57,7 +57,7 @@ class CustomJSONEncoder(BaseEncoder, JSONEncoder):
 
 
 class CustomJSONDecoder(BaseDecoder, JSONDecoder):
-    """ Custom JSON decoder for Python data types """
+    """Custom JSON decoder for Python data types"""
 
     def __init__(self, date_regex: str = None, datetime_regex: str = None, **kwargs):
         """

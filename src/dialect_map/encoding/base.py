@@ -6,7 +6,7 @@ from typing import Any
 
 
 class BaseEncoder(ABC):
-    """ Interface for the Python types encoding classes """
+    """Interface for the Python types encoding classes"""
 
     @abstractmethod
     def custom_encode(self, obj: Any) -> Any:
@@ -20,7 +20,7 @@ class BaseEncoder(ABC):
 
 
 class BaseDecoder(ABC):
-    """ Interface for the Python types decoding classes """
+    """Interface for the Python types decoding classes"""
 
     @abstractmethod
     def custom_decode(self, obj: Any) -> Any:

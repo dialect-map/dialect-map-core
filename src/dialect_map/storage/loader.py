@@ -8,7 +8,7 @@ from ..encoding import CustomJSONDecoder
 
 
 class BaseFileLoader(ABC):
-    """ Interface for the data file loader classes """
+    """Interface for the data file loader classes"""
 
     @abstractmethod
     def load(self, file_path: str) -> list:
@@ -22,7 +22,7 @@ class BaseFileLoader(ABC):
 
 
 class JSONFileLoader(BaseFileLoader):
-    """ Data file loader class for JSON documents """
+    """Data file loader class for JSON documents"""
 
     def __init__(self, **kwargs):
         """

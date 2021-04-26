@@ -21,7 +21,7 @@ def main():
     type=str,
 )
 def load_db(url: str):
-    """ Loads testing data into the specified database instance """
+    """Loads testing data into the specified database instance"""
 
     try:
         loader = JSONFileLoader()
@@ -47,7 +47,7 @@ def load_db(url: str):
     type=str,
 )
 def setup_db(url: str):
-    """ Creates all the database tables that do not exist """
+    """Creates all the database tables that do not exist"""
 
     try:
         database = SQLAlchemyDatabase(url)
@@ -72,7 +72,7 @@ def setup_db(url: str):
     type=bool,
 )
 def teardown_db(url: str, force: bool):
-    """ Destroys all the empty database tables """
+    """Destroys all the empty database tables"""
 
     check = not force
 

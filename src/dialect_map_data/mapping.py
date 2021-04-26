@@ -17,7 +17,7 @@ from dialect_map.models import PaperReferenceCounters
 
 
 class Mapping(NamedTuple):
-    """ Mapping between file data records and their associated data model """
+    """Mapping between file data records and their associated data model"""
 
     file: str
     model: Type

@@ -22,7 +22,7 @@ EvolvingModelVar = TypeVar("EvolvingModelVar", bound=BaseEvolvingModel)
 
 
 class BaseController(ABC):
-    """ Interface for the data controllers """
+    """Interface for the data controllers"""
 
     db: BaseDatabase
 
