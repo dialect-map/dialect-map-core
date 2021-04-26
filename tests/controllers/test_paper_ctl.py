@@ -14,7 +14,7 @@ from src.dialect_map.storage import BaseDatabase
 
 @pytest.mark.usefixtures("database_rollback")
 class TestPaperController:
-    """ Class to group all the Paper model controller tests """
+    """Class to group all the Paper model controller tests"""
 
     @pytest.fixture(scope="class")
     def controller(self, database: BaseDatabase):
@@ -111,7 +111,7 @@ class TestPaperController:
 
 @pytest.mark.usefixtures("database_rollback")
 class TestPaperAuthorController:
-    """ Class to group all the PaperAuthor model controller tests """
+    """Class to group all the PaperAuthor model controller tests"""
 
     @pytest.fixture(scope="class")
     def controller(self, database: BaseDatabase):
@@ -139,7 +139,7 @@ class TestPaperAuthorController:
 
 @pytest.mark.usefixtures("database_rollback")
 class TestPaperRefCounterController:
-    """ Class to group all the PaperReferenceCounter model controller tests """
+    """Class to group all the PaperReferenceCounter model controller tests"""
 
     @pytest.fixture(scope="class")
     def controller(self, database: BaseDatabase):

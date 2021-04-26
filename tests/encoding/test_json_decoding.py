@@ -6,7 +6,7 @@ from src.dialect_map.encoding import CustomJSONDecoder
 
 
 def test_json_decoding():
-    """ Checks the correct decoding of strings """
+    """Checks the correct decoding of strings"""
 
     decoder = CustomJSONDecoder()
 
@@ -20,7 +20,7 @@ def test_json_decoding():
 
 
 def test_json_decoding_dates():
-    """ Checks the correct decoding of date strings """
+    """Checks the correct decoding of date strings"""
 
     decoder = CustomJSONDecoder()
 

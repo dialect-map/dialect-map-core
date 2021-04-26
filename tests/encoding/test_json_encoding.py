@@ -6,7 +6,7 @@ from src.dialect_map.encoding import CustomJSONEncoder
 
 
 def test_python_encoding():
-    """ Checks the correct encoding of Python objects """
+    """Checks the correct encoding of Python objects"""
 
     encoder = CustomJSONEncoder()
 
@@ -20,7 +20,7 @@ def test_python_encoding():
 
 
 def test_python_encoding_dates():
-    """ Checks the correct encoding of date objects """
+    """Checks the correct encoding of date objects"""
 
     encoder = CustomJSONEncoder()
 
