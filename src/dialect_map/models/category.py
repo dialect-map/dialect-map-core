@@ -5,10 +5,10 @@ from sqlalchemy import String
 from sqlalchemy.orm import relationship
 
 from .base import Base
-from .base import BaseStaticModel
+from .base import BaseArchivalModel
 
 
-class Category(Base, BaseStaticModel):
+class Category(Base, BaseArchivalModel):
     """
     ArXiv category information record.
     Contains all the static properties of an ArXiv category
