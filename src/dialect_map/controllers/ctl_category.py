@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from .base import StaticController
+from .base import ArchivalController
 from ..models import Category
 
 
-class CategoryController(StaticController[Category]):
+class CategoryController(ArchivalController[Category]):
     """
-    Controller for the Category objects (static)
+    Controller for the Category objects (archival)
     Extend as desired
     """
 
