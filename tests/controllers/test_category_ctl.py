@@ -45,6 +45,7 @@ class TestCategoryController:
         category = Category(
             category_id=category_id,
             description=category_ds,
+            archived=False,
             created_at=datetime.utcnow(),
         )
 
@@ -65,6 +66,7 @@ class TestCategoryController:
         category = Category(
             category_id=category_id,
             description=category_ds,
+            archived=False,
             created_at=datetime.utcnow(),
         )
 
