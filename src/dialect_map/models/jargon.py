@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import Boolean
 from sqlalchemy import Column
 from sqlalchemy import ForeignKeyConstraint as FKConstraint
 from sqlalchemy import Integer
@@ -24,7 +23,6 @@ class Jargon(Base, BaseArchivalModel):
     jargon_term = Column(String(64), nullable=False, index=True)
     jargon_regex = Column(String(128), nullable=False)
     group_id = Column(String(32), nullable=True)
-    archived = Column(Boolean, nullable=False)
     num_words = Column(Integer, nullable=False)
 
     __table_args__ = (
@@ -69,7 +67,6 @@ class JargonGroup(Base, BaseArchivalModel):
 
     group_id = Column(String(32), nullable=False, primary_key=True, default=generate_id)
     description = Column(String(256), nullable=False)
-    archived = Column(Boolean, nullable=False)
 
     # All main table relationships to child tables. References:
     # Official docs: https://docs.sqlalchemy.org/en/13/orm/basic_relationships.html

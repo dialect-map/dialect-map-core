@@ -2,11 +2,13 @@
   {
     "category_id": "category-01234",
     "description": "Test category A",
+    "archived": false,
     "created_at": "2020-11-20 10:00:00"
   },
   {
     "category_id": "category-56789",
     "description": "Test category B",
+    "archived": false,
     "created_at": "2020-11-20 12:00:00"
   }
 ]

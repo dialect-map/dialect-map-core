@@ -3,14 +3,13 @@
 from abc import abstractmethod
 from datetime import datetime
 
+from sqlalchemy import Boolean
 from sqlalchemy import Column
 from sqlalchemy import DateTime
 from sqlalchemy import Table
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import declared_attr
 from sqlalchemy.orm import validates
-
-from .__utils import mutable_property
 
 
 # Base class for all database tables
@@ -102,6 +101,7 @@ class BaseArchivalModel(BaseModel):
     Base class defining key timestamps for keeping track of archival models
 
     Columns:
+        archived: whether the referenced entity was archived
         created_at: when the referenced entity was originally created
         archived_at: when the referenced entity was last archived
         audited_at: when the referenced entity reached the database
@@ -109,6 +109,10 @@ class BaseArchivalModel(BaseModel):
     Indexes:
         idx_created_at: to query entities by when they were created
     """
+
+    @declared_attr
+    def archived(self):
+        return Column(Boolean, nullable=False, index=False)
 
     @declared_attr
     def created_at(self):
@@ -120,7 +124,7 @@ class BaseArchivalModel(BaseModel):
 
     @declared_attr
     def audited_at(self):
-        return Column(DateTime, nullable=True, default=datetime.utcnow)
+        return Column(DateTime, nullable=True, index=False, default=datetime.utcnow)
 
     @validates("archived_at")
     def check_archived(self, key, val):
@@ -144,16 +148,6 @@ class BaseArchivalModel(BaseModel):
         """
 
         raise ValueError("The column 'audited_at' must not be provided")
-
-    @mutable_property
-    @abstractmethod
-    def archived(self) -> bool:
-        """
-        Whether the model was archived or not
-        :return: archive status
-        """
-
-        raise NotImplementedError()
 
 
 class BaseEvolvingModel(BaseModel):
