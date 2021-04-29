@@ -28,15 +28,6 @@ class BaseController(ABC):
     db: BaseDatabase
 
     @abstractmethod
-    def get_all(self) -> list:
-        """
-        Gets all database records
-        :return: list of records
-        """
-
-        raise NotImplementedError()
-
-    @abstractmethod
     def create(self, instance: Base) -> str:
         """
         Creates a new database record given its object properties
@@ -98,14 +89,6 @@ class StaticController(BaseController, Generic[StaticModelVar]):
             raise ValueError(f"Unknown record: {id}")
 
         return record
-
-    def get_all(self) -> list:
-        """
-        Gets all database records
-        :return: list of records
-        """
-
-        return self.db.session.query(self.model).all()
 
     def create(self, instance: StaticModelVar) -> str:
         """
@@ -278,14 +261,6 @@ class EvolvingController(BaseController, Generic[EvolvingModelVar]):
             raise ValueError(f"Unknown record: {id} - Revision: {rev}")
 
         return record
-
-    def get_all(self) -> list:
-        """
-        Gets all database records
-        :return: list of records
-        """
-
-        return self.db.session.query(self.model).all()
 
     def create(self, instance: EvolvingModelVar) -> str:
         """
