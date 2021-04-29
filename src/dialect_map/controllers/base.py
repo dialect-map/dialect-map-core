@@ -163,18 +163,18 @@ class ArchivalController(BaseController, Generic[ArchivalModelVar]):
 
         return record
 
-    def get_all(self) -> list:
+    def get_all(self, include_archived: bool = False) -> list:
         """
         Gets all database records
+        :param include_archived: whether to include archived records
         :return: list of records
         """
 
-        # fmt: off
-        query = self.db.session \
-            .query(self.model) \
-            .filter(self.model.archived == false())
+        query = self.db.session.query(self.model)
 
-        # fmt: on
+        if include_archived is False:
+            query = query.filter(self.model.archived == false())
+
         return query.all()
 
     def create(self, instance: ArchivalModelVar) -> str:
