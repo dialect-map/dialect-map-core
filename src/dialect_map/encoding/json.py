@@ -5,7 +5,6 @@ from datetime import date
 from datetime import datetime
 from json import JSONDecoder
 from json import JSONEncoder
-from typing import Any
 
 from .base import BaseDecoder
 from .base import BaseEncoder
@@ -32,7 +31,7 @@ class CustomJSONEncoder(BaseEncoder, JSONEncoder):
         self.time_res = time_res
         self.time_sep = time_sep
 
-    def custom_encode(self, obj: Any) -> Any:
+    def custom_encode(self, obj: object) -> object:
         """
         Encodes a Python object as a JSON valid data type
         :param obj: Python object to encode
@@ -46,7 +45,7 @@ class CustomJSONEncoder(BaseEncoder, JSONEncoder):
         else:
             return self.encode(obj)
 
-    def default(self, obj: Any) -> Any:
+    def default(self, obj: object) -> object:
         """
         Encodes a Python object as a JSON valid data type (default function)
         :param obj: Python object to encode
@@ -104,7 +103,7 @@ class CustomJSONDecoder(BaseDecoder, JSONDecoder):
 
         return False
 
-    def custom_decode(self, obj: Any) -> Any:
+    def custom_decode(self, obj: object) -> object:
         """
         Decodes a JSON data type as its equivalent Python object
         :param obj: JSON value to decode
@@ -121,7 +120,7 @@ class CustomJSONDecoder(BaseDecoder, JSONDecoder):
         else:
             return obj
 
-    def default(self, obj: Any) -> Any:
+    def default(self, obj: object) -> object:
         """
         Decodes a JSON data type as its equivalent Python object (default function)
         :param obj: JSON value to decode
