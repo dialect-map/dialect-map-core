@@ -155,10 +155,8 @@ class SQLAlchemyDatabase(BaseDatabase):
     def close_session(self):
         """Closes the database session"""
 
-        if self.use_threads:
-            self.session.remove()
-        else:
-            self.session.close()
+        self.session.close()
+        self.session.remove() if self.use_threads else None  # type: ignore
 
     def load(self, file_path: str, data_model: Type[Base]):
         """
