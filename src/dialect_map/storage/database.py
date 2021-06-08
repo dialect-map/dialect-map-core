@@ -8,6 +8,7 @@ from abc import abstractmethod
 from sqlalchemy.engine.base import Connection
 from sqlalchemy.engine.create import create_engine
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.orm import Session
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
 from typing import Type
@@ -81,8 +82,8 @@ class BaseDatabase(ABC):
 class SQLAlchemyDatabase(BaseDatabase):
     """Database class using SQLAlchemy utilities"""
 
-    conn = None
-    session = None
+    conn: Connection = None
+    session: Session = None
 
     def __init__(
         self,
@@ -167,8 +168,10 @@ class SQLAlchemyDatabase(BaseDatabase):
         """
 
         records = self.file_loader.load(file_path)
-        self.session.add_all(data_model(**record) for record in records)  # type: ignore
-        self.session.commit()  # type: ignore
+        objects = (data_model(**record) for record in records)
+
+        self.session.add_all(objects)
+        self.session.commit()
 
     def setup(self, check: bool = True):
         """
@@ -176,7 +179,8 @@ class SQLAlchemyDatabase(BaseDatabase):
         :param check: whether to respect the already created tables
         """
 
-        Base.metadata.create_all(bind=self.conn, checkfirst=check)
+        with self.conn.begin():
+            Base.metadata.create_all(bind=self.conn, checkfirst=check)
 
     def teardown(self, check: bool = False):
         """
@@ -184,4 +188,5 @@ class SQLAlchemyDatabase(BaseDatabase):
         :param check: whether to respect the filled tables
         """
 
-        Base.metadata.drop_all(bind=self.conn, checkfirst=check)
+        with self.conn.begin():
+            Base.metadata.drop_all(bind=self.conn, checkfirst=check)
