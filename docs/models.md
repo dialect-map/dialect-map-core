@@ -23,17 +23,14 @@ Depending on the type of data model, there is a subset of Python properties avai
 
 ### Static models:
 - `id`: the unique identifier of the data record.
-- `data`: the set of key-value pairs with the record data.
 
 ### Archival models:
 - `id`: the unique identifier of the data record.
-- `data`: the set of key-value pairs with the record data.
 - `archived`: whether the data record has been archived.
 
 ### Evolving models:
 - `id`: the unique identifier of the data record.
 - `rev`: the unique revision of the data record.
-- `data`: the set of key-value pairs with the record data.
 
 
 ## Common fields

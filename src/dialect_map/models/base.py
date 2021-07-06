@@ -24,7 +24,6 @@ class BaseModel:
         __table__: Table object containing model SQL table information
 
     Object properties:
-        data: data dictionary of the data object
         id: unique identifier of the data object (abstract)
     """
 
@@ -44,15 +43,6 @@ class BaseModel:
             model_fields.append(f"{column.name}='{record}'")
 
         return f"<{model_class}({', '.join(model_fields)}>)"
-
-    @property
-    def data(self) -> dict:
-        """
-        Gets the data dictionary out of the model object
-        :return: data dictionary
-        """
-
-        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
     @property
     @abstractmethod
