@@ -32,14 +32,15 @@ class BaseModel:
         :return: string representation
         """
 
-        model_class = self.__class__.__name__
-        model_fields = []
+        model_name = self.__class__.__name__
+        model_cols = self.__table__.columns.keys()
+        obj_values = []
 
-        for column in self.__table__.columns:
-            record = getattr(self, column.name)
-            model_fields.append(f"{column.name}='{record}'")
+        for col in model_cols:
+            val = getattr(self, col)
+            obj_values.append(f"{col}='{val}'")
 
-        return f"<{model_class}({', '.join(model_fields)}>)"
+        return f"<{model_name}({', '.join(obj_values)}>)"
 
 
 class BaseStaticModel(BaseModel):
