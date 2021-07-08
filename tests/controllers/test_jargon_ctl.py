@@ -80,7 +80,6 @@ class TestJargonController:
             jargon_term=jargon_term,
             jargon_regex=jargon_regex,
             archived=False,
-            num_words=len(jargon_term.split(" ")),
             created_at=datetime.utcnow(),
         )
 
@@ -104,7 +103,6 @@ class TestJargonController:
             jargon_term=jargon_term,
             jargon_regex=jargon_regex,
             archived=False,
-            num_words=len(jargon_term.split(" ")),
             created_at=datetime.utcnow(),
         )
 

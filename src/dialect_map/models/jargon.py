@@ -2,7 +2,6 @@
 
 from sqlalchemy import Column
 from sqlalchemy import ForeignKeyConstraint as FKConstraint
-from sqlalchemy import Integer
 from sqlalchemy import String
 from sqlalchemy.orm import relationship
 
@@ -23,7 +22,6 @@ class Jargon(Base, BaseArchivalModel):
     jargon_term = Column(String(64), nullable=False, index=True)
     jargon_regex = Column(String(128), nullable=False)
     group_id = Column(String(32), nullable=True)
-    num_words = Column(Integer, nullable=False)
 
     __table_args__ = (
         FKConstraint(
