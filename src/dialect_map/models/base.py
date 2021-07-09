@@ -22,9 +22,6 @@ class BaseModel:
 
     Class attributes:
         __table__: Table object containing model SQL table information
-
-    Object properties:
-        id: unique identifier of the data object (abstract)
     """
 
     __table__: Table
@@ -43,16 +40,6 @@ class BaseModel:
             model_fields.append(f"{column.name}='{record}'")
 
         return f"<{model_class}({', '.join(model_fields)}>)"
-
-    @property
-    @abstractmethod
-    def id(self) -> str:
-        """
-        Gets the unique ID of the data object
-        :return: unique ID
-        """
-
-        raise NotImplementedError()
 
 
 class BaseStaticModel(BaseModel):
@@ -84,6 +71,16 @@ class BaseStaticModel(BaseModel):
         """
 
         raise ValueError("The column 'audited_at' must not be provided")
+
+    @property
+    @abstractmethod
+    def id(self) -> str:
+        """
+        Gets the unique ID of the data object
+        :return: unique ID
+        """
+
+        raise NotImplementedError()
 
 
 class BaseArchivalModel(BaseModel):
@@ -139,6 +136,16 @@ class BaseArchivalModel(BaseModel):
 
         raise ValueError("The column 'audited_at' must not be provided")
 
+    @property
+    @abstractmethod
+    def id(self) -> str:
+        """
+        Gets the unique ID of the data object
+        :return: unique ID
+        """
+
+        raise NotImplementedError()
+
 
 class BaseEvolvingModel(BaseModel):
     """
@@ -175,6 +182,16 @@ class BaseEvolvingModel(BaseModel):
         """
 
         raise ValueError("The column 'audited_at' must not be provided")
+
+    @property
+    @abstractmethod
+    def id(self) -> str:
+        """
+        Gets the unique ID of the data object
+        :return: unique ID
+        """
+
+        raise NotImplementedError()
 
     @property
     @abstractmethod
