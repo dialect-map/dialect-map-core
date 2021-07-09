@@ -18,10 +18,10 @@ class Jargon(Base, BaseArchivalModel):
 
     __tablename__ = "jargons"
 
+    group_id = Column(String(32), nullable=True)
     jargon_id = Column(String(32), nullable=False, primary_key=True, default=generate_id)
     jargon_term = Column(String(64), nullable=False, index=True)
     jargon_regex = Column(String(128), nullable=False)
-    group_id = Column(String(32), nullable=True)
 
     __table_args__ = (
         FKConstraint(
