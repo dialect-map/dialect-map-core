@@ -173,6 +173,46 @@ class TestJargonGroupController:
         assert creation_id == group_id
         assert created_obj == group
 
+    def test_create_nested(self, database: BaseDatabase):
+        """
+        Tests the creation of a jargon group by the controller,
+        when nested jargon records are passed to the constructor
+        :param database: dummy database instance
+        """
+
+        group_id = "jargon-group-creation-nested"
+        jargon_id = "jargon-creation-nested"
+
+        group = JargonGroup(
+            **{
+                "group_id": group_id,
+                "description": "My nested group",
+                "archived": False,
+                "created_at": datetime.utcnow(),
+                "jargons": [
+                    {
+                        "group_id": group_id,
+                        "jargon_id": jargon_id,
+                        "jargon_term": "One string",
+                        "jargon_regex": "[Oo]ne string",
+                        "archived": False,
+                        "created_at": datetime.utcnow(),
+                    },
+                ],
+            }
+        )
+
+        group_controller = JargonGroupController(db=database)
+        jargon_controller = JargonController(db=database)
+
+        created_group_id = group_controller.create(group)
+        created_group = group_controller.get(group_id)
+        created_jargon = jargon_controller.get(jargon_id)
+
+        assert created_group_id == group_id
+        assert type(created_group) == JargonGroup
+        assert type(created_jargon) == Jargon
+
     def test_delete(self, controller: JargonGroupController):
         """
         Tests the deletion of a jargon group by the controller
