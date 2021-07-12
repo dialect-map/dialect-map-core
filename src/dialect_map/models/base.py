@@ -7,13 +7,20 @@ from sqlalchemy import Boolean
 from sqlalchemy import Column
 from sqlalchemy import DateTime
 from sqlalchemy import Table
+from sqlalchemy.orm import Mapper
+from sqlalchemy.orm import ONETOMANY
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import declared_attr
 from sqlalchemy.orm import validates
 
 
-# Base class for all database tables
-Base = declarative_base()
+### NOTE:
+### The constructor argument needs to be assigned to <None>
+### in order to allow the definition of custom initializers
+###
+### Ref: https://docs.sqlalchemy.org/en/14/orm/mapping_styles.html#default-constructor
+###
+Base = declarative_base(constructor=None)
 
 
 class BaseModel:
@@ -21,14 +28,43 @@ class BaseModel:
     Base class for all the Python data models
 
     Class attributes:
+        __mapper__: Mapper object containing model SQL information
         __table__: Table object containing model SQL table information
-
-    Object properties:
-        data: data dictionary of the data object
-        id: unique identifier of the data object (abstract)
     """
 
+    __mapper__: Mapper
     __table__: Table
+
+    def __init__(self, **kwargs):
+        """
+        Custom initializer that allows nested children initialization.
+        Only keys that are present as instance's class attributes are allowed.
+        These could be, for example, any mapped columns or relationships.
+
+        Code inspired from GitHub.
+        Ref: https://github.com/tiangolo/fastapi/issues/2194
+        """
+
+        cls = self.__class__
+        model_columns = self.__mapper__.columns
+        relationships = self.__mapper__.relationships
+
+        for key, val in kwargs.items():
+
+            if not hasattr(cls, key):
+                raise TypeError(f"Invalid keyword argument: {key}")
+
+            if key in model_columns:
+                setattr(self, key, val)
+                continue
+
+            if key in relationships:
+                relation_dir = relationships[key].direction.name
+                relation_cls = relationships[key].mapper.entity
+
+                if relation_dir == ONETOMANY.name:
+                    instances = [relation_cls(**elem) for elem in val]
+                    setattr(self, key, instances)
 
     def __str__(self) -> str:
         """
@@ -36,33 +72,15 @@ class BaseModel:
         :return: string representation
         """
 
-        model_class = self.__class__.__name__
-        model_fields = []
+        model_name = self.__class__.__name__
+        model_cols = self.__table__.columns.keys()
+        obj_values = []
 
-        for column in self.__table__.columns:
-            record = getattr(self, column.name)
-            model_fields.append(f"{column.name}='{record}'")
+        for col in model_cols:
+            val = getattr(self, col)
+            obj_values.append(f"{col}='{val}'")
 
-        return f"<{model_class}({', '.join(model_fields)}>)"
-
-    @property
-    def data(self) -> dict:
-        """
-        Gets the data dictionary out of the model object
-        :return: data dictionary
-        """
-
-        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
-
-    @property
-    @abstractmethod
-    def id(self) -> str:
-        """
-        Gets the unique ID of the data object
-        :return: unique ID
-        """
-
-        raise NotImplementedError()
+        return f"<{model_name}({', '.join(obj_values)}>)"
 
 
 class BaseStaticModel(BaseModel):
@@ -94,6 +112,16 @@ class BaseStaticModel(BaseModel):
         """
 
         raise ValueError("The column 'audited_at' must not be provided")
+
+    @property
+    @abstractmethod
+    def id(self) -> str:
+        """
+        Gets the unique ID of the data object
+        :return: unique ID
+        """
+
+        raise NotImplementedError()
 
 
 class BaseArchivalModel(BaseModel):
@@ -149,6 +177,16 @@ class BaseArchivalModel(BaseModel):
 
         raise ValueError("The column 'audited_at' must not be provided")
 
+    @property
+    @abstractmethod
+    def id(self) -> str:
+        """
+        Gets the unique ID of the data object
+        :return: unique ID
+        """
+
+        raise NotImplementedError()
+
 
 class BaseEvolvingModel(BaseModel):
     """
@@ -185,6 +223,16 @@ class BaseEvolvingModel(BaseModel):
         """
 
         raise ValueError("The column 'audited_at' must not be provided")
+
+    @property
+    @abstractmethod
+    def id(self) -> str:
+        """
+        Gets the unique ID of the data object
+        :return: unique ID
+        """
+
+        raise NotImplementedError()
 
     @property
     @abstractmethod
