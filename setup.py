@@ -13,19 +13,19 @@ AUTHORS = "NYU DS3 Team"
 VERSION = open("VERSION", "r").read().strip()
 
 
-# Installation requirements
+# Package requirements
 INSTALLATION_REQS = [
     "click==8.0.1",
     "psycopg2-binary==2.9.1",
     "sqlalchemy==1.4.23",
 ]
 
-# Development requirements
-DEVELOPMENT_REQS = [
+LINTING_REQS = [
     "black>=21.6b0",
-    "coverage>=5.0.4",
-    "mypy==0.910",
-    "pre-commit>=2.13.0",
+    "mypy>=0.910",
+]
+
+TESTING_REQS = [
     "pytest>=6.2.2",
     "pytest-cov>=2.10.0",
 ]
@@ -44,7 +44,12 @@ setup(
     include_package_data=True,
     install_requires=INSTALLATION_REQS,
     extras_require={
-        "dev": DEVELOPMENT_REQS,
+        "lint": LINTING_REQS,
+        "test": TESTING_REQS,
+        "all": [
+            *LINTING_REQS,
+            *TESTING_REQS,
+        ],
     },
     entry_points={
         "console_scripts": [
