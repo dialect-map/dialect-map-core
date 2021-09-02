@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import sys
 import click
 from dialect_map_data import FILES_MAPPINGS
 
@@ -28,8 +29,8 @@ def load_db(url: str):
         database = SQLAlchemyDatabase(url, file_loader=loader)
         database.setup()
     except Exception as e:
-        print(e)
-        return
+        click.echo(e, err=True)
+        sys.exit(1)
 
     for mapping in FILES_MAPPINGS:
         database.load(
@@ -53,7 +54,8 @@ def setup_db(url: str):
         database = SQLAlchemyDatabase(url)
         database.setup()
     except Exception as e:
-        print(e)
+        click.echo(e, err=True)
+        sys.exit(1)
 
 
 @main.command()
@@ -80,4 +82,5 @@ def teardown_db(url: str, force: bool):
         database = SQLAlchemyDatabase(url)
         database.teardown(check=check)
     except Exception as e:
-        print(e)
+        click.echo(e, err=True)
+        sys.exit(1)
