@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import and_
-from sqlalchemy import func
+from sqlalchemy.orm import Query
+from sqlalchemy.sql import and_
+from sqlalchemy.sql import func
+from sqlalchemy.sql import distinct
 
 from .base import StaticController
 from ..models import JargonCategoryMetrics as JCategoryMetrics
@@ -41,6 +43,21 @@ class JargonPaperMetricsController(StaticController[JPaperMetrics]):
 
     model = JPaperMetrics
 
+    def _build_latest_rev_subquery(self) -> Query:
+        """
+        Builds an SQL subquery to select the latest revision of each ID
+        :return: SQL subquery
+        """
+
+        return (
+            self.db.session.query(
+                distinct(self.model.arxiv_id).label("arxiv_id"),
+                func.max(self.model.arxiv_rev).label("latest_rev"),
+            )
+            .group_by(self.model.arxiv_id)
+            .subquery()
+        )
+
     def get_by_jargon(self, jargon_id: str, arxiv_id: str = None, arxiv_rev: int = None) -> list:
         """
         Gets a list of paper jargon metrics
@@ -67,13 +84,7 @@ class JargonPaperMetricsController(StaticController[JPaperMetrics]):
         :return: list of database objects
         """
 
-        subquery = (
-            self.db.session.query(
-                self.model.arxiv_id, func.max(self.model.arxiv_rev).label("latest_rev")
-            )
-            .group_by(self.model.arxiv_id)
-            .subquery()
-        )
+        subquery = self._build_latest_rev_subquery()
 
         query = self.db.session.query(self.model)
         query = query.filter(self.model.jargon_id == jargon_id)
