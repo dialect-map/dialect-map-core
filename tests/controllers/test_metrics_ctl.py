@@ -73,4 +73,5 @@ class TestPaperMetricsController:
         all_metrics = controller.get_latest_by_jargon("jargon-01234")
 
         assert type(all_metrics) == list
+        assert len(all_metrics) > 0
         assert all(m.arxiv_rev > 1 for m in all_metrics)
