@@ -21,7 +21,7 @@ INSTALLATION_REQS = [
 ]
 
 LINTING_REQS = [
-    "black==21.6b0",
+    "black==21.9b0",
     "mypy==0.910",
 ]
 
