@@ -2,6 +2,7 @@
 
 from datetime import date
 from datetime import datetime
+
 from src.dialect_map.encoding import CustomJSONEncoder
 
 
