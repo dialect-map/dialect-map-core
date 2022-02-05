@@ -121,7 +121,7 @@ class SQLAlchemyDatabase(BaseDatabase):
         """
 
         backoff_exp = 1
-        backoff_secs = 2 ** backoff_exp
+        backoff_secs = 2**backoff_exp
 
         while backoff_secs <= self.max_backoff:
             try:
@@ -130,7 +130,7 @@ class SQLAlchemyDatabase(BaseDatabase):
                 logger.info("Trying to connect to the database...")
                 time.sleep(backoff_secs)
                 backoff_exp += 1
-                backoff_secs = 2 ** backoff_exp
+                backoff_secs = 2**backoff_exp
 
         raise ConnectionError("Database connection timeout")
 
