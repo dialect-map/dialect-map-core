@@ -2,6 +2,7 @@
 
 import sys
 import click
+
 from dialect_map_data import FILES_MAPPINGS
 
 from .storage import JSONFileLoader

@@ -64,7 +64,7 @@ class JargonPaperMetrics(Base, BaseStaticModel):
     rel_freq = Column(Float, nullable=False)
 
     # Define a Foreign key over multiple columns (Composite Foreign Key)
-    # Official docs: https://docs.sqlalchemy.org/en/13/core/constraints.html
+    # Official docs: https://docs.sqlalchemy.org/en/14/core/constraints.html
     # Stackoverflow: https://stackoverflow.com/a/7506168
     __table_args__ = (
         FKConstraint(

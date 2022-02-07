@@ -32,7 +32,7 @@ class Jargon(Base, BaseArchivalModel):
     )
 
     # All main table relationships to child tables. References:
-    # Official docs: https://docs.sqlalchemy.org/en/13/orm/basic_relationships.html
+    # Official docs: https://docs.sqlalchemy.org/en/14/orm/basic_relationships.html
     # Stackoverflow: https://stackoverflow.com/a/38770040
     category_metrics = relationship(
         argument="JargonCategoryMetrics",
@@ -67,7 +67,7 @@ class JargonGroup(Base, BaseArchivalModel):
     description = Column(String(256), nullable=False)
 
     # All main table relationships to child tables. References:
-    # Official docs: https://docs.sqlalchemy.org/en/13/orm/basic_relationships.html
+    # Official docs: https://docs.sqlalchemy.org/en/14/orm/basic_relationships.html
     # Stackoverflow: https://stackoverflow.com/a/38770040
     jargons = relationship(
         argument="Jargon",
