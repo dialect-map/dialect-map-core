@@ -5,13 +5,14 @@ import time
 
 from abc import ABC
 from abc import abstractmethod
+from typing import Type
+
 from sqlalchemy.engine.base import Connection
 from sqlalchemy.engine.create import create_engine
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
-from typing import Type
 
 from .loader import BaseFileLoader
 from .loader import JSONFileLoader

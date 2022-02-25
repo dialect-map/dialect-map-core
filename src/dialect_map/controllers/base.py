@@ -3,11 +3,12 @@
 from abc import ABC
 from abc import abstractmethod
 from datetime import datetime
-from sqlalchemy import false
 from typing import Generic
 from typing import Tuple
 from typing import Type
 from typing import TypeVar
+
+from sqlalchemy import false
 
 from ..models import Base
 from ..models import BaseStaticModel

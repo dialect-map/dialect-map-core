@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
-import pytest
 from datetime import datetime
+
+import pytest
 
 from src.dialect_map.controllers import MembershipController
 from src.dialect_map.models import CategoryMembership
