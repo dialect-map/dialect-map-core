@@ -2,8 +2,9 @@
 
 import logging
 
-from ..storage import BaseDatabase
 from ..controllers import *
+from ..storage import BaseDatabase
+from ..storage import BaseDatabaseContext
 
 
 logger = logging.getLogger()
@@ -12,14 +13,16 @@ logger = logging.getLogger()
 class ApplicationService:
     """Service exposing all the model controllers"""
 
-    def __init__(self, db: BaseDatabase):
+    def __init__(self, db: BaseDatabase, ctx: BaseDatabaseContext):
         """
         Initializes the service with a given database
         :param db: database class to serve as engine
+        :param ctx: database context to use as helper
         """
 
         logger.info("Initializing application service")
         self.db = db
+        self.ctx = ctx
 
     def stop(self):
         """Stops and closes the application service"""
