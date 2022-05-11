@@ -4,6 +4,7 @@ from abc import ABC
 from abc import abstractmethod
 from datetime import datetime
 from typing import Generic
+from typing import List
 from typing import Tuple
 from typing import Type
 from typing import TypeVar
@@ -106,6 +107,22 @@ class StaticController(BaseController, Generic[StaticModelVar]):
             raise
 
         return instance.id
+
+    def create_all(self, instances: List[StaticModelVar]) -> int:
+        """
+        Creates new database records given a list of objects
+        :param instances: data objects to create the records from
+        :return: number of successfully create records
+        """
+
+        try:
+            self.db.session.add_all(instances)
+            self.db.session.commit()
+        except Exception:
+            self.db.session.rollback()
+            raise
+
+        return len(instances)
 
     def delete(self, id: str) -> str:
         """

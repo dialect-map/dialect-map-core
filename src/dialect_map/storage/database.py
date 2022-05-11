@@ -16,7 +16,7 @@ from sqlalchemy.orm import sessionmaker
 
 from .loader import BaseFileLoader
 from .loader import JSONFileLoader
-from ..models.base import Base
+from ..models import Base
 
 
 logger = logging.getLogger()
@@ -97,8 +97,8 @@ class SQLAlchemyDatabase(BaseDatabase):
         Initiates the database connection
         :param connection_url: complete url to connect to the database
         :param backoff_seconds: maximum seconds to wait for connection (optional)
-        :param thread_sessions: whether or not to use thread-local sessions (optional)
-        :param file_loader: file loader to populate the database if needed (optional)
+        :param thread_sessions: whether to use thread type sessions (optional)
+        :param file_loader: file loader to populate the database (optional)
         """
 
         if file_loader is None:
@@ -175,7 +175,7 @@ class SQLAlchemyDatabase(BaseDatabase):
     def setup(self, check: bool = True):
         """
         Creates all the tables necessary to operate the project
-        :param check: whether to respect the already created tables
+        :param check: whether to respect the already created tables (optional)
         """
 
         with self.conn.begin():
@@ -184,7 +184,7 @@ class SQLAlchemyDatabase(BaseDatabase):
     def teardown(self, check: bool = False):
         """
         Deletes all project tables. Only useful when debugging
-        :param check: whether to respect the filled tables
+        :param check: whether to respect the filled tables (optional)
         """
 
         with self.conn.begin():
