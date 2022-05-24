@@ -58,10 +58,6 @@ class StaticController(BaseController, Generic[StaticModelVar]):
         Class attribute used to store the data model
         SQLAlchemy will be performing queries against
         (It cannot be obtained at runtime from StaticModelVar)
-
-        For Python 3.8+, remove this attribute and access
-        the specific subclass type by using 'typing.get_args'
-        Ref: https://docs.python.org/3/library/typing.html#typing.get_args
     """
 
     model: Type[StaticModelVar]
@@ -144,10 +140,6 @@ class ArchivalController(BaseController, Generic[ArchivalModelVar]):
         Class attribute used to store the data model
         SQLAlchemy will be performing queries against
         (It cannot be obtained at runtime from ArchivalModelVar)
-
-        For Python 3.8+, remove this attribute and access
-        the specific subclass type by using 'typing.get_args'
-        Ref: https://docs.python.org/3/library/typing.html#typing.get_args
     """
 
     model: Type[ArchivalModelVar]
@@ -245,10 +237,6 @@ class EvolvingController(BaseController, Generic[EvolvingModelVar]):
         Class attribute used to store the data model
         SQLAlchemy will be performing queries against
         (It cannot be obtained at runtime from EvolvingModelVar)
-
-        For Python 3.8+, remove this attribute and access
-        the specific subclass type by using 'typing.get_args'
-        Ref: https://docs.python.org/3/library/typing.html#typing.get_args
     """
 
     model: Type[EvolvingModelVar]

@@ -10,7 +10,7 @@ from ..models import JargonCategoryMetrics as JCategoryMetrics
 from ..models import JargonPaperMetrics as JPaperMetrics
 
 
-class JargonCategoryMetricsController(StaticController[JCategoryMetrics]):
+class JargonCategoryMetricsController(StaticController):
     """
     Controller for the jargon category metric objects
     Extend as desired
@@ -35,7 +35,7 @@ class JargonCategoryMetricsController(StaticController[JCategoryMetrics]):
         return query.all()
 
 
-class JargonPaperMetricsController(StaticController[JPaperMetrics]):
+class JargonPaperMetricsController(StaticController):
     """
     Controller for the jargon paper metric objects
     Extend as desired
