@@ -7,7 +7,7 @@ from ..models import Jargon
 from ..models import JargonGroup
 
 
-class JargonController(ArchivalController[Jargon]):
+class JargonController(ArchivalController):
     """
     Controller for the jargon objects (archival)
     Extend as desired
@@ -51,7 +51,7 @@ class JargonController(ArchivalController[Jargon]):
         return jargons
 
 
-class JargonGroupController(ArchivalController[JargonGroup]):
+class JargonGroupController(ArchivalController):
     """
     Controller for the jargon group objects (archival)
     Extend as desired

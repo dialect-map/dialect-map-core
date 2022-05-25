@@ -7,7 +7,7 @@ from ..models import PaperAuthor
 from ..models import PaperReferenceCounters
 
 
-class PaperController(EvolvingController[Paper]):
+class PaperController(EvolvingController):
     """
     Controller for the Paper objects (evolving)
     Extend as desired
@@ -16,7 +16,7 @@ class PaperController(EvolvingController[Paper]):
     model = Paper
 
 
-class PaperAuthorController(StaticController[PaperAuthor]):
+class PaperAuthorController(StaticController):
     """
     Controller for the PaperAuthor objects (static)
     Extend as desired
@@ -39,7 +39,7 @@ class PaperAuthorController(StaticController[PaperAuthor]):
         return query.all()
 
 
-class PaperReferenceCountersController(StaticController[PaperReferenceCounters]):
+class PaperReferenceCountersController(StaticController):
     """
     Controller for the PaperReferenceCounter objects (static)
     Extend as desired

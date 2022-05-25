@@ -4,7 +4,7 @@ from .base import StaticController
 from ..models import PaperReference
 
 
-class ReferenceController(StaticController[PaperReference]):
+class ReferenceController(StaticController):
     """
     Controller for the PaperReference objects (static)
     Extend as desired
