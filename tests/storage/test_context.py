@@ -9,24 +9,11 @@ from src.dialect_map.controllers import CategoryController
 from src.dialect_map.models import Category
 from src.dialect_map.storage import BaseDatabase
 from src.dialect_map.storage import BaseDatabaseContext
-from src.dialect_map.storage import SQLAlchemyDatabase
 from src.dialect_map.storage import SQLDatabaseContext
 
 
 class TestSQLDatabaseContext:
     """Class to group all the SQL database context tests"""
-
-    @pytest.fixture(scope="class")
-    def database(self):
-        """
-        Creates a memory-based database to test database operations
-        :return: memory-based database object
-        """
-
-        database = SQLAlchemyDatabase("sqlite:///:memory:")
-        database.setup(check=False)
-
-        return database
 
     @pytest.fixture(scope="class")
     def context(self, database: BaseDatabase):
