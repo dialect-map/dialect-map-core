@@ -91,6 +91,50 @@ class TestPaperReferenceController:
         assert creation_id == ref_id
         assert created_obj == ref
 
+    def test_create_with_non_existent_source_paper(
+        self,
+        database: BaseDatabase,
+        controller: ReferenceController,
+    ):
+        """
+        Tests the creation of a paper reference by the controller
+        when the referenced source paper does not exist
+        :param database: dummy database instance
+        :param controller: initiated instance
+        """
+
+        ref = PaperReference(
+            source_arxiv_id="non-existing-paper",
+            source_arxiv_rev=2,
+            target_arxiv_id="paper-56789",
+            target_arxiv_rev=2,
+            created_at=datetime.utcnow(),
+        )
+
+        assert pytest.raises(database.error, controller.create, ref)
+
+    def test_create_with_non_existent_target_paper(
+        self,
+        database: BaseDatabase,
+        controller: ReferenceController,
+    ):
+        """
+        Tests the creation of a paper reference by the controller
+        when the referenced target paper does not exist
+        :param database: dummy database instance
+        :param controller: initiated instance
+        """
+
+        ref = PaperReference(
+            source_arxiv_id="paper-01234",
+            source_arxiv_rev=2,
+            target_arxiv_id="non-existing-paper",
+            target_arxiv_rev=2,
+            created_at=datetime.utcnow(),
+        )
+
+        assert pytest.raises(database.error, controller.create, ref)
+
     def test_delete(self, controller: ReferenceController):
         """
         Tests the deletion of a paper reference by the controller
