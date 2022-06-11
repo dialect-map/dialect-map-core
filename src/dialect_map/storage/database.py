@@ -7,10 +7,10 @@ from abc import ABC
 from abc import abstractmethod
 from typing import Type
 
-from sqlalchemy.engine.base import Connection
-from sqlalchemy.engine.create import create_engine
+from sqlalchemy.engine import Connection
+from sqlalchemy.engine import Transaction
+from sqlalchemy.engine import create_engine
 from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy.orm import Session
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
 
@@ -27,34 +27,32 @@ class BaseDatabase(ABC):
 
     @property
     @abstractmethod
-    def conn(self):
-        """Database connection object"""
-
-        raise NotImplementedError()
-
-    @property
-    @abstractmethod
-    def session(self):
-        """Database session object"""
-
-        raise NotImplementedError()
-
-    @property
-    @abstractmethod
     def error(self):
         """Database error type"""
 
         raise NotImplementedError()
 
     @abstractmethod
-    def close_conn(self):
-        """Closes the database connection"""
+    def create_session(self):
+        """
+        Creates a database session object
+        :return: scoped session or pure session
+        """
 
         raise NotImplementedError()
 
     @abstractmethod
-    def close_session(self):
-        """Closes the database process / thread session"""
+    def create_transaction(self):
+        """
+        Creates a database transaction object
+        :return: database transaction object
+        """
+
+        raise NotImplementedError()
+
+    @abstractmethod
+    def close_connection(self):
+        """Closes the database connection"""
 
         raise NotImplementedError()
 
@@ -90,15 +88,13 @@ class BaseDatabase(ABC):
 class SQLAlchemyDatabase(BaseDatabase):
     """Database class using SQLAlchemy utilities"""
 
-    conn: Connection = None
-    session: Session = None
     error: Exception = SQLAlchemyError
 
     def __init__(
         self,
         connection_url: str,
         backoff_seconds: int = 32,
-        thread_sessions: bool = True,
+        thread_sessions: bool = False,
         file_loader: BaseFileLoader = None,
     ):
         """
@@ -119,8 +115,8 @@ class SQLAlchemyDatabase(BaseDatabase):
         self.use_threads = thread_sessions
 
         self.engine = create_engine(connection_url)
-        self.conn = self._create_connection()
-        self.session = self._create_session()
+        self.connection = self._create_connection()
+        self.session_factory = sessionmaker(bind=self.connection)
 
     def _create_connection(self) -> Connection:
         """
@@ -143,29 +139,29 @@ class SQLAlchemyDatabase(BaseDatabase):
 
         raise ConnectionError("Database connection timeout")
 
-    def _create_session(self):
+    def create_session(self) -> object:
         """
-        Initializes the database object session
-        :return: session factory or session registry
+        Creates a database session object
+        :return: scoped session or pure session
         """
-
-        session = sessionmaker(bind=self.conn)
 
         if self.use_threads:
-            return scoped_session(session)
+            return scoped_session(self.session_factory)
         else:
-            return session()
+            return self.session_factory()
 
-    def close_conn(self):
+    def create_transaction(self) -> Transaction:
+        """
+        Creates a database transaction object
+        :return: database transaction object
+        """
+
+        return self.connection.begin()
+
+    def close_connection(self):
         """Closes the database connection"""
 
-        self.conn.close()
-
-    def close_session(self):
-        """Closes the database session"""
-
-        self.session.close()
-        self.session.remove() if self.use_threads else None  # type: ignore
+        self.connection.close()
 
     def load(self, file_path: str, data_model: Type[Base]):
         """
@@ -177,8 +173,9 @@ class SQLAlchemyDatabase(BaseDatabase):
         records = self.file_loader.load(file_path)
         objects = (data_model(**record) for record in records)
 
-        self.session.add_all(objects)
-        self.session.commit()
+        with self.create_session() as session:
+            session.add_all(objects)
+            session.commit()
 
     def setup(self, check: bool = True):
         """
@@ -186,8 +183,8 @@ class SQLAlchemyDatabase(BaseDatabase):
         :param check: whether to respect the already created tables (optional)
         """
 
-        with self.conn.begin():
-            Base.metadata.create_all(bind=self.conn, checkfirst=check)
+        with self.create_transaction():
+            Base.metadata.create_all(bind=self.connection, checkfirst=check)
 
     def teardown(self, check: bool = False):
         """
@@ -195,5 +192,5 @@ class SQLAlchemyDatabase(BaseDatabase):
         :param check: whether to respect the filled tables (optional)
         """
 
-        with self.conn.begin():
-            Base.metadata.drop_all(bind=self.conn, checkfirst=check)
+        with self.create_transaction():
+            Base.metadata.drop_all(bind=self.connection, checkfirst=check)
