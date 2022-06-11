@@ -2,6 +2,7 @@
 
 import pytest
 
+from src.dialect_map.storage import BaseDatabase
 from src.dialect_map.storage import SQLAlchemyDatabase
 
 
@@ -22,3 +23,18 @@ def database() -> SQLAlchemyDatabase:
         session.execute("PRAGMA foreign_keys=ON")
 
     return database
+
+
+@pytest.fixture(scope="function")
+def session(database: BaseDatabase) -> object:
+    """
+    Creates a database session object to be used during a single test
+    :return: database session object
+    """
+
+    session = database.create_session()
+
+    try:
+        yield session
+    finally:
+        session.close()
