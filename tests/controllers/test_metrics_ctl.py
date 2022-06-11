@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from datetime import datetime
+
 import pytest
 
 from src.dialect_map.controllers import JargonCategoryMetricsController
@@ -25,7 +27,7 @@ class TestCategoryMetricsController:
 
     def test_get_by_jargon(self, controller: JargonCategoryMetricsController):
         """
-        Tests the retrieval of a jargon category metrics by the controller
+        Tests the retrieval of a jargon category metric by the controller
         :param controller: initiated instance
         """
 
@@ -35,6 +37,50 @@ class TestCategoryMetricsController:
         assert type(all_metrics) == list
         assert type(one_metric) is JargonCategoryMetrics
         assert one_metric.id == "jargon-cat-metric-01234"
+
+    def test_create_with_non_existent_jargon(
+        self,
+        database: BaseDatabase,
+        controller: JargonCategoryMetricsController,
+    ):
+        """
+        Tests the creation of a jargon category metric by the controller
+        when the referenced jargon does not exist
+        :param database: dummy database instance
+        :param controller: initiated instance
+        """
+
+        cat_metrics = JargonCategoryMetrics(
+            jargon_id="non-existing-jargon",
+            category_id="category-01234",
+            abs_freq=10,
+            rel_freq=0.05,
+            created_at=datetime.utcnow(),
+        )
+
+        assert pytest.raises(database.error, controller.create, cat_metrics)
+
+    def test_create_with_non_existent_category(
+        self,
+        database: BaseDatabase,
+        controller: JargonCategoryMetricsController,
+    ):
+        """
+        Tests the creation of a jargon category metric by the controller
+        when the referenced category does not exist
+        :param database: dummy database instance
+        :param controller: initiated instance
+        """
+
+        cat_metrics = JargonCategoryMetrics(
+            jargon_id="jargon-01234",
+            category_id="non-existing-category",
+            abs_freq=10,
+            rel_freq=0.05,
+            created_at=datetime.utcnow(),
+        )
+
+        assert pytest.raises(database.error, controller.create, cat_metrics)
 
 
 @pytest.mark.usefixtures("database_rollback")
@@ -53,7 +99,7 @@ class TestPaperMetricsController:
 
     def test_get_by_jargon(self, controller: JargonPaperMetricsController):
         """
-        Tests the retrieval of a jargon paper metrics by the controller
+        Tests the retrieval of a jargon paper metric by the controller
         :param controller: initiated instance
         """
 
@@ -75,3 +121,49 @@ class TestPaperMetricsController:
         assert type(all_metrics) == list
         assert len(all_metrics) > 0
         assert all(m.arxiv_rev > 1 for m in all_metrics)
+
+    def test_create_with_non_existent_jargon(
+        self,
+        database: BaseDatabase,
+        controller: JargonPaperMetricsController,
+    ):
+        """
+        Tests the creation of a jargon paper metric by the controller
+        when the referenced jargon does not exist
+        :param database: dummy database instance
+        :param controller: initiated instance
+        """
+
+        paper_metrics = JargonPaperMetrics(
+            jargon_id="non-existing-jargon",
+            arxiv_id="paper-01234",
+            arxiv_rev=1,
+            abs_freq=10,
+            rel_freq=0.05,
+            created_at=datetime.utcnow(),
+        )
+
+        assert pytest.raises(database.error, controller.create, paper_metrics)
+
+    def test_create_with_non_existent_category(
+        self,
+        database: BaseDatabase,
+        controller: JargonPaperMetricsController,
+    ):
+        """
+        Tests the creation of a jargon paper metric by the controller
+        when the referenced category does not exist
+        :param database: dummy database instance
+        :param controller: initiated instance
+        """
+
+        paper_metrics = JargonPaperMetrics(
+            jargon_id="jargon-01234",
+            arxiv_id="non-existing-paper",
+            arxiv_rev=1,
+            abs_freq=10,
+            rel_freq=0.05,
+            created_at=datetime.utcnow(),
+        )
+
+        assert pytest.raises(database.error, controller.create, paper_metrics)
