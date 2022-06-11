@@ -11,19 +11,20 @@ from src.dialect_map.models import JargonPaperMetrics
 from src.dialect_map.storage import BaseDatabase
 
 
-@pytest.mark.usefixtures("database_rollback")
+@pytest.mark.usefixtures("rollback")
+@pytest.mark.usefixtures("session")
 class TestCategoryMetricsController:
     """Class to group all the CategoryMetric model controller tests"""
 
     @pytest.fixture(scope="class")
-    def controller(self, database: BaseDatabase):
+    def controller(self, session: object):
         """
         Creates a memory-based controller for the CategoryMetric records
-        :param database: dummy database instance
+        :param session: database session instance
         :return: initiated controller instance
         """
 
-        return JargonCategoryMetricsController(db=database)
+        return JargonCategoryMetricsController(session)
 
     def test_get_by_jargon(self, controller: JargonCategoryMetricsController):
         """
@@ -83,19 +84,20 @@ class TestCategoryMetricsController:
         assert pytest.raises(database.error, controller.create, cat_metrics)
 
 
-@pytest.mark.usefixtures("database_rollback")
+@pytest.mark.usefixtures("rollback")
+@pytest.mark.usefixtures("session")
 class TestPaperMetricsController:
     """Class to group all the PaperMetric model controller tests"""
 
     @pytest.fixture(scope="class")
-    def controller(self, database: BaseDatabase):
+    def controller(self, session: object):
         """
         Creates a memory-based controller for the PaperMetric records
-        :param database: dummy database instance
+        :param session: database session instance
         :return: initiated controller instance
         """
 
-        return JargonPaperMetricsController(db=database)
+        return JargonPaperMetricsController(session)
 
     def test_get_by_jargon(self, controller: JargonPaperMetricsController):
         """

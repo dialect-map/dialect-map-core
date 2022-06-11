@@ -9,19 +9,20 @@ from src.dialect_map.models import PaperReference
 from src.dialect_map.storage import BaseDatabase
 
 
-@pytest.mark.usefixtures("database_rollback")
+@pytest.mark.usefixtures("rollback")
+@pytest.mark.usefixtures("session")
 class TestPaperReferenceController:
     """Class to group all the PaperReference model controller tests"""
 
     @pytest.fixture(scope="class")
-    def controller(self, database: BaseDatabase):
+    def controller(self, session: object):
         """
         Creates a memory-based controller for the PaperReference records
-        :param database: dummy database instance
+        :param session: database session instance
         :return: initiated controller instance
         """
 
-        return ReferenceController(db=database)
+        return ReferenceController(session)
 
     def test_get(self, controller: ReferenceController):
         """

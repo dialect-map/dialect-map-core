@@ -6,22 +6,22 @@ import pytest
 
 from src.dialect_map.controllers import CategoryController
 from src.dialect_map.models import Category
-from src.dialect_map.storage import BaseDatabase
 
 
-@pytest.mark.usefixtures("database_rollback")
+@pytest.mark.usefixtures("rollback")
+@pytest.mark.usefixtures("session")
 class TestCategoryController:
     """Class to group all the Category model controller tests"""
 
     @pytest.fixture(scope="class")
-    def controller(self, database: BaseDatabase):
+    def controller(self, session: object):
         """
         Creates a memory-based controller for the Category records
-        :param database: dummy database instance
+        :param session: database session instance
         :return: initiated controller instance
         """
 
-        return CategoryController(db=database)
+        return CategoryController(session)
 
     def test_get(self, controller: CategoryController):
         """

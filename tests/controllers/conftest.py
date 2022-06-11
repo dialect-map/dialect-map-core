@@ -43,8 +43,8 @@ def context(database: BaseDatabase):
         yield context
 
 
-@pytest.fixture(scope="function")
-def database_rollback(context: BaseDatabaseContext):
+@pytest.fixture(scope="class")
+def rollback(context: BaseDatabaseContext):
     """
     Wraps a controller class test in order to roll back any DB operations.
     It is equivalent to the combination of unit-test 'setUp' and 'tearDown' methods.
@@ -53,3 +53,18 @@ def database_rollback(context: BaseDatabaseContext):
 
     with context.transaction(commit=False):
         yield
+
+
+@pytest.fixture(scope="class")
+def session(database: BaseDatabase) -> object:
+    """
+    Creates a database session object to be used during a single test
+    :return: database session object
+    """
+
+    session = database.create_session()
+
+    try:
+        yield session
+    finally:
+        session.close()

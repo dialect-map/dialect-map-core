@@ -13,19 +13,20 @@ from src.dialect_map.models import PaperReferenceCounters
 from src.dialect_map.storage import BaseDatabase
 
 
-@pytest.mark.usefixtures("database_rollback")
+@pytest.mark.usefixtures("rollback")
+@pytest.mark.usefixtures("session")
 class TestPaperController:
     """Class to group all the Paper model controller tests"""
 
     @pytest.fixture(scope="class")
-    def controller(self, database: BaseDatabase):
+    def controller(self, session: object):
         """
         Creates a memory-based controller for the Paper records
-        :param database: dummy database instance
+        :param session: database session instance
         :return: initiated controller instance
         """
 
-        return PaperController(db=database)
+        return PaperController(session)
 
     def test_get(self, controller: PaperController):
         """
@@ -110,19 +111,20 @@ class TestPaperController:
         assert pytest.raises(ValueError, controller.get, paper_id, paper_rev)
 
 
-@pytest.mark.usefixtures("database_rollback")
+@pytest.mark.usefixtures("rollback")
+@pytest.mark.usefixtures("session")
 class TestPaperAuthorController:
     """Class to group all the PaperAuthor model controller tests"""
 
     @pytest.fixture(scope="class")
-    def controller(self, database: BaseDatabase):
+    def controller(self, session: object):
         """
         Creates a memory-based controller for the PaperAuthor records
-        :param database: dummy database instance
+        :param session: database session instance
         :return: initiated controller instance
         """
 
-        return PaperAuthorController(db=database)
+        return PaperAuthorController(session)
 
     def test_get(self, controller: PaperAuthorController):
         """
@@ -159,19 +161,20 @@ class TestPaperAuthorController:
         assert pytest.raises(database.error, controller.create, author)
 
 
-@pytest.mark.usefixtures("database_rollback")
+@pytest.mark.usefixtures("rollback")
+@pytest.mark.usefixtures("session")
 class TestPaperRefCounterController:
     """Class to group all the PaperReferenceCounter model controller tests"""
 
     @pytest.fixture(scope="class")
-    def controller(self, database: BaseDatabase):
+    def controller(self, session: object):
         """
         Creates a memory-based controller for the PaperReferenceCounter records
-        :param database: dummy database instance
+        :param session: database session instance
         :return: initiated controller instance
         """
 
-        return PaperReferenceCountersController(db=database)
+        return PaperReferenceCountersController(session)
 
     def test_get(self, controller: PaperReferenceCountersController):
         """
