@@ -67,6 +67,48 @@ class TestMembershipController:
         assert creation_id == membership_id
         assert created_obj == membership
 
+    def test_create_with_non_existent_paper(
+        self,
+        database: BaseDatabase,
+        controller: MembershipController,
+    ):
+        """
+        Tests the creation of a category membership by the controller
+        when the referenced paper does not exist
+        :param database: dummy database instance
+        :param controller: initiated instance
+        """
+
+        membership = CategoryMembership(
+            arxiv_id="non-existing-paper",
+            arxiv_rev=100,
+            category_id="category-01234",
+            created_at=datetime.utcnow(),
+        )
+
+        assert pytest.raises(database.error, controller.create, membership)
+
+    def test_create_with_non_existent_category(
+        self,
+        database: BaseDatabase,
+        controller: MembershipController,
+    ):
+        """
+        Tests the creation of a category membership by the controller
+        when the referenced category does not exist
+        :param database: dummy database instance
+        :param controller: initiated instance
+        """
+
+        membership = CategoryMembership(
+            arxiv_id="paper-01234",
+            arxiv_rev=2,
+            category_id="non-existing-category",
+            created_at=datetime.utcnow(),
+        )
+
+        assert pytest.raises(database.error, controller.create, membership)
+
     def test_delete(self, controller: MembershipController):
         """
         Tests the deletion of a category membership by the controller

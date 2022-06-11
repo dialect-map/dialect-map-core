@@ -137,6 +137,27 @@ class TestPaperAuthorController:
         assert type(one_author) is PaperAuthor
         assert one_author.id == "paper-author-01234-A"
 
+    def test_create_with_non_existent_paper(
+        self,
+        database: BaseDatabase,
+        controller: PaperAuthorController,
+    ):
+        """
+        Tests the creation of a paper author by the controller
+        when the referenced paper does not exist
+        :param database: dummy database instance
+        :param controller: initiated instance
+        """
+
+        author = PaperAuthor(
+            arxiv_id="non-existing-paper",
+            arxiv_rev=1,
+            author_name="John Doe",
+            created_at=datetime.utcnow(),
+        )
+
+        assert pytest.raises(database.error, controller.create, author)
+
 
 @pytest.mark.usefixtures("database_rollback")
 class TestPaperRefCounterController:
@@ -164,3 +185,25 @@ class TestPaperRefCounterController:
         assert type(all_counters) == list
         assert type(one_counter) is PaperReferenceCounters
         assert one_counter.id == "paper-ref-counter-01234-A"
+
+    def test_create_with_non_existent_paper(
+        self,
+        database: BaseDatabase,
+        controller: PaperReferenceCountersController,
+    ):
+        """
+        Tests the creation of a paper ref. counter by the controller
+        when the referenced paper does not exist
+        :param database: dummy database instance
+        :param controller: initiated instance
+        """
+
+        counter = PaperReferenceCounters(
+            arxiv_id="non-existing-paper",
+            arxiv_rev=1,
+            arxiv_ref_count=0,
+            total_ref_count=0,
+            created_at=datetime.utcnow(),
+        )
+
+        assert pytest.raises(database.error, controller.create, counter)

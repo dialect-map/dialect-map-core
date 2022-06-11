@@ -90,6 +90,29 @@ class TestJargonController:
         assert creation_id == jargon_id
         assert created_obj == jargon
 
+    def test_create_with_non_existent_jargon_group(
+        self,
+        database: BaseDatabase,
+        controller: JargonController,
+    ):
+        """
+        Tests the creation of a jargon by the controller
+        when the referenced jargon group does not exist
+        :param database: dummy database instance
+        :param controller: initiated instance
+        """
+
+        jargon = Jargon(
+            group_id="non-existent-group",
+            jargon_id="jargon-creation",
+            jargon_term="My test jargon",
+            jargon_regex="[Mm]y test jargon",
+            archived=False,
+            created_at=datetime.utcnow(),
+        )
+
+        assert pytest.raises(database.error, controller.create, jargon)
+
     def test_delete(self, controller: JargonController):
         """
         Tests the deletion of a jargon by the controller

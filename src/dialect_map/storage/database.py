@@ -39,6 +39,13 @@ class BaseDatabase(ABC):
 
         raise NotImplementedError()
 
+    @property
+    @abstractmethod
+    def error(self):
+        """Database error type"""
+
+        raise NotImplementedError()
+
     @abstractmethod
     def close_conn(self):
         """Closes the database connection"""
@@ -85,6 +92,7 @@ class SQLAlchemyDatabase(BaseDatabase):
 
     conn: Connection = None
     session: Session = None
+    error: Exception = SQLAlchemyError
 
     def __init__(
         self,

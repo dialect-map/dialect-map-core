@@ -20,6 +20,11 @@ def database() -> SQLAlchemyDatabase:
     loader = JSONFileLoader()
     database = SQLAlchemyDatabase("sqlite:///:memory:", file_loader=loader)
 
+    ### NOTE:
+    ### SQLite does not check foreign key integrity by default
+    ### Ref: https://docs.sqlalchemy.org/en/14/dialects/sqlite.html#foreign-key-support
+    database.session.execute("PRAGMA foreign_keys=ON")
+
     return database
 
 
