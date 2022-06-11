@@ -3,5 +3,4 @@
 from .controllers import *
 from .encoding import *
 from .models import *
-from .service import *
 from .storage import *
