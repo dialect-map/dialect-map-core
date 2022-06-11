@@ -26,7 +26,7 @@ class JargonCategoryMetricsController(StaticController):
         :return: list of database objects
         """
 
-        query = self.db.session.query(self.model)
+        query = self.session.query(self.model)
         query = query.filter(self.model.jargon_id == jargon_id)
 
         if category_id:
@@ -50,7 +50,7 @@ class JargonPaperMetricsController(StaticController):
         """
 
         return (
-            self.db.session.query(
+            self.session.query(
                 distinct(self.model.arxiv_id).label("arxiv_id"),
                 func.max(self.model.arxiv_rev).label("latest_rev"),
             )
@@ -67,7 +67,7 @@ class JargonPaperMetricsController(StaticController):
         :return: list of database objects
         """
 
-        query = self.db.session.query(self.model)
+        query = self.session.query(self.model)
         query = query.filter(self.model.jargon_id == jargon_id)
 
         if arxiv_id:
@@ -86,7 +86,7 @@ class JargonPaperMetricsController(StaticController):
 
         subquery = self._build_latest_rev_subquery()
 
-        query = self.db.session.query(self.model)
+        query = self.session.query(self.model)
         query = query.filter(self.model.jargon_id == jargon_id)
         query = query.join(
             subquery,

@@ -62,13 +62,13 @@ class StaticController(BaseController, Generic[StaticModelVar]):
 
     model: Type[StaticModelVar]
 
-    def __init__(self, db: BaseDatabase):
+    def __init__(self, session: object):
         """
-        Initializes the controller with the underlying database
-        :param db: database engine to use
+        Initializes the controller with the provided DB session
+        :param session: database session to use
         """
 
-        self.db = db
+        self.session = session
 
     def get(self, id: str) -> StaticModelVar:
         """
@@ -78,9 +78,9 @@ class StaticController(BaseController, Generic[StaticModelVar]):
         """
 
         try:
-            record = self.db.session.get(self.model, id)
+            record = self.session.get(self.model, id)
         except Exception:
-            self.db.session.rollback()
+            self.session.rollback()
             raise
 
         if record is None:
@@ -96,10 +96,10 @@ class StaticController(BaseController, Generic[StaticModelVar]):
         """
 
         try:
-            self.db.session.add(instance)
-            self.db.session.commit()
+            self.session.add(instance)
+            self.session.commit()
         except Exception:
-            self.db.session.rollback()
+            self.session.rollback()
             raise
 
         return instance.id
@@ -112,10 +112,10 @@ class StaticController(BaseController, Generic[StaticModelVar]):
         """
 
         try:
-            self.db.session.add_all(instances)
-            self.db.session.commit()
+            self.session.add_all(instances)
+            self.session.commit()
         except Exception:
-            self.db.session.rollback()
+            self.session.rollback()
             raise
 
         return len(instances)
@@ -127,8 +127,8 @@ class StaticController(BaseController, Generic[StaticModelVar]):
         :return: ID of the deleted object
         """
 
-        self.db.session.delete(self.get(id))
-        self.db.session.commit()
+        self.session.delete(self.get(id))
+        self.session.commit()
         return id
 
 
@@ -144,13 +144,13 @@ class ArchivalController(BaseController, Generic[ArchivalModelVar]):
 
     model: Type[ArchivalModelVar]
 
-    def __init__(self, db: BaseDatabase):
+    def __init__(self, session: object):
         """
-        Initializes the controller with the underlying database
-        :param db: database engine to use
+        Initializes the controller with the provided DB session
+        :param session: database session to use
         """
 
-        self.db = db
+        self.session = session
 
     def get(self, id: str, include_archived: bool = False) -> ArchivalModelVar:
         """
@@ -161,9 +161,9 @@ class ArchivalController(BaseController, Generic[ArchivalModelVar]):
         """
 
         try:
-            record = self.db.session.get(self.model, id)
+            record = self.session.get(self.model, id)
         except Exception:
-            self.db.session.rollback()
+            self.session.rollback()
             raise
 
         if record is None:
@@ -180,7 +180,7 @@ class ArchivalController(BaseController, Generic[ArchivalModelVar]):
         :return: list of records
         """
 
-        query = self.db.session.query(self.model)
+        query = self.session.query(self.model)
 
         if include_archived is False:
             query = query.filter(self.model.archived == false())
@@ -195,10 +195,10 @@ class ArchivalController(BaseController, Generic[ArchivalModelVar]):
         """
 
         try:
-            self.db.session.add(instance)
-            self.db.session.commit()
+            self.session.add(instance)
+            self.session.commit()
         except Exception:
-            self.db.session.rollback()
+            self.session.rollback()
             raise
 
         return instance.id
@@ -210,8 +210,8 @@ class ArchivalController(BaseController, Generic[ArchivalModelVar]):
         :return: ID of the deleted object
         """
 
-        self.db.session.delete(self.get(id, include_archived=True))
-        self.db.session.commit()
+        self.session.delete(self.get(id, include_archived=True))
+        self.session.commit()
         return id
 
     def archive(self, id: str) -> str:
@@ -225,7 +225,7 @@ class ArchivalController(BaseController, Generic[ArchivalModelVar]):
         record.archived = True
         record.archived_at = datetime.utcnow()
 
-        self.db.session.commit()
+        self.session.commit()
         return id
 
 
@@ -241,13 +241,13 @@ class EvolvingController(BaseController, Generic[EvolvingModelVar]):
 
     model: Type[EvolvingModelVar]
 
-    def __init__(self, db: BaseDatabase):
+    def __init__(self, session: object):
         """
-        Initializes the controller with the underlying database
-        :param db: database engine to use
+        Initializes the controller with the provided DB session
+        :param session: database engine to use
         """
 
-        self.db = db
+        self.session = session
 
     def get(self, id: str, rev: int) -> EvolvingModelVar:
         """
@@ -258,9 +258,9 @@ class EvolvingController(BaseController, Generic[EvolvingModelVar]):
         """
 
         try:
-            record = self.db.session.get(self.model, (id, rev))
+            record = self.session.get(self.model, (id, rev))
         except Exception:
-            self.db.session.rollback()
+            self.session.rollback()
             raise
 
         if record is None:
@@ -276,10 +276,10 @@ class EvolvingController(BaseController, Generic[EvolvingModelVar]):
         """
 
         try:
-            self.db.session.add(instance)
-            self.db.session.commit()
+            self.session.add(instance)
+            self.session.commit()
         except Exception:
-            self.db.session.rollback()
+            self.session.rollback()
             raise
 
         return instance.id
@@ -297,11 +297,11 @@ class EvolvingController(BaseController, Generic[EvolvingModelVar]):
             try:
                 rev += 1
                 record = self.get(id, rev)
-                self.db.session.delete(record)
+                self.session.delete(record)
             except ValueError:
                 break
 
-        self.db.session.commit()
+        self.session.commit()
         return id
 
     def delete_rev(self, id: str, rev: int) -> Tuple[str, int]:
@@ -312,6 +312,6 @@ class EvolvingController(BaseController, Generic[EvolvingModelVar]):
         :return: ID of the deleted object
         """
 
-        self.db.session.delete(self.get(id, rev))
-        self.db.session.commit()
+        self.session.delete(self.get(id, rev))
+        self.session.commit()
         return id, rev
