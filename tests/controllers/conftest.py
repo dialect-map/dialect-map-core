@@ -6,20 +6,20 @@ from src.dialect_map.storage import BaseDatabase
 from src.dialect_map.storage import BaseDatabaseContext
 from src.dialect_map.storage import BaseDatabaseSession
 from src.dialect_map.storage import JSONFileLoader
-from src.dialect_map.storage import SQLAlchemyDatabase
+from src.dialect_map.storage import SQLDatabase
 from src.dialect_map.storage import SQLDatabaseContext
 from src.dialect_map_data import FILES_MAPPINGS
 
 
 @pytest.fixture(scope="package")
-def database() -> SQLAlchemyDatabase:
+def database() -> SQLDatabase:
     """
     Creates a memory-based database to test database operations
     :return: memory-based database object
     """
 
     loader = JSONFileLoader()
-    database = SQLAlchemyDatabase("sqlite:///:memory:", file_loader=loader)
+    database = SQLDatabase("sqlite:///:memory:", file_loader=loader)
 
     ### NOTE:
     ### SQLite does not check foreign key integrity by default

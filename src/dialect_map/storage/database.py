@@ -90,7 +90,7 @@ class BaseDatabase(ABC):
         raise NotImplementedError()
 
 
-class SQLAlchemyDatabase(BaseDatabase):
+class SQLDatabase(BaseDatabase):
     """Database class using SQLAlchemy utilities"""
 
     error: Exception = SQLAlchemyError

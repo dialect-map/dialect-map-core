@@ -4,17 +4,17 @@ import pytest
 
 from src.dialect_map.storage import BaseDatabase
 from src.dialect_map.storage import BaseDatabaseSession
-from src.dialect_map.storage import SQLAlchemyDatabase
+from src.dialect_map.storage import SQLDatabase
 
 
 @pytest.fixture(scope="package")
-def database() -> SQLAlchemyDatabase:
+def database() -> SQLDatabase:
     """
     Creates a memory-based database to test database operations
     :return: memory-based database object
     """
 
-    database = SQLAlchemyDatabase("sqlite:///:memory:")
+    database = SQLDatabase("sqlite:///:memory:")
     database.setup(check=False)
 
     ### NOTE:
