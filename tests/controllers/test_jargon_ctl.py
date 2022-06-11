@@ -9,21 +9,23 @@ from src.dialect_map.controllers import JargonGroupController
 from src.dialect_map.models import Jargon
 from src.dialect_map.models import JargonGroup
 from src.dialect_map.storage import BaseDatabase
+from src.dialect_map.storage import BaseDatabaseSession
 
 
-@pytest.mark.usefixtures("database_rollback")
+@pytest.mark.usefixtures("rollback")
+@pytest.mark.usefixtures("session")
 class TestJargonController:
     """Class to group all the Jargon model controller tests"""
 
     @pytest.fixture(scope="class")
-    def controller(self, database: BaseDatabase):
+    def controller(self, session: BaseDatabaseSession):
         """
         Creates a memory-based controller for the Jargon records
-        :param database: dummy database instance
+        :param session: database session instance
         :return: initiated controller instance
         """
 
-        return JargonController(db=database)
+        return JargonController(session)
 
     def test_get(self, controller: JargonController):
         """
@@ -150,19 +152,20 @@ class TestJargonController:
         assert jargon_obj.archived_at is not None
 
 
-@pytest.mark.usefixtures("database_rollback")
+@pytest.mark.usefixtures("rollback")
+@pytest.mark.usefixtures("session")
 class TestJargonGroupController:
     """Class to group all the JargonGroup model controller tests"""
 
     @pytest.fixture(scope="class")
-    def controller(self, database: BaseDatabase):
+    def controller(self, session: BaseDatabaseSession):
         """
         Creates a memory-based controller for the JargonGroup records
-        :param database: dummy database instance
+        :param session: database session instance
         :return: initiated controller instance
         """
 
-        return JargonGroupController(db=database)
+        return JargonGroupController(session)
 
     def test_get(self, controller: JargonGroupController):
         """
@@ -197,11 +200,11 @@ class TestJargonGroupController:
         assert creation_id == group_id
         assert created_obj == group
 
-    def test_create_nested(self, database: BaseDatabase):
+    def test_create_nested(self, session: BaseDatabaseSession):
         """
         Tests the creation of a jargon group by the controller,
         when nested jargon records are passed to the constructor
-        :param database: dummy database instance
+        :param session: database session instance
         """
 
         group_id = "jargon-group-creation-nested"
@@ -226,8 +229,8 @@ class TestJargonGroupController:
             }
         )
 
-        group_controller = JargonGroupController(db=database)
-        jargon_controller = JargonController(db=database)
+        group_controller = JargonGroupController(session)
+        jargon_controller = JargonController(session)
 
         created_group_id = group_controller.create(group)
         created_group = group_controller.get(group_id)

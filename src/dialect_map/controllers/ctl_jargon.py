@@ -22,7 +22,7 @@ class JargonController(ArchivalController):
         :return: jargon term object
         """
 
-        query = self.db.session.query(self.model)
+        query = self.session.query(self.model)
         query = query.filter(self.model.archived == false())
         query = query.filter(self.model.jargon_term == jargon_term)
 
@@ -35,7 +35,7 @@ class JargonController(ArchivalController):
         :return: list of jargon terms
         """
 
-        group = self.db.session.query(JargonGroup)
+        group = self.session.query(JargonGroup)
         group = group.filter(JargonGroup.archived == false())
         group = group.filter(JargonGroup.group_id == group_id)
 
@@ -43,7 +43,7 @@ class JargonController(ArchivalController):
         jargons = []
 
         if group:
-            query = self.db.session.query(self.model)
+            query = self.session.query(self.model)
             query = query.filter(self.model.archived == false())
             query = query.filter(self.model.group_id == group_id)
             jargons = query.all()

@@ -6,7 +6,7 @@ import click
 from dialect_map_data import FILES_MAPPINGS
 
 from .storage import JSONFileLoader
-from .storage import SQLAlchemyDatabase
+from .storage import SQLDatabase
 
 
 @click.group()
@@ -27,7 +27,7 @@ def load_db(url: str):
 
     try:
         loader = JSONFileLoader()
-        database = SQLAlchemyDatabase(url, file_loader=loader)
+        database = SQLDatabase(url, file_loader=loader)
         database.setup()
     except Exception as e:
         click.echo(e, err=True)
@@ -52,7 +52,7 @@ def setup_db(url: str):
     """Creates all the database tables that do not exist"""
 
     try:
-        database = SQLAlchemyDatabase(url)
+        database = SQLDatabase(url)
         database.setup()
     except Exception as e:
         click.echo(e, err=True)
@@ -80,7 +80,7 @@ def teardown_db(url: str, force: bool):
     check = not force
 
     try:
-        database = SQLAlchemyDatabase(url)
+        database = SQLDatabase(url)
         database.teardown(check=check)
     except Exception as e:
         click.echo(e, err=True)

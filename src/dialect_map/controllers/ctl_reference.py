@@ -20,7 +20,7 @@ class ReferenceController(StaticController):
         :return: list of database objects
         """
 
-        query = self.db.session.query(self.model)
+        query = self.session.query(self.model)
         query = query.filter(self.model.source_arxiv_id == arxiv_id)
         query = query.filter(self.model.source_arxiv_rev == arxiv_rev)
 
@@ -34,7 +34,7 @@ class ReferenceController(StaticController):
         :return: list of database objects
         """
 
-        query = self.db.session.query(self.model)
+        query = self.session.query(self.model)
         query = query.filter(self.model.target_arxiv_id == arxiv_id)
         query = query.filter(self.model.target_arxiv_rev == arxiv_rev)
 

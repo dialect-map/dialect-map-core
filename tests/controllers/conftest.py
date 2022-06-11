@@ -4,26 +4,28 @@ import pytest
 
 from src.dialect_map.storage import BaseDatabase
 from src.dialect_map.storage import BaseDatabaseContext
+from src.dialect_map.storage import BaseDatabaseSession
 from src.dialect_map.storage import JSONFileLoader
-from src.dialect_map.storage import SQLAlchemyDatabase
+from src.dialect_map.storage import SQLDatabase
 from src.dialect_map.storage import SQLDatabaseContext
 from src.dialect_map_data import FILES_MAPPINGS
 
 
 @pytest.fixture(scope="package")
-def database() -> SQLAlchemyDatabase:
+def database() -> SQLDatabase:
     """
     Creates a memory-based database to test database operations
     :return: memory-based database object
     """
 
     loader = JSONFileLoader()
-    database = SQLAlchemyDatabase("sqlite:///:memory:", file_loader=loader)
+    database = SQLDatabase("sqlite:///:memory:", file_loader=loader)
 
     ### NOTE:
     ### SQLite does not check foreign key integrity by default
     ### Ref: https://docs.sqlalchemy.org/en/14/dialects/sqlite.html#foreign-key-support
-    database.session.execute("PRAGMA foreign_keys=ON")
+    with database.create_session() as session:
+        session.execute("PRAGMA foreign_keys=ON")
 
     return database
 
@@ -42,8 +44,8 @@ def context(database: BaseDatabase):
         yield context
 
 
-@pytest.fixture(scope="function")
-def database_rollback(context: BaseDatabaseContext):
+@pytest.fixture(scope="class")
+def rollback(context: BaseDatabaseContext):
     """
     Wraps a controller class test in order to roll back any DB operations.
     It is equivalent to the combination of unit-test 'setUp' and 'tearDown' methods.
@@ -52,3 +54,18 @@ def database_rollback(context: BaseDatabaseContext):
 
     with context.transaction(commit=False):
         yield
+
+
+@pytest.fixture(scope="class")
+def session(database: BaseDatabase) -> BaseDatabaseSession:
+    """
+    Creates a database session object to be used during a single test
+    :return: database session object
+    """
+
+    session = database.create_session()
+
+    try:
+        yield session
+    finally:
+        session.close()

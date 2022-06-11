@@ -2,7 +2,7 @@
 
 import pytest
 
-from src.dialect_map.storage import SQLAlchemyDatabase
+from src.dialect_map.storage import SQLDatabase
 
 
 def test_connection_exception():
@@ -13,18 +13,18 @@ def test_connection_exception():
         "backoff_seconds": 1,
     }
 
-    assert pytest.raises(ConnectionError, SQLAlchemyDatabase, **db_arguments)
+    assert pytest.raises(ConnectionError, SQLDatabase, **db_arguments)
 
 
 def test_sql_tables_creation():
     """Tests the correct creation of all the database tables"""
 
-    db = SQLAlchemyDatabase("sqlite:///:memory:")
+    db = SQLDatabase("sqlite:///:memory:")
     db.setup(False)
 
 
 def test_sql_tables_deletion():
     """Tests the correct deletion of all the database tables"""
 
-    db = SQLAlchemyDatabase("sqlite:///:memory:")
+    db = SQLDatabase("sqlite:///:memory:")
     db.teardown(True)

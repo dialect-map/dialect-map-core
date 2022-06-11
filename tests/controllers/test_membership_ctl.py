@@ -7,21 +7,23 @@ import pytest
 from src.dialect_map.controllers import MembershipController
 from src.dialect_map.models import CategoryMembership
 from src.dialect_map.storage import BaseDatabase
+from src.dialect_map.storage import BaseDatabaseSession
 
 
-@pytest.mark.usefixtures("database_rollback")
+@pytest.mark.usefixtures("rollback")
+@pytest.mark.usefixtures("session")
 class TestMembershipController:
     """Class to group all the CategoryMembership model controller tests"""
 
     @pytest.fixture(scope="class")
-    def controller(self, database: BaseDatabase):
+    def controller(self, session: BaseDatabaseSession):
         """
         Creates a memory-based controller for the Membership records
-        :param database: dummy database instance
-        :return: initiated instance
+        :param session: database session instance
+        :return: initiated controller instance
         """
 
-        return MembershipController(db=database)
+        return MembershipController(session)
 
     def test_get(self, controller: MembershipController):
         """

@@ -9,9 +9,11 @@ from src.dialect_map.controllers import CategoryController
 from src.dialect_map.models import Category
 from src.dialect_map.storage import BaseDatabase
 from src.dialect_map.storage import BaseDatabaseContext
+from src.dialect_map.storage import BaseDatabaseSession
 from src.dialect_map.storage import SQLDatabaseContext
 
 
+@pytest.mark.usefixtures("session")
 class TestSQLDatabaseContext:
     """Class to group all the SQL database context tests"""
 
@@ -24,14 +26,18 @@ class TestSQLDatabaseContext:
 
         return SQLDatabaseContext(database)
 
-    def test_invalid_transaction(self, database: BaseDatabase, context: BaseDatabaseContext):
+    def test_invalid_transaction(
+        self,
+        context: BaseDatabaseContext,
+        session: BaseDatabaseSession,
+    ):
         """
         Tests the rollback of record storage on invalid transactions
-        :param database: database instance
         :param context: database context instance
+        :param session: database session instance
         """
 
-        ctl = CategoryController(db=database)
+        ctl = CategoryController(session=session)
 
         with suppress(Exception):
             with context.transaction(commit=True):
@@ -48,16 +54,16 @@ class TestSQLDatabaseContext:
 
     def test_valid_transaction_committed(
         self,
-        database: BaseDatabase,
         context: BaseDatabaseContext,
+        session: BaseDatabaseSession,
     ):
         """
         Tests the storage of multiple records on committed marked transactions
-        :param database: database instance
         :param context: database context instance
+        :param session: database session instance
         """
 
-        ctl = CategoryController(db=database)
+        ctl = CategoryController(session=session)
 
         with context.transaction(commit=True):
             ctl.create(
@@ -80,19 +86,18 @@ class TestSQLDatabaseContext:
         assert type(ctl.get("example-1")) == Category
         assert type(ctl.get("example-2")) == Category
 
-    @pytest.mark.skip(reason="Investigation needed")
     def test_valid_transaction_uncommitted(
         self,
-        database: BaseDatabase,
         context: BaseDatabaseContext,
+        session: BaseDatabaseSession,
     ):
         """
         Tests the storage of multiple records on uncommitted marked transactions
-        :param database: database instance
         :param context: database context instance
+        :param session: database session instance
         """
 
-        ctl = CategoryController(db=database)
+        ctl = CategoryController(session=session)
 
         with context.transaction(commit=False):
             ctl.create(

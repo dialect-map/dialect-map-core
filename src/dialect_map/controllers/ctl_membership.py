@@ -20,7 +20,7 @@ class MembershipController(StaticController):
         :return: list of database objects
         """
 
-        query = self.db.session.query(self.model)
+        query = self.session.query(self.model)
         query = query.filter(self.model.arxiv_id == arxiv_id)
         query = query.filter(self.model.arxiv_rev == arxiv_rev)
 
