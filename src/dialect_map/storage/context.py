@@ -8,8 +8,6 @@ from contextlib import contextmanager
 from contextlib import AbstractContextManager
 from typing import Generator
 
-from sqlalchemy.exc import SQLAlchemyError
-
 from .database import BaseDatabase
 
 
@@ -70,11 +68,11 @@ class SQLDatabaseContext(BaseDatabaseContext):
         :param commit: whether to commit the operations at exit (optional)
         """
 
-        transaction = self.db.conn.begin()
+        transaction = self.db.create_transaction()
 
         try:
             yield
-        except SQLAlchemyError as e:
+        except self.db.error as e:
             logger.error(f"Database operation failed: {e}.")
             logger.error(f"The transaction will not be committed")
             raise
