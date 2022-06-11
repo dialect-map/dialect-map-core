@@ -16,6 +16,7 @@ from ..models import BaseStaticModel
 from ..models import BaseArchivalModel
 from ..models import BaseEvolvingModel
 from ..storage import BaseDatabase
+from ..storage import BaseDatabaseSession
 
 
 # Generic base model types
@@ -62,7 +63,7 @@ class StaticController(BaseController, Generic[StaticModelVar]):
 
     model: Type[StaticModelVar]
 
-    def __init__(self, session: object):
+    def __init__(self, session: BaseDatabaseSession):
         """
         Initializes the controller with the provided DB session
         :param session: database session to use
@@ -144,7 +145,7 @@ class ArchivalController(BaseController, Generic[ArchivalModelVar]):
 
     model: Type[ArchivalModelVar]
 
-    def __init__(self, session: object):
+    def __init__(self, session: BaseDatabaseSession):
         """
         Initializes the controller with the provided DB session
         :param session: database session to use
@@ -241,7 +242,7 @@ class EvolvingController(BaseController, Generic[EvolvingModelVar]):
 
     model: Type[EvolvingModelVar]
 
-    def __init__(self, session: object):
+    def __init__(self, session: BaseDatabaseSession):
         """
         Initializes the controller with the provided DB session
         :param session: database engine to use

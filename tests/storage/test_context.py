@@ -9,6 +9,7 @@ from src.dialect_map.controllers import CategoryController
 from src.dialect_map.models import Category
 from src.dialect_map.storage import BaseDatabase
 from src.dialect_map.storage import BaseDatabaseContext
+from src.dialect_map.storage import BaseDatabaseSession
 from src.dialect_map.storage import SQLDatabaseContext
 
 
@@ -25,7 +26,11 @@ class TestSQLDatabaseContext:
 
         return SQLDatabaseContext(database)
 
-    def test_invalid_transaction(self, context: BaseDatabaseContext, session: object):
+    def test_invalid_transaction(
+        self,
+        context: BaseDatabaseContext,
+        session: BaseDatabaseSession,
+    ):
         """
         Tests the rollback of record storage on invalid transactions
         :param context: database context instance
@@ -50,7 +55,7 @@ class TestSQLDatabaseContext:
     def test_valid_transaction_committed(
         self,
         context: BaseDatabaseContext,
-        session: object,
+        session: BaseDatabaseSession,
     ):
         """
         Tests the storage of multiple records on committed marked transactions
@@ -84,7 +89,7 @@ class TestSQLDatabaseContext:
     def test_valid_transaction_uncommitted(
         self,
         context: BaseDatabaseContext,
-        session: object,
+        session: BaseDatabaseSession,
     ):
         """
         Tests the storage of multiple records on uncommitted marked transactions

@@ -3,6 +3,7 @@
 import pytest
 
 from src.dialect_map.storage import BaseDatabase
+from src.dialect_map.storage import BaseDatabaseSession
 from src.dialect_map.storage import SQLAlchemyDatabase
 
 
@@ -26,7 +27,7 @@ def database() -> SQLAlchemyDatabase:
 
 
 @pytest.fixture(scope="function")
-def session(database: BaseDatabase) -> object:
+def session(database: BaseDatabase) -> BaseDatabaseSession:
     """
     Creates a database session object to be used during a single test
     :return: database session object

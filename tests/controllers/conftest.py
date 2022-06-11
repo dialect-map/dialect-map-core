@@ -4,6 +4,7 @@ import pytest
 
 from src.dialect_map.storage import BaseDatabase
 from src.dialect_map.storage import BaseDatabaseContext
+from src.dialect_map.storage import BaseDatabaseSession
 from src.dialect_map.storage import JSONFileLoader
 from src.dialect_map.storage import SQLAlchemyDatabase
 from src.dialect_map.storage import SQLDatabaseContext
@@ -56,7 +57,7 @@ def rollback(context: BaseDatabaseContext):
 
 
 @pytest.fixture(scope="class")
-def session(database: BaseDatabase) -> object:
+def session(database: BaseDatabase) -> BaseDatabaseSession:
     """
     Creates a database session object to be used during a single test
     :return: database session object

@@ -6,11 +6,13 @@ import time
 from abc import ABC
 from abc import abstractmethod
 from typing import Type
+from typing import Union
 
 from sqlalchemy.engine import Connection
 from sqlalchemy.engine import Transaction
 from sqlalchemy.engine import create_engine
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.orm import Session
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
 
@@ -20,6 +22,9 @@ from ..models import Base
 
 
 logger = logging.getLogger()
+
+BaseDatabaseSession = Union[Session, scoped_session]
+SQLDatabaseSession = Union[Session, scoped_session]
 
 
 class BaseDatabase(ABC):
@@ -139,7 +144,7 @@ class SQLAlchemyDatabase(BaseDatabase):
 
         raise ConnectionError("Database connection timeout")
 
-    def create_session(self) -> object:
+    def create_session(self) -> SQLDatabaseSession:
         """
         Creates a database session object
         :return: scoped session or pure session

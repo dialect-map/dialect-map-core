@@ -11,6 +11,7 @@ from src.dialect_map.models import Paper
 from src.dialect_map.models import PaperAuthor
 from src.dialect_map.models import PaperReferenceCounters
 from src.dialect_map.storage import BaseDatabase
+from src.dialect_map.storage import BaseDatabaseSession
 
 
 @pytest.mark.usefixtures("rollback")
@@ -19,7 +20,7 @@ class TestPaperController:
     """Class to group all the Paper model controller tests"""
 
     @pytest.fixture(scope="class")
-    def controller(self, session: object):
+    def controller(self, session: BaseDatabaseSession):
         """
         Creates a memory-based controller for the Paper records
         :param session: database session instance
@@ -117,7 +118,7 @@ class TestPaperAuthorController:
     """Class to group all the PaperAuthor model controller tests"""
 
     @pytest.fixture(scope="class")
-    def controller(self, session: object):
+    def controller(self, session: BaseDatabaseSession):
         """
         Creates a memory-based controller for the PaperAuthor records
         :param session: database session instance
@@ -167,7 +168,7 @@ class TestPaperRefCounterController:
     """Class to group all the PaperReferenceCounter model controller tests"""
 
     @pytest.fixture(scope="class")
-    def controller(self, session: object):
+    def controller(self, session: BaseDatabaseSession):
         """
         Creates a memory-based controller for the PaperReferenceCounter records
         :param session: database session instance

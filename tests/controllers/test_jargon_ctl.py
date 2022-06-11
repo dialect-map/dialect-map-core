@@ -9,6 +9,7 @@ from src.dialect_map.controllers import JargonGroupController
 from src.dialect_map.models import Jargon
 from src.dialect_map.models import JargonGroup
 from src.dialect_map.storage import BaseDatabase
+from src.dialect_map.storage import BaseDatabaseSession
 
 
 @pytest.mark.usefixtures("rollback")
@@ -17,7 +18,7 @@ class TestJargonController:
     """Class to group all the Jargon model controller tests"""
 
     @pytest.fixture(scope="class")
-    def controller(self, session: object):
+    def controller(self, session: BaseDatabaseSession):
         """
         Creates a memory-based controller for the Jargon records
         :param session: database session instance
@@ -157,7 +158,7 @@ class TestJargonGroupController:
     """Class to group all the JargonGroup model controller tests"""
 
     @pytest.fixture(scope="class")
-    def controller(self, session: object):
+    def controller(self, session: BaseDatabaseSession):
         """
         Creates a memory-based controller for the JargonGroup records
         :param session: database session instance
@@ -199,7 +200,7 @@ class TestJargonGroupController:
         assert creation_id == group_id
         assert created_obj == group
 
-    def test_create_nested(self, session: object):
+    def test_create_nested(self, session: BaseDatabaseSession):
         """
         Tests the creation of a jargon group by the controller,
         when nested jargon records are passed to the constructor
