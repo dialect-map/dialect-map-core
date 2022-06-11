@@ -13,7 +13,6 @@ from sqlalchemy.engine import Transaction
 from sqlalchemy.engine import create_engine
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
-from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
 
 from .loader import BaseFileLoader
@@ -23,8 +22,9 @@ from ..models import Base
 
 logger = logging.getLogger()
 
-BaseDatabaseSession = Union[Session, scoped_session]
-SQLDatabaseSession = Union[Session, scoped_session]
+
+BaseDatabaseSession = Union[Session]
+SQLDatabaseSession = Session
 
 
 class BaseDatabase(ABC):
@@ -99,14 +99,12 @@ class SQLDatabase(BaseDatabase):
         self,
         connection_url: str,
         backoff_seconds: int = 32,
-        thread_sessions: bool = False,
         file_loader: BaseFileLoader = None,
     ):
         """
         Initiates the database connection
         :param connection_url: complete url to connect to the database
         :param backoff_seconds: maximum seconds to wait for connection (optional)
-        :param thread_sessions: whether to use thread type sessions (optional)
         :param file_loader: file loader to populate the database (optional)
         """
 
@@ -117,7 +115,6 @@ class SQLDatabase(BaseDatabase):
 
         self.file_loader = file_loader
         self.max_backoff = backoff_seconds
-        self.use_threads = thread_sessions
 
         self.engine = create_engine(connection_url)
         self.connection = self._create_connection()
@@ -144,16 +141,13 @@ class SQLDatabase(BaseDatabase):
 
         raise ConnectionError("Database connection timeout")
 
-    def create_session(self) -> SQLDatabaseSession:
+    def create_session(self) -> Session:
         """
         Creates a database session object
         :return: scoped session or pure session
         """
 
-        if self.use_threads:
-            return scoped_session(self.session_factory)
-        else:
-            return self.session_factory()
+        return self.session_factory()
 
     def create_transaction(self) -> Transaction:
         """
