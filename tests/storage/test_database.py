@@ -2,7 +2,7 @@
 
 import pytest
 
-from src.dialect_map.storage import SQLDatabase
+from src.dialect_map_core.storage import SQLDatabase
 
 
 def test_connection_exception():

@@ -3,7 +3,7 @@
 from datetime import date
 from datetime import datetime
 
-from src.dialect_map.encoding import CustomJSONDecoder
+from src.dialect_map_core.encoding import CustomJSONDecoder
 
 
 def test_json_decoding():

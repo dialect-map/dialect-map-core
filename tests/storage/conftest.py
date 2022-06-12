@@ -2,9 +2,9 @@
 
 import pytest
 
-from src.dialect_map.storage import BaseDatabase
-from src.dialect_map.storage import BaseDatabaseSession
-from src.dialect_map.storage import SQLDatabase
+from src.dialect_map_core.storage import BaseDatabase
+from src.dialect_map_core.storage import BaseDatabaseSession
+from src.dialect_map_core.storage import SQLDatabase
 
 
 @pytest.fixture(scope="package")

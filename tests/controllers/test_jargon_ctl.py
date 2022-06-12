@@ -4,12 +4,12 @@ from datetime import datetime
 
 import pytest
 
-from src.dialect_map.controllers import JargonController
-from src.dialect_map.controllers import JargonGroupController
-from src.dialect_map.models import Jargon
-from src.dialect_map.models import JargonGroup
-from src.dialect_map.storage import BaseDatabase
-from src.dialect_map.storage import BaseDatabaseSession
+from src.dialect_map_core.controllers import JargonController
+from src.dialect_map_core.controllers import JargonGroupController
+from src.dialect_map_core.models import Jargon
+from src.dialect_map_core.models import JargonGroup
+from src.dialect_map_core.storage import BaseDatabase
+from src.dialect_map_core.storage import BaseDatabaseSession
 
 
 @pytest.mark.usefixtures("rollback")

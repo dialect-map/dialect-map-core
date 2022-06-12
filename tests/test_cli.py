@@ -4,7 +4,7 @@ import pytest
 
 from click.testing import CliRunner
 
-from src.dialect_map.cli import main
+from src.dialect_map_core.cli import main
 
 
 @pytest.fixture(scope="module")

@@ -4,16 +4,16 @@ from pathlib import Path
 from typing import NamedTuple
 from typing import Type
 
-from dialect_map.models import Category
-from dialect_map.models import Jargon
-from dialect_map.models import JargonGroup
-from dialect_map.models import JargonCategoryMetrics
-from dialect_map.models import JargonPaperMetrics
-from dialect_map.models import CategoryMembership
-from dialect_map.models import Paper
-from dialect_map.models import PaperAuthor
-from dialect_map.models import PaperReference
-from dialect_map.models import PaperReferenceCounters
+from dialect_map_core.models import Category
+from dialect_map_core.models import Jargon
+from dialect_map_core.models import JargonGroup
+from dialect_map_core.models import JargonCategoryMetrics
+from dialect_map_core.models import JargonPaperMetrics
+from dialect_map_core.models import CategoryMembership
+from dialect_map_core.models import Paper
+from dialect_map_core.models import PaperAuthor
+from dialect_map_core.models import PaperReference
+from dialect_map_core.models import PaperReferenceCounters
 
 
 class Mapping(NamedTuple):

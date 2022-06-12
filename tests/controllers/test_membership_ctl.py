@@ -4,10 +4,10 @@ from datetime import datetime
 
 import pytest
 
-from src.dialect_map.controllers import MembershipController
-from src.dialect_map.models import CategoryMembership
-from src.dialect_map.storage import BaseDatabase
-from src.dialect_map.storage import BaseDatabaseSession
+from src.dialect_map_core.controllers import MembershipController
+from src.dialect_map_core.models import CategoryMembership
+from src.dialect_map_core.storage import BaseDatabase
+from src.dialect_map_core.storage import BaseDatabaseSession
 
 
 @pytest.mark.usefixtures("rollback")

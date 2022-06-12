@@ -5,12 +5,12 @@ from datetime import datetime
 
 import pytest
 
-from src.dialect_map.controllers import CategoryController
-from src.dialect_map.models import Category
-from src.dialect_map.storage import BaseDatabase
-from src.dialect_map.storage import BaseDatabaseContext
-from src.dialect_map.storage import BaseDatabaseSession
-from src.dialect_map.storage import SQLDatabaseContext
+from src.dialect_map_core.controllers import CategoryController
+from src.dialect_map_core.models import Category
+from src.dialect_map_core.storage import BaseDatabase
+from src.dialect_map_core.storage import BaseDatabaseContext
+from src.dialect_map_core.storage import BaseDatabaseSession
+from src.dialect_map_core.storage import SQLDatabaseContext
 
 
 @pytest.mark.usefixtures("session")

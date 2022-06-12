@@ -3,7 +3,7 @@
 from datetime import date
 from datetime import datetime
 
-from src.dialect_map.encoding import CustomJSONEncoder
+from src.dialect_map_core.encoding import CustomJSONEncoder
 
 
 def test_python_encoding():

@@ -4,14 +4,14 @@ from datetime import datetime
 
 import pytest
 
-from src.dialect_map.controllers import PaperController
-from src.dialect_map.controllers import PaperAuthorController
-from src.dialect_map.controllers import PaperReferenceCountersController
-from src.dialect_map.models import Paper
-from src.dialect_map.models import PaperAuthor
-from src.dialect_map.models import PaperReferenceCounters
-from src.dialect_map.storage import BaseDatabase
-from src.dialect_map.storage import BaseDatabaseSession
+from src.dialect_map_core.controllers import PaperController
+from src.dialect_map_core.controllers import PaperAuthorController
+from src.dialect_map_core.controllers import PaperReferenceCountersController
+from src.dialect_map_core.models import Paper
+from src.dialect_map_core.models import PaperAuthor
+from src.dialect_map_core.models import PaperReferenceCounters
+from src.dialect_map_core.storage import BaseDatabase
+from src.dialect_map_core.storage import BaseDatabaseSession
 
 
 @pytest.mark.usefixtures("rollback")

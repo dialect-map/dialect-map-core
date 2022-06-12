@@ -2,12 +2,12 @@
 
 import pytest
 
-from src.dialect_map.storage import BaseDatabase
-from src.dialect_map.storage import BaseDatabaseContext
-from src.dialect_map.storage import BaseDatabaseSession
-from src.dialect_map.storage import JSONFileLoader
-from src.dialect_map.storage import SQLDatabase
-from src.dialect_map.storage import SQLDatabaseContext
+from src.dialect_map_core.storage import BaseDatabase
+from src.dialect_map_core.storage import BaseDatabaseContext
+from src.dialect_map_core.storage import BaseDatabaseSession
+from src.dialect_map_core.storage import JSONFileLoader
+from src.dialect_map_core.storage import SQLDatabase
+from src.dialect_map_core.storage import SQLDatabaseContext
 from src.dialect_map_data import FILES_MAPPINGS
 
 
