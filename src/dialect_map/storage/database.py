@@ -93,7 +93,7 @@ class BaseDatabase(ABC):
 class SQLDatabase(BaseDatabase):
     """Database class using SQLAlchemy utilities"""
 
-    error: Exception = SQLAlchemyError
+    error = SQLAlchemyError
 
     def __init__(
         self,
