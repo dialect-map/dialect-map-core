@@ -51,7 +51,8 @@ make test
 Commits can be tagged to create _informal_ releases of the package. In order to do so:
 
 1. Bump up the package version (`VERSION`) following [Semantic Versioning][web-semantic].
-2. Create and push a tag: `make tag`.
+2. Add a new section to the `CHANGELOG`.
+3. Create and push a tag: `make tag`.
 
 
 [ci-status-badge]: https://github.com/dialect-map/dialect-map-core/actions/workflows/ci.yml/badge.svg?branch=main
