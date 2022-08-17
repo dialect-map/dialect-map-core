@@ -20,6 +20,9 @@ by one of your OS package managers
 
 Then run:
 ```sh
+$ sudo mkdir -p /usr/local/var/postgres
+$ sudo chown $(whoami) /usr/local/var/postgres
+$ initdb -D /usr/local/var/postgres
 $ postgres -D /usr/local/var/postgres
 ```
 
