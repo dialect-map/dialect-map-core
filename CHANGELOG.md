@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog][web-changelog],
 and this project adheres to [Semantic Versioning][web-semver].
 
 
+## [0.5.2][changes-0.5.2] - 2022-08-28
+
 ## [0.5.1][changes-0.5.1] - 2022-06-12
 
 ## [0.5.0][changes-0.5.0] - 2022-06-11
@@ -43,6 +45,7 @@ and this project adheres to [Semantic Versioning][web-semver].
 ## [0.1.0][changes-0.1.0] - 2020-12-10
 
 
+[changes-0.5.2]: https://github.com/dialect-map/dialect-map-core/compare/v0.5.1...v0.5.2
 [changes-0.5.1]: https://github.com/dialect-map/dialect-map-core/compare/v0.5.0...v0.5.1
 [changes-0.5.0]: https://github.com/dialect-map/dialect-map-core/compare/v0.4.0...v0.5.0
 [changes-0.4.0]: https://github.com/dialect-map/dialect-map-core/compare/v0.3.9...v0.4.0
