@@ -169,6 +169,8 @@ class SQLDatabase(BaseDatabase):
         :param data_model: SQLAlchemy model to instantiate
         """
 
+        logger.info(f"Loading {data_model.__name__} records")
+
         records = self.file_loader.load(file_path)
         objects = (data_model(**record) for record in records)
 
