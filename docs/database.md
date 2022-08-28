@@ -4,7 +4,7 @@
 ## Introduction
 The database related contents are split between two packages:
 
-- `dialect_map`: defining a CLI (`dm-admin`) to perform setup, teardown and loading operations.
+- `dialect_map_core`: defining a CLI (`dm-admin`) to perform setup, teardown and loading operations.
 - `dialect_map_data`: containing testing files loadable thanks to the _file-to-model_ mappings.
 
 For now, the only supported SQL database is _PostgreSQL_, although other ones can be easily added
