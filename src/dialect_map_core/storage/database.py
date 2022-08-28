@@ -23,8 +23,18 @@ from ..models import Base
 logger = logging.getLogger()
 
 
-BaseDatabaseSession = Union[Session]
-SQLDatabaseSession = Session
+# Alias type definitions
+
+### NOTE:
+### The 'Union' wrapper is a workaround for Python <3.10.
+### If omitted, MyPy has no way of differentiating between variables and type aliases.
+###
+### Ref: https://github.com/python/mypy/issues/7866#issuecomment-549454370
+SQLAlchemySession = Union[Session]
+
+# Base type definitions
+BaseDatabaseError = Union[SQLAlchemyError]
+BaseDatabaseSession = Union[SQLAlchemySession]
 
 
 class BaseDatabase(ABC):

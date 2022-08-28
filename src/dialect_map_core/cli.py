@@ -1,12 +1,41 @@
 #!/usr/bin/env python
 
+import functools
 import sys
+
+from typing import Any
+from typing import Callable
+
 import click
 
 from dialect_map_data import FILES_MAPPINGS
 
+from .storage import BaseDatabaseError
 from .storage import JSONFileLoader
 from .storage import SQLDatabase
+from .storage import get_error_message
+
+
+def click_command_wrapped(func: Callable) -> Callable:
+    """
+    Decorator to simplify error handling across CLI commands
+    :param func: CLI command function to wrap
+    :return: CLI command function wrapped
+    """
+
+    @functools.wraps(func)
+    def func_wrapper(*args, **kwargs) -> Any:
+
+        try:
+            func(*args, **kwargs)
+        except BaseDatabaseError as e:
+            click.echo(get_error_message(e), err=True)
+            sys.exit(1)
+        except Exception as e:
+            click.echo(e, err=True)
+            sys.exit(1)
+
+    return func_wrapper
 
 
 @click.group()
@@ -15,6 +44,7 @@ def main():
 
 
 @main.command()
+@click_command_wrapped
 @click.option(
     "--url",
     envvar="DIALECT_MAP_DB_URL",
@@ -25,13 +55,9 @@ def main():
 def load_db(url: str):
     """Loads testing data into the specified database instance"""
 
-    try:
-        loader = JSONFileLoader()
-        database = SQLDatabase(url, file_loader=loader)
-        database.setup()
-    except Exception as e:
-        click.echo(e, err=True)
-        sys.exit(1)
+    loader = JSONFileLoader()
+    database = SQLDatabase(url, file_loader=loader)
+    database.setup()
 
     for mapping in FILES_MAPPINGS:
         database.load(
@@ -41,6 +67,7 @@ def load_db(url: str):
 
 
 @main.command()
+@click_command_wrapped
 @click.option(
     "--url",
     envvar="DIALECT_MAP_DB_URL",
@@ -51,15 +78,12 @@ def load_db(url: str):
 def setup_db(url: str):
     """Creates all the database tables that do not exist"""
 
-    try:
-        database = SQLDatabase(url)
-        database.setup()
-    except Exception as e:
-        click.echo(e, err=True)
-        sys.exit(1)
+    database = SQLDatabase(url)
+    database.setup()
 
 
 @main.command()
+@click_command_wrapped
 @click.option(
     "--url",
     envvar="DIALECT_MAP_DB_URL",
@@ -79,9 +103,5 @@ def teardown_db(url: str, force: bool):
 
     check = not force
 
-    try:
-        database = SQLDatabase(url)
-        database.teardown(check=check)
-    except Exception as e:
-        click.echo(e, err=True)
-        sys.exit(1)
+    database = SQLDatabase(url)
+    database.teardown(check=check)
