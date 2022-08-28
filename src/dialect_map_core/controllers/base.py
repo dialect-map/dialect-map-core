@@ -15,7 +15,6 @@ from ..models import Base
 from ..models import BaseStaticModel
 from ..models import BaseArchivalModel
 from ..models import BaseEvolvingModel
-from ..storage import BaseDatabase
 from ..storage import BaseDatabaseSession
 
 
@@ -27,8 +26,6 @@ EvolvingModelVar = TypeVar("EvolvingModelVar", bound=BaseEvolvingModel)
 
 class BaseController(ABC):
     """Interface for the data controllers"""
-
-    db: BaseDatabase
 
     @abstractmethod
     def create(self, instance: Base) -> str:
