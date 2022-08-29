@@ -6,6 +6,7 @@ import time
 from abc import ABC
 from abc import abstractmethod
 from typing import Type
+from typing import TypeAlias
 from typing import Union
 
 from sqlalchemy.engine import Connection
@@ -24,17 +25,11 @@ logger = logging.getLogger()
 
 
 # Alias type definitions
-
-### NOTE:
-### The 'Union' wrapper is a workaround for Python <3.10.
-### If omitted, MyPy has no way of differentiating between variables and type aliases.
-###
-### Ref: https://github.com/python/mypy/issues/7866#issuecomment-549454370
-SQLAlchemySession = Union[Session]
+SQLAlchemySession: TypeAlias = Session
 
 # Base type definitions
-BaseDatabaseError = Union[SQLAlchemyError]
-BaseDatabaseSession = Union[SQLAlchemySession]
+BaseDatabaseError: TypeAlias = Union[SQLAlchemyError]
+BaseDatabaseSession: TypeAlias = Union[SQLAlchemySession]
 
 
 class BaseDatabase(ABC):
