@@ -101,7 +101,7 @@ class BaseStaticModel(BaseModel):
 
     @declared_attr
     def audited_at(self):
-        return Column(DateTime, nullable=True, default=datetime.utcnow)
+        return Column(DateTime, nullable=True, index=False, default=datetime.utcnow)
 
     @validates("audited_at")
     def check_audited(self, key, val):
@@ -208,11 +208,11 @@ class BaseEvolvingModel(BaseModel):
 
     @declared_attr
     def updated_at(self):
-        return Column(DateTime, nullable=False, index=True)
+        return Column(DateTime, nullable=False, index=True, onupdate=datetime.utcnow)
 
     @declared_attr
     def audited_at(self):
-        return Column(DateTime, nullable=True, default=datetime.utcnow)
+        return Column(DateTime, nullable=True, index=False, default=datetime.utcnow)
 
     @validates("audited_at")
     def check_audited(self, key, val):
