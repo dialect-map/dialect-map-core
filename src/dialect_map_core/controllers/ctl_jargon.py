@@ -15,7 +15,7 @@ class JargonController(ArchivalController):
 
     model = Jargon
 
-    def get_by_string(self, jargon_term: str) -> Jargon:
+    def get_by_string(self, jargon_term: str) -> Jargon | None:
         """
         Gets a database record by its string value
         :param jargon_term: jargon string representation

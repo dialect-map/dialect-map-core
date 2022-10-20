@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from sqlalchemy.orm import Query
 from sqlalchemy.sql import and_
 from sqlalchemy.sql import func
 from sqlalchemy.sql import distinct
+from sqlalchemy.sql import Subquery
 
 from .base import StaticController
 from ..models import JargonCategoryMetrics as JCategoryMetrics
@@ -43,7 +43,7 @@ class JargonPaperMetricsController(StaticController):
 
     model = JPaperMetrics
 
-    def _build_latest_rev_subquery(self) -> Query:
+    def _build_latest_rev_subquery(self) -> Subquery:
         """
         Builds an SQL subquery to select the latest revision of each ID
         :return: SQL subquery
