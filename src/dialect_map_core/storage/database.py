@@ -160,6 +160,10 @@ class SQLDatabase(BaseDatabase):
         :return: database transaction object
         """
 
+        if self.connection.in_transaction():
+            t = self.connection.get_transaction()
+            t.close() if t else None
+
         return self.connection.begin()
 
     def close_connection(self):
