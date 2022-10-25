@@ -2,6 +2,8 @@
 
 import pytest
 
+from sqlalchemy.sql import text
+
 from src.dialect_map_core.storage import BaseDatabase
 from src.dialect_map_core.storage import BaseDatabaseContext
 from src.dialect_map_core.storage import BaseDatabaseSession
@@ -25,7 +27,8 @@ def database() -> SQLDatabase:
     ### SQLite does not check foreign key integrity by default
     ### Ref: https://docs.sqlalchemy.org/en/20/dialects/sqlite.html#foreign-key-support
     with database.create_session() as session:
-        session.execute("PRAGMA foreign_keys=ON")
+        clause = text("PRAGMA foreign_keys=ON")
+        session.execute(clause)
 
     return database
 
