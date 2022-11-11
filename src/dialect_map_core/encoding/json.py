@@ -14,23 +14,28 @@ from .base import BaseEncoder
 class CustomJSONEncoder(BaseEncoder, JSONEncoder):
     """Custom JSON encoder for Python data types"""
 
-    def __init__(self, time_res: str = None, time_sep: str = None, **kwargs):
+    def __init__(
+        self,
+        time_resolution: str | None = None,
+        time_separation: str | None = None,
+        **kwargs,
+    ):
         """
         Initializes the custom JSON encoder
-        :param time_res: time resolution for the time objects
-        :param time_sep: time separator character for the time objects
+        :param time_resolution: resolution for the time objects (optional)
+        :param time_separation: separator character for the time objects (optional)
         :param kwargs: additional keyword arguments for the default encoder
         """
 
         super().__init__(**kwargs)
 
-        if time_res is None:
-            time_res = "seconds"
-        if time_sep is None:
-            time_sep = " "
+        if time_resolution is None:
+            time_resolution = "seconds"
+        if time_separation is None:
+            time_separation = " "
 
-        self.time_res = time_res
-        self.time_sep = time_sep
+        self.time_res = time_resolution
+        self.time_sep = time_separation
 
     def custom_encode(self, obj: object) -> object:
         """
@@ -59,26 +64,28 @@ class CustomJSONEncoder(BaseEncoder, JSONEncoder):
 class CustomJSONDecoder(BaseDecoder, JSONDecoder):
     """Custom JSON decoder for Python data types"""
 
-    def __init__(self, date_regex: str = None, datetime_regex: str = None, **kwargs):
+    def __init__(
+        self,
+        date_regex: str | None = None,
+        time_regex: str | None = None,
+        **kwargs,
+    ):
         """
         Initializes the custom JSON decoder
-        :param date_regex: regex to check if the string is a date
-        :param datetime_regex: regex to check if the string is a datetime
+        :param date_regex: regex to check if the string is a date (optional)
+        :param time_regex: regex to check if the string is a time (optional)
         :param kwargs: additional keyword arguments for the default decoder
         """
 
         super().__init__(**kwargs)
 
-        date_format = "[0-9]{4}-[0-9]{2}-[0-9]{2}"
-        time_format = "[0-9]{2}:[0-9]{2}:[0-9]{2}"
-
         if date_regex is None:
-            date_regex = f"^{date_format}$"
-        if datetime_regex is None:
-            datetime_regex = f"^{date_format}(T| ){time_format}$"
+            date_regex = "[0-9]{4}-[0-9]{2}-[0-9]{2}"
+        if time_regex is None:
+            time_regex = "[0-9]{2}:[0-9]{2}:[0-9]{2}"
 
-        self.date_regex = date_regex
-        self.datetime_regex = datetime_regex
+        self.date_regex = f"^{date_regex}$"
+        self.datetime_regex = f"^{date_regex}(T| ){time_regex}$"
 
     def _check_date(self, value: str) -> bool:
         """

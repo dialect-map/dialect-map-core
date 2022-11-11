@@ -104,7 +104,7 @@ class SQLDatabase(BaseDatabase):
         self,
         connection_url: str,
         backoff_seconds: int = 32,
-        file_loader: BaseFileLoader = None,
+        file_loader: BaseFileLoader | None = None,
     ):
         """
         Initiates the database connection

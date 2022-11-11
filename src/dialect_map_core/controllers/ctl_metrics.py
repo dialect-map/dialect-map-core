@@ -18,7 +18,7 @@ class JargonCategoryMetricsController(StaticController):
 
     model = JCategoryMetrics
 
-    def get_by_jargon(self, jargon_id: str, category_id: str = None) -> list:
+    def get_by_jargon(self, jargon_id: str, category_id: str | None = None) -> list:
         """
         Gets a list of category jargon metrics
         :param jargon_id: ID of the metrics associated jargon
@@ -58,7 +58,12 @@ class JargonPaperMetricsController(StaticController):
             .subquery()
         )
 
-    def get_by_jargon(self, jargon_id: str, arxiv_id: str = None, arxiv_rev: int = None) -> list:
+    def get_by_jargon(
+        self,
+        jargon_id: str,
+        arxiv_id: str | None = None,
+        arxiv_rev: int | None = None,
+    ) -> list:
         """
         Gets a list of paper jargon metrics
         :param jargon_id: ID of the metrics associated jargon
