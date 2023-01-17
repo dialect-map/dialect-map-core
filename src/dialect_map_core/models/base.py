@@ -4,13 +4,13 @@ from abc import abstractmethod
 from datetime import datetime
 
 from sqlalchemy import Boolean
-from sqlalchemy import Column
 from sqlalchemy import DateTime
 from sqlalchemy import Table
 from sqlalchemy.orm import Mapper
 from sqlalchemy.orm import ONETOMANY
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import declared_attr
+from sqlalchemy.orm import mapped_column as Column
 from sqlalchemy.orm import validates
 
 

@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import Column
 from sqlalchemy import ForeignKeyConstraint as FKConstraint
 from sqlalchemy import Integer
 from sqlalchemy import String
 from sqlalchemy import UniqueConstraint
+from sqlalchemy.orm import mapped_column as Column
 
 from .base import Base
 from .base import BaseStaticModel

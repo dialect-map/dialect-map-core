@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import Column
 from sqlalchemy import String
+from sqlalchemy.orm import mapped_column as Column
 from sqlalchemy.orm import relationship
 
 from .base import Base
