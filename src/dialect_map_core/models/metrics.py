@@ -7,11 +7,11 @@ from sqlalchemy import String
 from sqlalchemy.orm import mapped_column as Column
 
 from .base import Base
-from .base import BaseStaticModel
+from .base import StaticModel
 from .__utils import generate_id
 
 
-class JargonCategoryMetrics(Base, BaseStaticModel):
+class JargonCategoryMetrics(Base, StaticModel):
     """
     ArXiv category jargon NLP metrics
     Contains every NLP metric information computable for a jargon term.
@@ -48,7 +48,7 @@ class JargonCategoryMetrics(Base, BaseStaticModel):
         return self.metric_id
 
 
-class JargonPaperMetrics(Base, BaseStaticModel):
+class JargonPaperMetrics(Base, StaticModel):
     """
     ArXiv paper jargon NLP metrics
     Contains every NLP metric information computable for a jargon term.

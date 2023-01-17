@@ -7,11 +7,11 @@ from sqlalchemy import UniqueConstraint
 from sqlalchemy.orm import mapped_column as Column
 
 from .base import Base
-from .base import BaseStaticModel
+from .base import StaticModel
 from .__utils import generate_id
 
 
-class CategoryMembership(Base, BaseStaticModel):
+class CategoryMembership(Base, StaticModel):
     """
     ArXiv paper - category membership record.
     Intermediate table to relate papers to categories

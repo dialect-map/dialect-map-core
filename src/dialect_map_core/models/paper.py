@@ -8,12 +8,12 @@ from sqlalchemy.orm import mapped_column as Column
 from sqlalchemy.orm import relationship
 
 from .base import Base
-from .base import BaseStaticModel
-from .base import BaseEvolvingModel
+from .base import StaticModel
+from .base import EvolvingModel
 from .__utils import generate_id
 
 
-class Paper(Base, BaseEvolvingModel):
+class Paper(Base, EvolvingModel):
     """
     ArXiv paper information record.
     Contains all the static properties of an ArXiv paper
@@ -71,7 +71,7 @@ class Paper(Base, BaseEvolvingModel):
         return self.arxiv_rev
 
 
-class PaperAuthor(Base, BaseStaticModel):
+class PaperAuthor(Base, StaticModel):
     """
     ArXiv paper author record.
     Contains the information of a single paper author
@@ -105,7 +105,7 @@ class PaperAuthor(Base, BaseStaticModel):
         return self.author_id
 
 
-class PaperReferenceCounters(Base, BaseStaticModel):
+class PaperReferenceCounters(Base, StaticModel):
     """
     ArXiv paper reference counters record.
     Contains the number of paper references on a certain date

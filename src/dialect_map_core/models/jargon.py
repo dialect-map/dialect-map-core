@@ -6,11 +6,11 @@ from sqlalchemy.orm import mapped_column as Column
 from sqlalchemy.orm import relationship
 
 from .base import Base
-from .base import BaseArchivalModel
+from .base import ArchivalModel
 from .__utils import generate_id
 
 
-class Jargon(Base, BaseArchivalModel):
+class Jargon(Base, ArchivalModel):
     """
     Jargon term related information record.
     Contains all the static properties of a jargon term
@@ -55,7 +55,7 @@ class Jargon(Base, BaseArchivalModel):
         return self.jargon_id
 
 
-class JargonGroup(Base, BaseArchivalModel):
+class JargonGroup(Base, ArchivalModel):
     """
     Jargon group to relate jargons with similar meaning.
     Contains all the static properties of a jargon group

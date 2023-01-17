@@ -7,11 +7,11 @@ from sqlalchemy import UniqueConstraint
 from sqlalchemy.orm import mapped_column as Column
 
 from .base import Base
-from .base import BaseStaticModel
+from .base import StaticModel
 from .__utils import generate_id
 
 
-class PaperReference(Base, BaseStaticModel):
+class PaperReference(Base, StaticModel):
     """
     ArXiv paper - paper reference record.
     Intermediate table to hold paper to paper references.
