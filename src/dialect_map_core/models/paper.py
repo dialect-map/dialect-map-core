@@ -34,7 +34,7 @@ class Paper(Base, BaseEvolvingModel):
     submission_date = Column(Date, nullable=False)
 
     # All main table relationships to child tables. References:
-    # Official docs: https://docs.sqlalchemy.org/en/14/orm/basic_relationships.html
+    # Official docs: https://docs.sqlalchemy.org/en/20/orm/basic_relationships.html
     # Stackoverflow: https://stackoverflow.com/a/38770040
     authors = relationship(
         argument="PaperAuthor",
@@ -85,7 +85,7 @@ class PaperAuthor(Base, BaseStaticModel):
     author_name = Column(String(64), nullable=False)
 
     # Define a Foreign key over multiple columns (Composite Foreign Key)
-    # Official docs: https://docs.sqlalchemy.org/en/14/core/constraints.html
+    # Official docs: https://docs.sqlalchemy.org/en/20/core/constraints.html
     # Stackoverflow: https://stackoverflow.com/a/7506168
     __table_args__ = (
         FKConstraint(
@@ -120,7 +120,7 @@ class PaperReferenceCounters(Base, BaseStaticModel):
     total_ref_count = Column(Integer, nullable=False)
 
     # Define a Foreign key over multiple columns (Composite Foreign Key)
-    # Official docs: https://docs.sqlalchemy.org/en/14/core/constraints.html
+    # Official docs: https://docs.sqlalchemy.org/en/20/core/constraints.html
     # Stackoverflow: https://stackoverflow.com/a/7506168
     __table_args__ = (
         FKConstraint(

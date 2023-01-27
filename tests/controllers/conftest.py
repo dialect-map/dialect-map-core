@@ -23,7 +23,7 @@ def database() -> SQLDatabase:
 
     ### NOTE:
     ### SQLite does not check foreign key integrity by default
-    ### Ref: https://docs.sqlalchemy.org/en/14/dialects/sqlite.html#foreign-key-support
+    ### Ref: https://docs.sqlalchemy.org/en/20/dialects/sqlite.html#foreign-key-support
     with database.create_session() as session:
         session.execute("PRAGMA foreign_keys=ON")
 

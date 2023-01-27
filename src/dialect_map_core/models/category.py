@@ -20,7 +20,7 @@ class Category(Base, BaseArchivalModel):
     description = Column(String(256), nullable=False)
 
     # All main table relationships to child tables. References:
-    # Official docs: https://docs.sqlalchemy.org/en/14/orm/basic_relationships.html
+    # Official docs: https://docs.sqlalchemy.org/en/20/orm/basic_relationships.html
     # Stackoverflow: https://stackoverflow.com/a/38770040
     jargon_metrics = relationship(
         argument="JargonCategoryMetrics",
