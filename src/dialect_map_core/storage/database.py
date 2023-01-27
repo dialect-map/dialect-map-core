@@ -6,7 +6,6 @@ import time
 from abc import ABC
 from abc import abstractmethod
 from typing import Type
-from typing import TypeAlias
 from typing import Union
 
 from sqlalchemy.engine import Connection
@@ -25,11 +24,13 @@ logger = logging.getLogger()
 
 
 # Alias type definitions
-SQLAlchemySession: TypeAlias = Session
+SQLAlchemySession = Session
+SQLAlchemyTransaction = Transaction
 
 # Base type definitions
-BaseDatabaseError: TypeAlias = Union[SQLAlchemyError]
-BaseDatabaseSession: TypeAlias = Union[SQLAlchemySession]
+BaseDatabaseError = Union[SQLAlchemyError]
+BaseDatabaseSession = Union[SQLAlchemySession]
+BaseDatabaseTransaction = Union[SQLAlchemyTransaction]
 
 
 class BaseDatabase(ABC):
@@ -159,6 +160,10 @@ class SQLDatabase(BaseDatabase):
         Creates a database transaction object
         :return: database transaction object
         """
+
+        if self.connection.in_transaction():
+            t = self.connection.get_transaction()
+            t.close() if t else None
 
         return self.connection.begin()
 

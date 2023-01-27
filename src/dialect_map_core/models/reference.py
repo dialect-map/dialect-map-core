@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import Column
 from sqlalchemy import ForeignKeyConstraint as FKConstraint
 from sqlalchemy import Integer
 from sqlalchemy import String
 from sqlalchemy import UniqueConstraint
+from sqlalchemy.orm import mapped_column as Column
 
 from .base import Base
-from .base import BaseStaticModel
+from .base import StaticModel
 from .__utils import generate_id
 
 
-class PaperReference(Base, BaseStaticModel):
+class PaperReference(Base, StaticModel):
     """
     ArXiv paper - paper reference record.
     Intermediate table to hold paper to paper references.
@@ -26,7 +26,7 @@ class PaperReference(Base, BaseStaticModel):
     target_arxiv_rev = Column(Integer, nullable=False)
 
     # Define a Foreign key over multiple columns (Composite Foreign Key)
-    # Official docs: https://docs.sqlalchemy.org/en/14/core/constraints.html
+    # Official docs: https://docs.sqlalchemy.org/en/20/core/constraints.html
     # Stackoverflow: https://stackoverflow.com/a/7506168
     __table_args__ = (
         FKConstraint(

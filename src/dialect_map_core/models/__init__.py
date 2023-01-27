@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from .base import Base
-from .base import BaseStaticModel
-from .base import BaseArchivalModel
-from .base import BaseEvolvingModel
+from .base import StaticModel
+from .base import ArchivalModel
+from .base import EvolvingModel
 
 from .category import Category
 from .membership import CategoryMembership

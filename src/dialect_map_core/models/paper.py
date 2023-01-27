@@ -1,19 +1,19 @@
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import Column
 from sqlalchemy import Date
 from sqlalchemy import ForeignKeyConstraint as FKConstraint
 from sqlalchemy import Integer
 from sqlalchemy import String
+from sqlalchemy.orm import mapped_column as Column
 from sqlalchemy.orm import relationship
 
 from .base import Base
-from .base import BaseStaticModel
-from .base import BaseEvolvingModel
+from .base import StaticModel
+from .base import EvolvingModel
 from .__utils import generate_id
 
 
-class Paper(Base, BaseEvolvingModel):
+class Paper(Base, EvolvingModel):
     """
     ArXiv paper information record.
     Contains all the static properties of an ArXiv paper
@@ -34,7 +34,7 @@ class Paper(Base, BaseEvolvingModel):
     submission_date = Column(Date, nullable=False)
 
     # All main table relationships to child tables. References:
-    # Official docs: https://docs.sqlalchemy.org/en/14/orm/basic_relationships.html
+    # Official docs: https://docs.sqlalchemy.org/en/20/orm/basic_relationships.html
     # Stackoverflow: https://stackoverflow.com/a/38770040
     authors = relationship(
         argument="PaperAuthor",
@@ -71,7 +71,7 @@ class Paper(Base, BaseEvolvingModel):
         return self.arxiv_rev
 
 
-class PaperAuthor(Base, BaseStaticModel):
+class PaperAuthor(Base, StaticModel):
     """
     ArXiv paper author record.
     Contains the information of a single paper author
@@ -85,7 +85,7 @@ class PaperAuthor(Base, BaseStaticModel):
     author_name = Column(String(64), nullable=False)
 
     # Define a Foreign key over multiple columns (Composite Foreign Key)
-    # Official docs: https://docs.sqlalchemy.org/en/14/core/constraints.html
+    # Official docs: https://docs.sqlalchemy.org/en/20/core/constraints.html
     # Stackoverflow: https://stackoverflow.com/a/7506168
     __table_args__ = (
         FKConstraint(
@@ -105,7 +105,7 @@ class PaperAuthor(Base, BaseStaticModel):
         return self.author_id
 
 
-class PaperReferenceCounters(Base, BaseStaticModel):
+class PaperReferenceCounters(Base, StaticModel):
     """
     ArXiv paper reference counters record.
     Contains the number of paper references on a certain date
@@ -120,7 +120,7 @@ class PaperReferenceCounters(Base, BaseStaticModel):
     total_ref_count = Column(Integer, nullable=False)
 
     # Define a Foreign key over multiple columns (Composite Foreign Key)
-    # Official docs: https://docs.sqlalchemy.org/en/14/core/constraints.html
+    # Official docs: https://docs.sqlalchemy.org/en/20/core/constraints.html
     # Stackoverflow: https://stackoverflow.com/a/7506168
     __table_args__ = (
         FKConstraint(

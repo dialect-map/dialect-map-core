@@ -2,9 +2,10 @@
 
 import pytest
 
+from sqlalchemy.sql import text
+
 from src.dialect_map_core.storage import BaseDatabase
 from src.dialect_map_core.storage import BaseDatabaseContext
-from src.dialect_map_core.storage import BaseDatabaseSession
 from src.dialect_map_core.storage import JSONFileLoader
 from src.dialect_map_core.storage import SQLDatabase
 from src.dialect_map_core.storage import SQLDatabaseContext
@@ -23,9 +24,10 @@ def database() -> SQLDatabase:
 
     ### NOTE:
     ### SQLite does not check foreign key integrity by default
-    ### Ref: https://docs.sqlalchemy.org/en/14/dialects/sqlite.html#foreign-key-support
+    ### Ref: https://docs.sqlalchemy.org/en/20/dialects/sqlite.html#foreign-key-support
     with database.create_session() as session:
-        session.execute("PRAGMA foreign_keys=ON")
+        clause = text("PRAGMA foreign_keys=ON")
+        session.execute(clause)
 
     return database
 
@@ -57,7 +59,7 @@ def rollback(context: BaseDatabaseContext):
 
 
 @pytest.fixture(scope="class")
-def session(database: BaseDatabase) -> BaseDatabaseSession:
+def session(database: BaseDatabase):
     """
     Creates a database session object to be used during a single test
     :return: database session object

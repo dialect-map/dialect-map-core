@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 
-from sqlalchemy import Column
 from sqlalchemy import Float
 from sqlalchemy import ForeignKeyConstraint as FKConstraint
 from sqlalchemy import Integer
 from sqlalchemy import String
+from sqlalchemy.orm import mapped_column as Column
 
 from .base import Base
-from .base import BaseStaticModel
+from .base import StaticModel
 from .__utils import generate_id
 
 
-class JargonCategoryMetrics(Base, BaseStaticModel):
+class JargonCategoryMetrics(Base, StaticModel):
     """
     ArXiv category jargon NLP metrics
     Contains every NLP metric information computable for a jargon term.
@@ -48,7 +48,7 @@ class JargonCategoryMetrics(Base, BaseStaticModel):
         return self.metric_id
 
 
-class JargonPaperMetrics(Base, BaseStaticModel):
+class JargonPaperMetrics(Base, StaticModel):
     """
     ArXiv paper jargon NLP metrics
     Contains every NLP metric information computable for a jargon term.
@@ -64,7 +64,7 @@ class JargonPaperMetrics(Base, BaseStaticModel):
     rel_freq = Column(Float, nullable=False)
 
     # Define a Foreign key over multiple columns (Composite Foreign Key)
-    # Official docs: https://docs.sqlalchemy.org/en/14/core/constraints.html
+    # Official docs: https://docs.sqlalchemy.org/en/20/core/constraints.html
     # Stackoverflow: https://stackoverflow.com/a/7506168
     __table_args__ = (
         FKConstraint(

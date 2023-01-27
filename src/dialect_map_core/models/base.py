@@ -4,36 +4,16 @@ from abc import abstractmethod
 from datetime import datetime
 
 from sqlalchemy import Boolean
-from sqlalchemy import Column
 from sqlalchemy import DateTime
-from sqlalchemy import Table
-from sqlalchemy.orm import Mapper
 from sqlalchemy.orm import ONETOMANY
-from sqlalchemy.orm import declarative_base
+from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import declared_attr
+from sqlalchemy.orm import mapped_column as Column
 from sqlalchemy.orm import validates
 
 
-### NOTE:
-### The constructor argument needs to be assigned to <None>
-### in order to allow the definition of custom initializers
-###
-### Ref: https://docs.sqlalchemy.org/en/14/orm/mapping_styles.html#default-constructor
-###
-Base = declarative_base(constructor=None)
-
-
-class BaseModel:
-    """
-    Base class for all the Python data models
-
-    Class attributes:
-        __mapper__: Mapper object containing model SQL information
-        __table__: Table object containing model SQL table information
-    """
-
-    __mapper__: Mapper
-    __table__: Table
+class Base(DeclarativeBase):
+    """Base class for all the Python data models"""
 
     def __init__(self, **kwargs):
         """
@@ -44,6 +24,8 @@ class BaseModel:
         Code inspired from GitHub.
         Ref: https://github.com/tiangolo/fastapi/issues/2194
         """
+
+        super().__init__()
 
         cls = self.__class__
         model_columns = self.__mapper__.columns
@@ -83,9 +65,9 @@ class BaseModel:
         return f"<{model_name}({', '.join(obj_values)}>)"
 
 
-class BaseStaticModel(BaseModel):
+class StaticModel:
     """
-    Base class defining key timestamps for keeping track of static models
+    Mixin class defining key timestamps for keeping track of static models
 
     Columns:
         created_at: when the referenced entity was originally created
@@ -124,9 +106,9 @@ class BaseStaticModel(BaseModel):
         raise NotImplementedError()
 
 
-class BaseArchivalModel(BaseModel):
+class ArchivalModel:
     """
-    Base class defining key timestamps for keeping track of archival models
+    Mixin class defining key timestamps for keeping track of archival models
 
     Columns:
         archived: whether the referenced entity was archived
@@ -188,9 +170,9 @@ class BaseArchivalModel(BaseModel):
         raise NotImplementedError()
 
 
-class BaseEvolvingModel(BaseModel):
+class EvolvingModel:
     """
-    Base class defining key timestamps for keeping track of evolving models
+    Mixin class defining key timestamps for keeping track of evolving models
 
     Columns:
         created_at: when the referenced entity was originally created

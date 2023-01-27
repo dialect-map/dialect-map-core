@@ -11,24 +11,23 @@ from typing import TypeVar
 
 from sqlalchemy import false
 
-from ..models import Base
-from ..models import BaseStaticModel
-from ..models import BaseArchivalModel
-from ..models import BaseEvolvingModel
+from ..models import StaticModel
+from ..models import ArchivalModel
+from ..models import EvolvingModel
 from ..storage import BaseDatabaseSession
 
 
 # Generic base model types
-StaticModelVar = TypeVar("StaticModelVar", bound=BaseStaticModel)
-ArchivalModelVar = TypeVar("ArchivalModelVar", bound=BaseArchivalModel)
-EvolvingModelVar = TypeVar("EvolvingModelVar", bound=BaseEvolvingModel)
+StaticModelVar = TypeVar("StaticModelVar", bound=StaticModel)
+ArchivalModelVar = TypeVar("ArchivalModelVar", bound=ArchivalModel)
+EvolvingModelVar = TypeVar("EvolvingModelVar", bound=EvolvingModel)
 
 
 class BaseController(ABC):
     """Interface for the data controllers"""
 
     @abstractmethod
-    def create(self, instance: Base) -> str:
+    def create(self, instance) -> str:
         """
         Creates a new database record given its object properties
         :param instance: data object to create the record from
