@@ -25,7 +25,6 @@ def click_command_wrapped(func: Callable) -> Callable:
 
     @functools.wraps(func)
     def func_wrapper(*args, **kwargs) -> Any:
-
         try:
             func(*args, **kwargs)
         except BaseDatabaseError as e:
