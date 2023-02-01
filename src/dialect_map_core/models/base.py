@@ -32,7 +32,6 @@ class Base(DeclarativeBase):
         relationships = self.__mapper__.relationships
 
         for key, val in kwargs.items():
-
             if not hasattr(cls, key):
                 raise TypeError(f"Invalid keyword argument: {key}")
 
