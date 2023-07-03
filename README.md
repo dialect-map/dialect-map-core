@@ -22,11 +22,10 @@ For more information about the interaction with this repository:
 
 
 ### Dependencies
-Python dependencies are specified within the `setup.cfg` file.
+Python dependencies are specified within the `pyproject.toml` file.
 
 In order to install the development packages, as long as the defined commit hooks:
 ```sh
-pip install "pip>=21.2.0"
 pip install ".[all]"
 pre-commit install
 ```
