@@ -34,7 +34,7 @@ test = [
 all = [
     "dialect-map-core[lint]",
     "dialect-map-core[test]",
-    "pre-commit==3.3.2",
+    "pre-commit==3.3.3",
 ]
 
 [project.urls]
