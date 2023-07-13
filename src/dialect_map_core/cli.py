@@ -37,7 +37,7 @@ def click_command_wrapped(func: Callable) -> Callable:
     return func_wrapper
 
 
-@click.group()
+@click.group(cls=None)
 def main():
     pass
 
