@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
+from datetime import timezone
 
 import pytest
 
@@ -60,7 +61,7 @@ class TestMembershipController:
             arxiv_id="paper-01234",
             arxiv_rev=2,
             category_id="category-01234",
-            created_at=datetime.utcnow(),
+            created_at=datetime.now(timezone.utc),
         )
 
         creation_id = controller.create(membership)
@@ -85,7 +86,7 @@ class TestMembershipController:
             arxiv_id="non-existing-paper",
             arxiv_rev=100,
             category_id="category-01234",
-            created_at=datetime.utcnow(),
+            created_at=datetime.now(timezone.utc),
         )
 
         assert pytest.raises(database.error, controller.create, membership)
@@ -106,7 +107,7 @@ class TestMembershipController:
             arxiv_id="paper-01234",
             arxiv_rev=2,
             category_id="non-existing-category",
-            created_at=datetime.utcnow(),
+            created_at=datetime.now(timezone.utc),
         )
 
         assert pytest.raises(database.error, controller.create, membership)
@@ -123,7 +124,7 @@ class TestMembershipController:
             arxiv_id="paper-01234",
             arxiv_rev=2,
             category_id="category-01234",
-            created_at=datetime.utcnow(),
+            created_at=datetime.now(timezone.utc),
         )
 
         creation_id = controller.create(membership)

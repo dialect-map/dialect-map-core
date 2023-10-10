@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
+from datetime import timezone
 
 import pytest
 
@@ -83,7 +84,7 @@ class TestJargonController:
             jargon_term=jargon_term,
             jargon_regex=jargon_regex,
             archived=False,
-            created_at=datetime.utcnow(),
+            created_at=datetime.now(timezone.utc),
         )
 
         creation_id = controller.create(jargon)
@@ -110,7 +111,7 @@ class TestJargonController:
             jargon_term="My test jargon",
             jargon_regex="[Mm]y test jargon",
             archived=False,
-            created_at=datetime.utcnow(),
+            created_at=datetime.now(timezone.utc),
         )
 
         assert pytest.raises(database.error, controller.create, jargon)
@@ -129,7 +130,7 @@ class TestJargonController:
             jargon_term=jargon_term,
             jargon_regex=jargon_regex,
             archived=False,
-            created_at=datetime.utcnow(),
+            created_at=datetime.now(timezone.utc),
         )
 
         creation_id = controller.create(jargon)
@@ -191,7 +192,7 @@ class TestJargonGroupController:
             group_id=group_id,
             description=group_ds,
             archived=False,
-            created_at=datetime.utcnow(),
+            created_at=datetime.now(timezone.utc),
         )
 
         creation_id = controller.create(group)
@@ -215,7 +216,7 @@ class TestJargonGroupController:
                 "group_id": group_id,
                 "description": "My nested group",
                 "archived": False,
-                "created_at": datetime.utcnow(),
+                "created_at": datetime.now(timezone.utc),
                 "jargons": [
                     {
                         "group_id": group_id,
@@ -223,7 +224,7 @@ class TestJargonGroupController:
                         "jargon_term": "One string",
                         "jargon_regex": "[Oo]ne string",
                         "archived": False,
-                        "created_at": datetime.utcnow(),
+                        "created_at": datetime.now(timezone.utc),
                     },
                 ],
             }
@@ -252,7 +253,7 @@ class TestJargonGroupController:
             group_id=group_id,
             description=group_ds,
             archived=False,
-            created_at=datetime.utcnow(),
+            created_at=datetime.now(timezone.utc),
         )
 
         creation_id = controller.create(group)

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
+from datetime import timezone
 
 import pytest
 
@@ -54,8 +55,8 @@ class TestPaperController:
             arxiv_rev=paper_rev,
             title="Test Paper",
             submission_date=datetime.today().date(),
-            created_at=datetime.utcnow(),
-            updated_at=datetime.utcnow(),
+            created_at=datetime.now(timezone.utc),
+            updated_at=datetime.now(timezone.utc),
         )
 
         creation_id = controller.create(paper)
@@ -77,8 +78,8 @@ class TestPaperController:
             arxiv_rev=paper_rev,
             title="Test Paper",
             submission_date=datetime.today().date(),
-            created_at=datetime.utcnow(),
-            updated_at=datetime.utcnow(),
+            created_at=datetime.now(timezone.utc),
+            updated_at=datetime.now(timezone.utc),
         )
 
         creation_id = controller.create(paper)
@@ -100,8 +101,8 @@ class TestPaperController:
             arxiv_rev=paper_rev,
             title="Test Paper",
             submission_date=datetime.today().date(),
-            created_at=datetime.utcnow(),
-            updated_at=datetime.utcnow(),
+            created_at=datetime.now(timezone.utc),
+            updated_at=datetime.now(timezone.utc),
         )
 
         controller.create(paper)
@@ -156,7 +157,7 @@ class TestPaperAuthorController:
             arxiv_id="non-existing-paper",
             arxiv_rev=1,
             author_name="John Doe",
-            created_at=datetime.utcnow(),
+            created_at=datetime.now(timezone.utc),
         )
 
         assert pytest.raises(database.error, controller.create, author)
@@ -207,7 +208,7 @@ class TestPaperRefCounterController:
             arxiv_rev=1,
             arxiv_ref_count=0,
             total_ref_count=0,
-            created_at=datetime.utcnow(),
+            created_at=datetime.now(timezone.utc),
         )
 
         assert pytest.raises(database.error, controller.create, counter)

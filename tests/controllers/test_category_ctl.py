@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
+from datetime import timezone
 
 import pytest
 
@@ -59,7 +60,7 @@ class TestCategoryController:
             category_id=category_id,
             description=category_ds,
             archived=False,
-            created_at=datetime.utcnow(),
+            created_at=datetime.now(timezone.utc),
         )
 
         creation_id = controller.create(category)
@@ -80,7 +81,7 @@ class TestCategoryController:
             category_id=category_id,
             description=category_ds,
             archived=False,
-            created_at=datetime.utcnow(),
+            created_at=datetime.now(timezone.utc),
         )
 
         creation_id = controller.create(category)

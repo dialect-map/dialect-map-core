@@ -2,6 +2,7 @@
 
 from contextlib import suppress
 from datetime import datetime
+from datetime import timezone
 
 import pytest
 
@@ -71,7 +72,7 @@ class TestSQLDatabaseContext:
                     category_id="example-1",
                     description="example",
                     archived=False,
-                    created_at=datetime.utcnow(),
+                    created_at=datetime.now(timezone.utc),
                 )
             )
             ctl.create(
@@ -79,7 +80,7 @@ class TestSQLDatabaseContext:
                     category_id="example-2",
                     description="example",
                     archived=False,
-                    created_at=datetime.utcnow(),
+                    created_at=datetime.now(timezone.utc),
                 )
             )
 
@@ -105,7 +106,7 @@ class TestSQLDatabaseContext:
                     category_id="example-3",
                     description="example",
                     archived=False,
-                    created_at=datetime.utcnow(),
+                    created_at=datetime.now(timezone.utc),
                 )
             )
             ctl.create(
@@ -113,7 +114,7 @@ class TestSQLDatabaseContext:
                     category_id="example-4",
                     description="example",
                     archived=False,
-                    created_at=datetime.utcnow(),
+                    created_at=datetime.now(timezone.utc),
                 )
             )
 

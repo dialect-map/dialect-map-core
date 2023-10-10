@@ -3,6 +3,7 @@
 from abc import ABC
 from abc import abstractmethod
 from datetime import datetime
+from datetime import timezone
 from typing import Generic
 from typing import List
 from typing import Tuple
@@ -220,7 +221,7 @@ class ArchivalController(BaseController, Generic[ArchivalModelVar]):
 
         record = self.get(id)
         record.archived = True
-        record.archived_at = datetime.utcnow()
+        record.archived_at = datetime.now(timezone.utc)
 
         self.session.commit()
         return id

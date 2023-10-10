@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
+from datetime import timezone
 
 import pytest
 
@@ -84,7 +85,7 @@ class TestPaperReferenceController:
             source_arxiv_rev=2,
             target_arxiv_id="paper-56789",
             target_arxiv_rev=2,
-            created_at=datetime.utcnow(),
+            created_at=datetime.now(timezone.utc),
         )
 
         creation_id = controller.create(ref)
@@ -110,7 +111,7 @@ class TestPaperReferenceController:
             source_arxiv_rev=2,
             target_arxiv_id="paper-56789",
             target_arxiv_rev=2,
-            created_at=datetime.utcnow(),
+            created_at=datetime.now(timezone.utc),
         )
 
         assert pytest.raises(database.error, controller.create, ref)
@@ -132,7 +133,7 @@ class TestPaperReferenceController:
             source_arxiv_rev=2,
             target_arxiv_id="non-existing-paper",
             target_arxiv_rev=2,
-            created_at=datetime.utcnow(),
+            created_at=datetime.now(timezone.utc),
         )
 
         assert pytest.raises(database.error, controller.create, ref)
@@ -150,7 +151,7 @@ class TestPaperReferenceController:
             source_arxiv_rev=2,
             target_arxiv_id="paper-56789",
             target_arxiv_rev=2,
-            created_at=datetime.utcnow(),
+            created_at=datetime.now(timezone.utc),
         )
 
         creation_id = controller.create(ref)
