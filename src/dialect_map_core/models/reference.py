@@ -41,7 +41,10 @@ class PaperReference(Base, StaticModel):
             ondelete="CASCADE",
         ),
         UniqueConstraint(
-            "source_arxiv_id", "source_arxiv_rev", "target_arxiv_id", "target_arxiv_rev"
+            source_arxiv_id,
+            source_arxiv_rev,
+            target_arxiv_id,
+            target_arxiv_rev,
         ),
     )
 

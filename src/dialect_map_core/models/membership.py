@@ -40,7 +40,7 @@ class CategoryMembership(Base, StaticModel):
             refcolumns=[Category.category_id],
             ondelete="CASCADE",
         ),
-        UniqueConstraint("arxiv_id", "arxiv_rev", "category_id"),
+        UniqueConstraint(arxiv_id, arxiv_rev, category_id),
     )
 
     @property
