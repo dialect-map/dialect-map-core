@@ -89,8 +89,8 @@ class PaperAuthor(Base, StaticModel):
     # Stackoverflow: https://stackoverflow.com/a/7506168
     __table_args__ = (
         FKConstraint(
-            columns=("arxiv_id", "arxiv_rev"),
-            refcolumns=("papers.arxiv_id", "papers.arxiv_rev"),
+            columns=[arxiv_id, arxiv_rev],
+            refcolumns=[Paper.arxiv_id, Paper.arxiv_rev],
             ondelete="CASCADE",
         ),
     )
@@ -124,8 +124,8 @@ class PaperReferenceCounters(Base, StaticModel):
     # Stackoverflow: https://stackoverflow.com/a/7506168
     __table_args__ = (
         FKConstraint(
-            columns=("arxiv_id", "arxiv_rev"),
-            refcolumns=("papers.arxiv_id", "papers.arxiv_rev"),
+            columns=[arxiv_id, arxiv_rev],
+            refcolumns=[Paper.arxiv_id, Paper.arxiv_rev],
             ondelete="CASCADE",
         ),
     )

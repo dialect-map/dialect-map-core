@@ -8,6 +8,9 @@ from sqlalchemy.orm import mapped_column as Column
 
 from .base import Base
 from .base import StaticModel
+from .category import Category
+from .jargon import Jargon
+from .paper import Paper
 from .__utils import generate_id
 
 
@@ -27,13 +30,13 @@ class JargonCategoryMetrics(Base, StaticModel):
 
     __table_args__ = (
         FKConstraint(
-            columns=("jargon_id",),
-            refcolumns=("jargons.jargon_id",),
+            columns=[jargon_id],
+            refcolumns=[Jargon.jargon_id],
             ondelete="CASCADE",
         ),
         FKConstraint(
-            columns=("category_id",),
-            refcolumns=("categories.category_id",),
+            columns=[category_id],
+            refcolumns=[Category.category_id],
             ondelete="CASCADE",
         ),
     )
@@ -68,13 +71,13 @@ class JargonPaperMetrics(Base, StaticModel):
     # Stackoverflow: https://stackoverflow.com/a/7506168
     __table_args__ = (
         FKConstraint(
-            columns=("jargon_id",),
-            refcolumns=("jargons.jargon_id",),
+            columns=[jargon_id],
+            refcolumns=[Jargon.jargon_id],
             ondelete="CASCADE",
         ),
         FKConstraint(
-            columns=("arxiv_id", "arxiv_rev"),
-            refcolumns=("papers.arxiv_id", "papers.arxiv_rev"),
+            columns=[arxiv_id, arxiv_rev],
+            refcolumns=[Paper.arxiv_id, Paper.arxiv_rev],
             ondelete="CASCADE",
         ),
     )
