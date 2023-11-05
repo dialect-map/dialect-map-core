@@ -8,6 +8,7 @@ from sqlalchemy.orm import mapped_column as Column
 
 from .base import Base
 from .base import StaticModel
+from .paper import Paper
 from .__utils import generate_id
 
 
@@ -30,13 +31,13 @@ class PaperReference(Base, StaticModel):
     # Stackoverflow: https://stackoverflow.com/a/7506168
     __table_args__ = (
         FKConstraint(
-            columns=("source_arxiv_id", "source_arxiv_rev"),
-            refcolumns=("papers.arxiv_id", "papers.arxiv_rev"),
+            columns=[source_arxiv_id, source_arxiv_rev],
+            refcolumns=[Paper.arxiv_id, Paper.arxiv_rev],
             ondelete="CASCADE",
         ),
         FKConstraint(
-            columns=("target_arxiv_id", "target_arxiv_rev"),
-            refcolumns=("papers.arxiv_id", "papers.arxiv_rev"),
+            columns=[target_arxiv_id, target_arxiv_rev],
+            refcolumns=[Paper.arxiv_id, Paper.arxiv_rev],
             ondelete="CASCADE",
         ),
         UniqueConstraint(

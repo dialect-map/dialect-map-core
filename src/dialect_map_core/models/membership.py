@@ -8,6 +8,8 @@ from sqlalchemy.orm import mapped_column as Column
 
 from .base import Base
 from .base import StaticModel
+from .category import Category
+from .paper import Paper
 from .__utils import generate_id
 
 
@@ -29,13 +31,13 @@ class CategoryMembership(Base, StaticModel):
     # Stackoverflow: https://stackoverflow.com/a/7506168
     __table_args__ = (
         FKConstraint(
-            columns=("arxiv_id", "arxiv_rev"),
-            refcolumns=("papers.arxiv_id", "papers.arxiv_rev"),
+            columns=[arxiv_id, arxiv_rev],
+            refcolumns=[Paper.arxiv_id, Paper.arxiv_rev],
             ondelete="CASCADE",
         ),
         FKConstraint(
-            columns=("category_id",),
-            refcolumns=("categories.category_id",),
+            columns=[category_id],
+            refcolumns=[Category.category_id],
             ondelete="CASCADE",
         ),
         UniqueConstraint("arxiv_id", "arxiv_rev", "category_id"),
