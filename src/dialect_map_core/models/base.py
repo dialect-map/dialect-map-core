@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from abc import abstractmethod
-from datetime import datetime
 
 from sqlalchemy import Boolean
 from sqlalchemy import DateTime
@@ -10,6 +9,8 @@ from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import declared_attr
 from sqlalchemy.orm import mapped_column as Column
 from sqlalchemy.orm import validates
+
+from .__utils import generate_timestamp
 
 
 class Base(DeclarativeBase):
@@ -82,7 +83,7 @@ class StaticModel:
 
     @declared_attr
     def audited_at(self):
-        return Column(DateTime, nullable=True, index=False, default=datetime.utcnow)
+        return Column(DateTime, nullable=True, index=False, default=generate_timestamp)
 
     @validates("audited_at")
     def check_audited(self, key, val):
@@ -133,7 +134,7 @@ class ArchivalModel:
 
     @declared_attr
     def audited_at(self):
-        return Column(DateTime, nullable=True, index=False, default=datetime.utcnow)
+        return Column(DateTime, nullable=True, index=False, default=generate_timestamp)
 
     @validates("archived_at")
     def check_archived(self, key, val):
@@ -189,11 +190,11 @@ class EvolvingModel:
 
     @declared_attr
     def updated_at(self):
-        return Column(DateTime, nullable=False, index=True, onupdate=datetime.utcnow)
+        return Column(DateTime, nullable=False, index=True, onupdate=generate_timestamp)
 
     @declared_attr
     def audited_at(self):
-        return Column(DateTime, nullable=True, index=False, default=datetime.utcnow)
+        return Column(DateTime, nullable=True, index=False, default=generate_timestamp)
 
     @validates("audited_at")
     def check_audited(self, key, val):
