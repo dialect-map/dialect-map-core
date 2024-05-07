@@ -15,9 +15,9 @@ def test_python_encoding():
     o2 = "example"
     o3 = 100
 
-    assert type(encoder.custom_encode(o1)) == str
-    assert type(encoder.custom_encode(o2)) == str
-    assert type(encoder.custom_encode(o3)) == str
+    assert type(encoder.custom_encode(o1)) is str
+    assert type(encoder.custom_encode(o2)) is str
+    assert type(encoder.custom_encode(o3)) is str
 
 
 def test_python_encoding_dates():

@@ -43,7 +43,7 @@ class JSONFileLoader(BaseFileLoader):
         with open(file_path) as file:
             records = json.load(file)
 
-        if type(records) != list:
+        if type(records) is not list:
             records = [records]
 
         # Decode strings into corresponding Python objects

@@ -137,7 +137,7 @@ class TestPaperAuthorController:
         all_authors = controller.get_by_paper("paper-01234", 1)
         one_author = all_authors[0]
 
-        assert type(all_authors) == list
+        assert type(all_authors) is list
         assert type(one_author) is PaperAuthor
         assert one_author.id == "paper-author-01234-A"
 
@@ -187,7 +187,7 @@ class TestPaperRefCounterController:
         all_counters = controller.get_by_paper("paper-01234", 1)
         one_counter = all_counters[0]
 
-        assert type(all_counters) == list
+        assert type(all_counters) is list
         assert type(one_counter) is PaperReferenceCounters
         assert one_counter.id == "paper-ref-counter-01234-A"
 

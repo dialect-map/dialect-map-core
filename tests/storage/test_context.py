@@ -84,8 +84,8 @@ class TestSQLDatabaseContext:
                 )
             )
 
-        assert type(ctl.get("example-1")) == Category
-        assert type(ctl.get("example-2")) == Category
+        assert type(ctl.get("example-1")) is Category
+        assert type(ctl.get("example-2")) is Category
 
     def test_valid_transaction_uncommitted(
         self,

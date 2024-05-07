@@ -50,7 +50,7 @@ class TestPaperReferenceController:
         all_refs = controller.get_by_source_paper(paper_id, paper_rev)
         one_ref = all_refs[0]
 
-        assert type(all_refs) == list
+        assert type(all_refs) is list
         assert type(one_ref) is PaperReference
         assert one_ref.source_arxiv_id == paper_id
         assert one_ref.source_arxiv_rev == paper_rev
@@ -67,7 +67,7 @@ class TestPaperReferenceController:
         all_refs = controller.get_by_target_paper(paper_id, paper_rev)
         one_ref = all_refs[0]
 
-        assert type(all_refs) == list
+        assert type(all_refs) is list
         assert type(one_ref) is PaperReference
         assert one_ref.target_arxiv_id == paper_id
         assert one_ref.target_arxiv_rev == paper_rev

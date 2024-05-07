@@ -37,7 +37,7 @@ class TestCategoryMetricsController:
         all_metrics = controller.get_by_jargon("jargon-01234", "category-01234")
         one_metric = all_metrics[0]
 
-        assert type(all_metrics) == list
+        assert type(all_metrics) is list
         assert type(one_metric) is JargonCategoryMetrics
         assert one_metric.id == "jargon-cat-metric-01234"
 
@@ -110,7 +110,7 @@ class TestPaperMetricsController:
         all_metrics = controller.get_by_jargon("jargon-01234", "paper-01234", 1)
         one_metric = all_metrics[0]
 
-        assert type(all_metrics) == list
+        assert type(all_metrics) is list
         assert type(one_metric) is JargonPaperMetrics
         assert one_metric.id == "jargon-paper-metric-00001"
 
@@ -122,7 +122,7 @@ class TestPaperMetricsController:
 
         all_metrics = controller.get_latest_by_jargon("jargon-01234")
 
-        assert type(all_metrics) == list
+        assert type(all_metrics) is list
         assert len(all_metrics) > 0
         assert all(m.arxiv_rev > 1 for m in all_metrics)
 

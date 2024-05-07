@@ -238,8 +238,8 @@ class TestJargonGroupController:
         created_jargon = jargon_controller.get(jargon_id)
 
         assert created_group_id == group_id
-        assert type(created_group) == JargonGroup
-        assert type(created_jargon) == Jargon
+        assert type(created_group) is JargonGroup
+        assert type(created_jargon) is Jargon
 
     def test_delete(self, controller: JargonGroupController):
         """

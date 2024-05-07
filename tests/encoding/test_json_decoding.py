@@ -15,9 +15,9 @@ def test_json_decoding():
     s2 = "2020-11-20"
     s3 = "2020-11-20 14:00:00"
 
-    assert type(decoder.custom_decode(s1)) == str
-    assert type(decoder.custom_decode(s2)) == date
-    assert type(decoder.custom_decode(s3)) == datetime
+    assert type(decoder.custom_decode(s1)) is str
+    assert type(decoder.custom_decode(s2)) is date
+    assert type(decoder.custom_decode(s3)) is datetime
 
 
 def test_json_decoding_dates():
