@@ -87,30 +87,6 @@ class CustomJSONDecoder(BaseDecoder, JSONDecoder):
         self.date_regex = f"^{date_regex}$"
         self.datetime_regex = f"^{date_regex}(T| ){time_regex}$"
 
-    def _check_date(self, value: str) -> bool:
-        """
-        Checks if a particular string matches the date format
-        :param value: string to check
-        :return: whether it is a date
-        """
-
-        if re.match(self.date_regex, value):
-            return True
-
-        return False
-
-    def _check_datetime(self, value: str) -> bool:
-        """
-        Checks if a particular string matches the datetime format
-        :param value: string to check
-        :return: whether it is a datetime
-        """
-
-        if re.match(self.datetime_regex, value):
-            return True
-
-        return False
-
     def custom_decode(self, obj: object) -> object:
         """
         Decodes a JSON data type as its equivalent Python object
@@ -121,9 +97,9 @@ class CustomJSONDecoder(BaseDecoder, JSONDecoder):
         if not isinstance(obj, str):
             return obj
 
-        if self._check_date(obj):
+        if re.match(self.date_regex, obj):
             return datetime.strptime(obj, "%Y-%m-%d").date()
-        elif self._check_datetime(obj):
+        elif re.match(self.datetime_regex, obj):
             return datetime.strptime(obj, "%Y-%m-%d %H:%M:%S")
         else:
             return obj
